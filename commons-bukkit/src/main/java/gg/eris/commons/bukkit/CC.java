@@ -1,4 +1,4 @@
-package gg.eris.commons.util;
+package gg.eris.commons.bukkit;
 
 import net.md_5.bungee.api.ChatColor;
 

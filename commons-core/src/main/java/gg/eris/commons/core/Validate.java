@@ -1,4 +1,4 @@
-package gg.eris.commons;
+package gg.eris.commons.core;
 
 import lombok.experimental.UtilityClass;
 

@@ -1,6 +1,5 @@
-package gg.eris.commons.util;
+package gg.eris.commons.core;
 
-import gg.eris.commons.Validate;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.experimental.UtilityClass;
 

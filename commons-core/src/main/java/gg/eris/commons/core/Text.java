@@ -1,11 +1,8 @@
-package gg.eris.commons;
+package gg.eris.commons.core;
 
 import com.google.common.collect.Lists;
 import java.util.List;
 import lombok.experimental.UtilityClass;
-import org.bukkit.event.entity.ItemMergeEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 @UtilityClass
 public class Text {

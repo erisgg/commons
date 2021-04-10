@@ -1,4 +1,4 @@
-package gg.eris.commons.util;
+package gg.eris.commons.bukkit;
 
 import java.lang.reflect.Field;
 import lombok.experimental.UtilityClass;
