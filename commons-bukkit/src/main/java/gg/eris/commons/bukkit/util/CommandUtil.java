@@ -1,4 +1,4 @@
-package gg.eris.commons.bukkit;
+package gg.eris.commons.bukkit.util;
 
 import java.lang.reflect.Field;
 import lombok.experimental.UtilityClass;
@@ -12,11 +12,13 @@ public class CommandUtil {
     try {
       Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
       field.setAccessible(true);
-
-      return (CommandMap) field.get(Bukkit.getServer());
+      CommandMap map = (CommandMap) field.get(Bukkit.getServer());
+      field.setAccessible(false);
+      return map;
     } catch (NoSuchFieldException | IllegalAccessException err) {
       err.printStackTrace();
     }
+
     return null;
   }
 

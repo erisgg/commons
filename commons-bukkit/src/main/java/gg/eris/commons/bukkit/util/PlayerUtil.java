@@ -1,4 +1,4 @@
-package gg.eris.commons.bukkit;
+package gg.eris.commons.bukkit.util;
 
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;

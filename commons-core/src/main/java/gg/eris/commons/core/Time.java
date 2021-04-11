@@ -76,12 +76,16 @@ public class Time {
     }
   }
 
-  private static long fromShorthandTime(String message, TimeUnit unit) {
+  /*
+   TODO: Implement this shit
+   */
 
-   }
+  private static long fromShorthandTime(String message, TimeUnit unit) {
+    return -1;
+  }
 
   private static long fromLonghandTime(String message, TimeUnit unit) {
-
+    return -1;
   }
 
   private static String toShorthandTime(long time, TimeUnit unit) {

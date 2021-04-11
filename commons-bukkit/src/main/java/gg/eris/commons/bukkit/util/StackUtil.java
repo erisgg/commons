@@ -1,4 +1,4 @@
-package gg.eris.commons.bukkit;
+package gg.eris.commons.bukkit.util;
 
 import gg.eris.commons.core.Text;
 import lombok.experimental.UtilityClass;

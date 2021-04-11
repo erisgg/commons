@@ -1,4 +1,4 @@
-package gg.eris.commons.bukkit;
+package gg.eris.commons.bukkit.util;
 
 import java.util.Arrays;
 import java.util.Map;
