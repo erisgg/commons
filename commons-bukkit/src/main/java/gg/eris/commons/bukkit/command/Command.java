@@ -2,8 +2,7 @@ package gg.eris.commons.bukkit.command;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import gg.eris.commons.bukkit.util.CC;
-import gg.eris.commons.core.Validate;
+ import gg.eris.commons.core.Validate;
 import java.util.Arrays;
 import java.util.Set;
 import lombok.Getter;
@@ -17,27 +16,23 @@ public final class Command {
   private final String description;
   private final Set<String> aliases;
   private final boolean playerOnly;
-  private final CommandConsumer consumer;
 
   public Command(String name, String description, Set<String> aliases,
-      boolean playerOnly,
-      CommandConsumer consumer) {
+      boolean playerOnly) {
     this.name = name;
     this.playerOnly = playerOnly;
     this.aliases = aliases;
     this.description = description;
-    this.consumer = consumer;
   }
 
   public void run(CommandSender sender, String label, String[] args) {
     if (this.playerOnly) {
       if (!(sender instanceof Player)) {
-        sender.sendMessage(CC.RED.prefix() + "This command can only be ran in-game.");
+
       } else {
-        this.consumer.handle((Player) sender, label, args);
+
       }
     } else {
-      this.consumer.handle(sender, label, args);
     }
   }
 
@@ -51,7 +46,7 @@ public final class Command {
     private final Set<String> aliases;
 
     private String description;
-    private String permission;
+    private String basePermission;
     private boolean playerOnly;
 
     private Builder(String name) {
@@ -75,7 +70,7 @@ public final class Command {
     }
 
     public Builder requiresPermission(String permission) {
-      this.permission = permission;
+      this.basePermission = permission;
       return this;
     }
 
@@ -84,16 +79,13 @@ public final class Command {
       return this;
     }
 
-    public Builder withCommand(SDu)
-
     public Command build() {
       Validate.isTrue(this.description != null, "description cannot be null");
-      Validate.isTrue(this.consumer != null, "consumer cannot be null");
       return new Command(
           name,
           this.description,
           ImmutableSet.copyOf(this.aliases),
-          this.playerOnly,
+          this.playerOnly
       );
     }
 
