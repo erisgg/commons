@@ -6,8 +6,8 @@ import lombok.Setter;
 import org.bukkit.entity.Player;
 
 /**
- * The {@link MenuViewer} class is not intended to be tied to a specific menu. It is designed to
- * be extended and passed around through menus to preserve data easily
+ * The {@link MenuViewer} class is not intended to be tied to a specific menu. It is designed to be
+ * extended and passed around through menus to preserve data easily
  */
 public class MenuViewer {
 

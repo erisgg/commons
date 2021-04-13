@@ -10,7 +10,7 @@ public class Text {
   /**
    * Replaces {0}, {1} etc...placeholders with variables
    *
-   * @param message is the message to replace the variables for
+   * @param message   is the message to replace the variables for
    * @param variables are the variables to replace with
    * @return the replaced message
    */
@@ -25,7 +25,7 @@ public class Text {
   /**
    * Replaces placeholders in a list
    *
-   * @param messages is the messages to replace variables for
+   * @param messages  is the messages to replace variables for
    * @param variables are the variables to replace with
    * @return a new list with replaced placeholders
    */

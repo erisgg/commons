@@ -11,7 +11,7 @@ public class PlayerUtil {
    * Adds items to a player's inventory, dropping them if there is no space
    *
    * @param player is the player to give or drop items to
-   * @param items are the items to drop
+   * @param items  are the items to drop
    */
   public static void giveOrDropItems(Player player, ItemStack... items) {
     player.getInventory().addItem(items)

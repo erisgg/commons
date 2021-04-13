@@ -13,5 +13,5 @@ public class StringArgument extends Argument<String> {
   public static StringArgument of(String argumentId) {
     return new StringArgument(argumentId);
   }
-  
+
 }

@@ -12,12 +12,11 @@ final class ArgumentInstance {
   /**
    * A non vararg {@link ArgumentInstance}
    *
-   * @param label is the label
-   * @param index is the index
+   * @param label    is the label
+   * @param index    is the index
    * @param argument is the argument instance
    */
-  public ArgumentInstance(String label, int index,
-      Argument<?> argument) {
+  public ArgumentInstance(String label, int index, Argument<?> argument) {
     this.label = label;
     this.index = index;
     this.argument = argument;
@@ -25,9 +24,9 @@ final class ArgumentInstance {
   }
 
   /**
-   * @param label is the label
-   * @param index is the index
-   * @param argument is the argument
+   * @param label          is the label
+   * @param index          is the index
+   * @param argument       is the argument
    * @param minVarargCount is the amount of required varargs
    */
   public ArgumentInstance(String label, int index,

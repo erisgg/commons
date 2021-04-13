@@ -36,7 +36,7 @@ public class RandomUtil {
    * Returns a random item from a list
    *
    * @param list is the list
-   * @param <T> is the list type
+   * @param <T>  is the list type
    * @return a random item from the list
    */
   public static <T> T selectRandom(List<T> list) {
