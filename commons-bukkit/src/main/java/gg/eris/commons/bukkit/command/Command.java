@@ -1,6 +1,6 @@
-package gg.eris.commons.bukkit.impl.command;
+package gg.eris.commons.bukkit.command;
 
-import gg.eris.commons.bukkit.command.CommandContext;
+import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
@@ -36,5 +36,21 @@ public final class Command {
 
   private void execute(CommandContext context) {
     context.getSubCommand().execute(context);
+  }
+
+  public static class Builder {
+
+    private final String name;
+    private final String description;
+    private final String permission;
+    private final Set<String> aliases;
+
+    public Builder(String name, String description, String permission, Set<String> aliases) {
+      this.name = name;
+      this.description = description;
+      this.permission = permission;
+      this.aliases = aliases;
+    }
+
   }
 }

@@ -2,12 +2,13 @@ package gg.eris.commons.bukkit.impl.command;
 
 import gg.eris.commons.bukkit.command.argument.Argument;
 import lombok.Getter;
+import net.md_5.bungee.api.chat.TextComponent;
 
 /**
  * Holds additional information about a given argument
  */
 @Getter
-final class ArgumentInstance {
+public final class ArgumentInstance {
 
   /**
    * A non vararg {@link ArgumentInstance}

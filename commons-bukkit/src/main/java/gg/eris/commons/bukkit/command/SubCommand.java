@@ -1,8 +1,10 @@
-package gg.eris.commons.bukkit.impl.command;
+package gg.eris.commons.bukkit.command;
 
 import com.google.common.collect.Maps;
 import gg.eris.commons.bukkit.command.CommandContext;
 import gg.eris.commons.bukkit.command.argument.Argument;
+import gg.eris.commons.bukkit.impl.command.ArgumentInstance;
+import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;

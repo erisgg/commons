@@ -1,5 +1,6 @@
 package gg.eris.commons.bukkit.impl.command;
 
+import gg.eris.commons.bukkit.command.SubCommand;
 import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;
