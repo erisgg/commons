@@ -13,8 +13,6 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
 
   @Override
   public void onEnable() {
-    saveDefaultConfig();
-
     this.commandManager = new CommandManagerImpl();
 
     PluginManager pluginManager = Bukkit.getPluginManager();
