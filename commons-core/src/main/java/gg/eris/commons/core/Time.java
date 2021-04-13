@@ -2,6 +2,7 @@ package gg.eris.commons.core;
 
 import java.util.concurrent.TimeUnit;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.Validate;
 
 /**
  * Shorthand format example: 5d4h3m2s Longhand format example: 5 days, 4 hours, 3 minutes and 2

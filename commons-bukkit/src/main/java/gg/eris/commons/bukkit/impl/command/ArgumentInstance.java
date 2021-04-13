@@ -2,7 +2,6 @@ package gg.eris.commons.bukkit.impl.command;
 
 import gg.eris.commons.bukkit.command.argument.Argument;
 import lombok.Getter;
-import lombok.Value;
 
 /**
  * Holds additional information about a given argument

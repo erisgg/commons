@@ -3,9 +3,7 @@ package gg.eris.commons.bukkit;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
-import java.util.function.Function;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
