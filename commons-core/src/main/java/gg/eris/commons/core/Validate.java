@@ -15,4 +15,14 @@ public class Validate {
     }
   }
 
+  public static void notNull(Object object) {
+    notNull(object, null);
+  }
+
+  public static void notNull(Object object, String message) {
+    if (object == null) {
+      throw new RuntimeException(message);
+    }
+  }
+
 }
