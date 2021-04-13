@@ -2,5 +2,5 @@ name: ErisCommons
 version: 1.0
 description: Commons libraries for Eris
 authors: [Alfie Smith, Oliver Heamon, Hugh Johnson, AJFS Tech]
-main: gg.eris.ErisBukkitCommonsPlugin
+main: gg.eris.commons.bukkit.ErisBukkitCommonsPlugin
 website: eris.gg
