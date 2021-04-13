@@ -15,13 +15,18 @@ public class LiteralArgument extends Argument<String> {
   private final boolean caseSensitive;
 
   private LiteralArgument(String argumentId, Set<String> literals, boolean caseSensitive) {
-    super(argumentId, (value) -> {
-      if (caseSensitive) {
-        return literals.contains(value);
-      } else {
-        return literals.contains(value.toLowerCase(Locale.ROOT));
-      }
-    });
+    super(
+        argumentId,
+        String.class,
+        (value) -> value,
+        (value) -> {
+          if (caseSensitive) {
+            return literals.contains(value);
+          } else {
+            return literals.contains(value.toLowerCase(Locale.ROOT));
+          }
+        }
+    );
     this.literals = literals;
     this.caseSensitive = caseSensitive;
   }

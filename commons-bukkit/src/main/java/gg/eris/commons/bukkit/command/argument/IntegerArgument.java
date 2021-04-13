@@ -12,7 +12,18 @@ public class IntegerArgument extends Argument<Integer> {
 
   private IntegerArgument(String argumentId, boolean hasMin, int min, boolean hasMax,
       int max) {
-    super(argumentId, value -> (!hasMin || !(value < min)) && (!hasMax || !(value > max)));
+    super(
+        argumentId,
+        Integer.class,
+        value -> {
+          try {
+            return Integer.valueOf(value);
+          } catch (NumberFormatException ignored) {
+            return null;
+          }
+        },
+        value -> (!hasMin || !(value < min)) && (!hasMax || !(value > max))
+    );
     this.hasMin = true;
     this.hasMax = true;
     this.min = min;

@@ -1,22 +1,65 @@
 package gg.eris.commons.bukkit.command;
 
+import gg.eris.commons.bukkit.impl.command.Command;
+import gg.eris.commons.bukkit.impl.command.SubCommand;
+import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
 import java.util.Map;
+import lombok.AccessLevel;
+import lombok.Getter;
+import org.bukkit.command.CommandSender;
 
+@Getter
 public class CommandContext {
 
-  private final Map<String, Object> values;
+  private final Command command;
+  private final SubCommand subCommand;
+  private final CommandSender commandSender;
+  private final String label;
+  private final String[] rawArgs;
+  @Getter(AccessLevel.NONE)
+  private final Map<String, Object> mappedArgs;
 
-  public CommandContext(Map<String, Object> values) {
-    this.values = values;
+  private CommandContext(Command command, SubCommand subCommand,
+      CommandSender commandSender, String label, String[] rawArgs,
+      Map<String, Object> mappedArgs) {
+    this.command = command;
+    this.subCommand = subCommand;
+    this.commandSender = commandSender;
+    this.label = label;
+    this.rawArgs = rawArgs;
+    this.mappedArgs = mappedArgs;
   }
 
-  @SuppressWarnings("unchecked")
-  public <T> T get(String key) {
-    Object object = this.values.get(key);
-    if (object == null) {
-      throw new NullPointerException("No key in command: " + key);
-    }
-    return (T) object;
+  public <T> T getArgument(String label) {
+    return (T) mappedArgs.get(label);
+  }
+
+  public boolean isSuccess() {
+    return this.subCommand != null;
+  }
+
+  public static CommandContext success(CommandSender sender, Command command,
+      SubCommandMatchResult subCommandMatchResult, String label, String[] args) {
+    return new CommandContext(
+        command,
+        subCommandMatchResult.getSubCommand(),
+        sender,
+        label,
+        args,
+        subCommandMatchResult.getMappedArgs()
+    );
+  }
+
+  public static CommandContext failure(CommandSender sender, Command command, String label,
+      String[] args) {
+    return new CommandContext(
+        command,
+        null,
+        sender,
+        label,
+        args,
+        Map.of()
+    );
   }
 
 }

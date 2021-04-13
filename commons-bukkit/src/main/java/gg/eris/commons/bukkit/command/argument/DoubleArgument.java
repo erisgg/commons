@@ -12,7 +12,19 @@ public class DoubleArgument extends Argument<Double> {
 
   private DoubleArgument(String argumentId, boolean hasMin, double min, boolean hasMax,
       double max) {
-    super(argumentId, value -> (!hasMin || !(value < min)) && (!hasMax || !(value > max)));
+    super(
+        argumentId,
+        Double.class,
+        value -> {
+          try {
+            return Double.parseDouble(value);
+          } catch (NumberFormatException err) {
+            return null;
+          }
+        },
+        value -> (!hasMin || !(value < min)) && (!hasMax || !(value > max)
+        )
+    );
     this.hasMin = true;
     this.hasMax = true;
     this.min = min;

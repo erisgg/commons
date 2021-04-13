@@ -3,7 +3,11 @@ package gg.eris.commons.bukkit.command.argument;
 public class StringArgument extends Argument<String> {
 
   private StringArgument(String argumentId) {
-    super(argumentId, (value) -> true);
+    super(argumentId,
+        String.class,
+        (value) -> value,
+        (value) -> true
+    );
   }
 
   public static StringArgument of(String argumentId) {

@@ -1,12 +1,17 @@
 package gg.eris.commons.bukkit.command.argument;
 
-import java.util.function.Function;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class PlayerArgument extends Argument<Player> {
 
   private PlayerArgument(String argumentId) {
-    super(argumentId, (value) -> value != null && value.isValid() && value.isOnline());
+    super(
+        argumentId,
+        Player.class,
+        Bukkit::getPlayer,
+        (value) -> value != null && value.isValid() && value.isOnline()
+    );
   }
 
   public static PlayerArgument of(String argumentId) {

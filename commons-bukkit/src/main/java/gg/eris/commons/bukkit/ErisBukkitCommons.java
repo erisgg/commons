@@ -1,10 +1,13 @@
 package gg.eris.commons.bukkit;
 
-import cloud.commandframework.CommandManager;
-import org.bukkit.command.CommandSender;
+import gg.eris.commons.bukkit.command.CommandManager;
 
 public interface ErisBukkitCommons {
 
-  CommandManager<CommandSender> getCommandManager();
-
+  /**
+   * Returns the server command manager instance
+   *
+   * @return the server's {@link CommandManager} instance
+   */
+  CommandManager getCommandManager();
 }
