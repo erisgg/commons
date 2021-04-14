@@ -48,5 +48,9 @@ public final class ArgumentInstance {
     return this.minVarargCount >= 0;
   }
 
+  public boolean isSimilar(ArgumentInstance other) {
+    return this.index == other.index && this.argument.isSimilar(other.argument);
+  }
+
 
 }

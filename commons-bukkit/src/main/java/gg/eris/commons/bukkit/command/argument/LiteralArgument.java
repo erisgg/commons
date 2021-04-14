@@ -2,6 +2,7 @@ package gg.eris.commons.bukkit.command.argument;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import gg.eris.commons.bukkit.impl.command.ArgumentInstance;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Set;
@@ -29,6 +30,20 @@ public class LiteralArgument extends Argument<String> {
     );
     this.literals = literals;
     this.caseSensitive = caseSensitive;
+  }
+
+  @Override
+  public boolean isSimilar(Argument<?> other) {
+    if (super.isSimilar(other)) {
+      LiteralArgument otherLiteral = (LiteralArgument) other;
+      for (String literal : this.literals) {
+        if (otherLiteral.literals.contains(literal)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   public static LiteralArgument.Builder newBuilder(String argumentId) {

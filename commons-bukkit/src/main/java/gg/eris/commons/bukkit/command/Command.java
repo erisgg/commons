@@ -1,8 +1,10 @@
 package gg.eris.commons.bukkit.command;
 
+import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import gg.eris.commons.core.Validate;
 import org.bukkit.command.CommandSender;
 
 @RequiredArgsConstructor
@@ -45,12 +47,29 @@ public final class Command {
     private final String permission;
     private final Set<String> aliases;
 
+    private final Set<SubCommand> subCommands;
+
     public Builder(String name, String description, String permission, Set<String> aliases) {
       this.name = name;
       this.description = description;
       this.permission = permission;
       this.aliases = aliases;
+      this.subCommands = Sets.newHashSet();
     }
+
+    public Builder addSubCommand(SubCommand subCommand) {
+      Validate.isTrue(!this.subCommands.contains(subCommand), "subcommand already registered");
+      for (SubCommand existingCommand : this.subCommands) {
+        if (existingCommand.isSimilar(subCommand)) {
+          throw new IllegalArgumentException("Command of same type already exists");
+        }
+      }
+
+      this.subCommands.add(subCommand);
+
+      return this;
+    }
+
 
   }
 }

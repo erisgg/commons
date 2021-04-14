@@ -30,4 +30,8 @@ public abstract class Argument<T> {
     return matcher.apply(genericClass.cast(input));
   }
 
+  public boolean isSimilar(Argument<?> other) {
+    return this.getClass().isInstance(other);
+  }
+
 }

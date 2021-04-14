@@ -1,7 +1,6 @@
 package gg.eris.commons.bukkit.command;
 
 import com.google.common.collect.Maps;
-import gg.eris.commons.bukkit.command.CommandContext;
 import gg.eris.commons.bukkit.command.argument.Argument;
 import gg.eris.commons.bukkit.impl.command.ArgumentInstance;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
@@ -45,6 +44,23 @@ public final class SubCommand {
 
   public void execute(CommandContext context) {
     callback.accept(context);
+  }
+
+  public boolean isSimilar(SubCommand other) {
+    if (this.arguments.size() != other.arguments.size()) {
+      return false;
+    }
+
+    for (int i = 0; i < this.arguments.size(); i++) {
+      ArgumentInstance selfArg = this.arguments.get(i);
+      ArgumentInstance otherArg = other.arguments.get(i);
+      if (!selfArg.isSimilar(otherArg)) {
+        return false;
+      }
+    }
+
+    return true;
+
   }
 
 }
