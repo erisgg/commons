@@ -4,8 +4,12 @@ import java.util.Set;
 
 public interface CommandManager {
 
-  void registerCommand(Command command);
+  PermissionRegistry getPermissionRegistry();
+
+  void registerCommand(Command.Builder builder);
 
   Command.Builder builder(String name, String description, String permission, String... aliases);
+
+
 
 }

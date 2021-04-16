@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 
 @Getter
-public class LiteralArgument extends Argument<String> {
+public final class LiteralArgument extends Argument<String> {
 
   private final Set<String> literals;
   private final boolean caseSensitive;

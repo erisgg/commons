@@ -3,7 +3,7 @@ package gg.eris.commons.bukkit.command.argument;
 import lombok.Getter;
 
 @Getter
-public class DoubleArgument extends Argument<Double> {
+public final class DoubleArgument extends Argument<Double> {
 
   private final boolean hasMin;
   private final boolean hasMax;

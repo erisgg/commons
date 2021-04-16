@@ -7,7 +7,7 @@ import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
 @Getter
-public class CommandContext {
+public final class CommandContext {
 
   private final Command command;
   private final SubCommand subCommand;

@@ -3,7 +3,7 @@ package gg.eris.commons.bukkit.command.argument;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class PlayerArgument extends Argument<Player> {
+public final class PlayerArgument extends Argument<Player> {
 
   private PlayerArgument(String argumentId) {
     super(

@@ -1,6 +1,6 @@
 package gg.eris.commons.bukkit.command.argument;
 
-public class StringArgument extends Argument<String> {
+public final class StringArgument extends Argument<String> {
 
   private StringArgument(String argumentId) {
     super(argumentId,
