@@ -35,6 +35,10 @@ public final class DoubleArgument extends Argument<Double> {
     return new DoubleArgument.Builder(argumentId);
   }
 
+  public static DoubleArgument of(String argumentId) {
+    return newBuilder(argumentId).build();
+  }
+
   public static class Builder {
 
     private final String argumentId;

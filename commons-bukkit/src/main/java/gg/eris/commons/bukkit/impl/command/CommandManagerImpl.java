@@ -38,7 +38,8 @@ public final class CommandManagerImpl implements CommandManager {
   }
 
   @Override
-  public Builder builder(String name, String description, String permission, String... aliases) {
+  public Builder newCommandBuilder(String name, String description, String permission,
+      String... aliases) {
     return new Command.Builder(
         name,
         description,

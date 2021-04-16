@@ -34,6 +34,10 @@ public final class IntegerArgument extends Argument<Integer> {
     return new IntegerArgument.Builder(argumentId);
   }
 
+  public static IntegerArgument of(String argumentId) {
+    return newBuilder(argumentId).build();
+  }
+
   public static class Builder {
 
     private final String argumentId;

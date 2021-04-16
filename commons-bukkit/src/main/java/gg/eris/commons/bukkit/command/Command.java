@@ -15,6 +15,7 @@ import org.bukkit.command.CommandSender;
 @Getter
 public final class Command {
 
+
   private final String name;
   private final Set<String> aliases;
   private final String description;
@@ -94,13 +95,13 @@ public final class Command {
       this.subCommands = Sets.newHashSet();
     }
 
-    public SubCommand.Builder subCommand() {
-      SubCommand.Builder builder = new SubCommand.Builder();
+    public SubCommand.Builder withSubCommand() {
+      SubCommand.Builder builder = new SubCommand.Builder(this);
       this.subCommands.add(builder);
       return builder;
     }
 
-    public Builder defaultHandler(Consumer<CommandContext> defaultHandler) {
+    public Builder noArgsHandler(Consumer<CommandContext> defaultHandler) {
       this.defaultHandler = defaultHandler;
       return this;
     }
@@ -109,7 +110,6 @@ public final class Command {
       Validate.isTrue(!this.built, "command has already been built");
       Validate.isTrue(this.defaultHandler != null, "default handler cannot be null");
       this.built = true;
-
       return new Command(
           this.name,
           this.aliases,

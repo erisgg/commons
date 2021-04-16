@@ -10,13 +10,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBukkitCommons {
 
   private CommandManager commandManager;
-
   @Override
   public void onEnable() {
     this.commandManager = new CommandManagerImpl();
 
     PluginManager pluginManager = Bukkit.getPluginManager();
     pluginManager.registerEvents(new MenuListener(this), this);
+
   }
 
   @Override

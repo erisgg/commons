@@ -88,15 +88,21 @@ public final class SubCommand {
 
   public static class Builder {
 
-    private Consumer<CommandContext> handler;
+    private final Command.Builder parentBuilder;
     private final List<ArgumentInstance> arguments;
-    private String permission;
 
-    public Builder() {
+    private Consumer<CommandContext> handler;
+    private String permission;
+    private boolean finalized;
+
+    public Builder(Command.Builder parentBuilder) {
+      this.parentBuilder = parentBuilder;
       this.arguments = Lists.newArrayList();
+      this.finalized = false;
     }
 
     public Builder argument(Argument<?> argument) {
+      Validate.isTrue(!this.finalized, "builder is already finalized");
       Validate.isTrue(
           this.arguments.size() == 0 || !this.arguments.get(this.arguments.size() - 1).isVararg(),
           "subcommand cannot have any more arguments"
@@ -122,6 +128,7 @@ public final class SubCommand {
       Validate.isTrue(
           this.arguments.size() == 0 || !this.arguments.get(this.arguments.size() - 1).isVararg(),
           "subcommand cannot have any more arguments");
+      Validate.isTrue(!this.finalized, "builder is already finalized");
       this.arguments.add(new ArgumentInstance(
           argument,
           arguments.size(),
@@ -132,17 +139,27 @@ public final class SubCommand {
     }
 
     public Builder permission(String permission) {
+      Validate.isTrue(!this.finalized, "builder is already finalized");
       this.permission = permission;
       return this;
     }
 
     public Builder handler(Consumer<CommandContext> handler) {
+      Validate.isTrue(!this.finalized, "builder is already finalized");
       this.handler = handler;
       return this;
     }
 
-    public SubCommand build(Command command) {
+    public Command.Builder finished() {
       Validate.isTrue(this.handler != null, "handler cannot be null");
+      Validate.isTrue(!this.finalized, "builder is already finalized");
+      this.finalized = true;
+      return this.parentBuilder;
+    }
+
+    protected SubCommand build(Command command) {
+      Validate.isTrue(this.handler != null, "handler cannot be null");
+      Validate.isTrue(this.finalized, "builder is not finalized");
       return new SubCommand(
           command,
           this.handler,
