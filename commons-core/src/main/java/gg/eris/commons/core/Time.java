@@ -82,7 +82,44 @@ public class Time {
    */
 
   private static long fromShorthandTime(String message, TimeUnit unit) {
-    return -1;
+    //00d00h00m00s
+    long days = 0;
+    long hours = 0;
+    long minutes = 0;
+    long seconds = 0;
+
+    int ofPrevValue = -1;
+
+    if(message.contains("d")){
+      int indexOfD = message.indexOf("d");
+      days = Long.parseLong(message.substring(ofPrevValue+1, indexOfD));
+      ofPrevValue = indexOfD;
+    }
+    if(message.contains("h")){
+      int indexOfH = message.indexOf("h");
+      hours = Long.parseLong(message.substring(ofPrevValue+1, indexOfH));
+      ofPrevValue = indexOfH;
+    }
+    if(message.contains("m")){
+      int indexOfM = message.indexOf("m");
+      minutes = Long.parseLong(message.substring(ofPrevValue+1, indexOfM));
+      ofPrevValue = indexOfM;
+    }
+    if(message.contains("s")){
+      int indexOfS = message.indexOf("s");
+      seconds = Long.parseLong(message.substring(ofPrevValue+1, indexOfS));
+      ofPrevValue = indexOfS;
+    }
+
+    long daysToSecs = days * 84600;
+    long hrsToSecs = hours * 3600;
+    long minsToSecs = minutes * 60;
+
+    long time = daysToSecs + hrsToSecs + minsToSecs + seconds;
+
+    time = unit.convert(time, TimeUnit.SECONDS);
+
+    return time;
   }
 
   private static long fromLonghandTime(String message, TimeUnit unit) {
