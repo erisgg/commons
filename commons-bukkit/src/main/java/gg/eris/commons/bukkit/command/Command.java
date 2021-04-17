@@ -31,9 +31,6 @@ public final class Command {
         .collect(Collectors.toUnmodifiableSet());
     this.description = description;
     this.playerOnly = playerOnly;
-    this.subCommands = subCommands.stream()
-        .map(builder -> builder.build(this))
-        .collect(Collectors.toUnmodifiableSet());
     this.defaultSubCommand = new SubCommand(
         this,
         defaultHandler,
@@ -41,6 +38,9 @@ public final class Command {
         this.playerOnly,
         permission
     );
+    this.subCommands = subCommands.stream()
+        .map(builder -> builder.build(this))
+        .collect(Collectors.toUnmodifiableSet());
   }
 
   /**
