@@ -58,6 +58,12 @@
           <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
           <relocations>
           </relocations>
+          <artifactSet>
+            <excludes>
+              <exclude>org.spigotmc:*</exclude>
+              <exclude>com.google.code.findbugs:*</exclude>
+            </excludes>
+          </artifactSet>
         </configuration>
       </plugin>
     </plugins>
