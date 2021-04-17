@@ -15,6 +15,15 @@ public interface CommandManager {
   void registerCommand(Command.Builder builder);
 
   /**
+   * Registers a command from an {@link CommandProvider}
+   *
+   * @param provider is the {@link CommandProvider} instance to register a command from
+   */
+  default void registerCommand(CommandProvider provider) {
+    registerCommand(provider.getCommand(this));
+  }
+
+  /**
    * Returns a new {@link Command.Builder} instance
    *
    * @param name is the name of the command
