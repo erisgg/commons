@@ -9,7 +9,7 @@ class InternalCommand extends Command {
   private final gg.eris.commons.bukkit.command.Command command;
 
   public InternalCommand(gg.eris.commons.bukkit.command.Command command) {
-    super(command.getName(), command.getDescription(), null, new ArrayList<>(command.getAliases()));
+    super(command.getName(), command.getDescription(), "undefined", new ArrayList<>(command.getAliases()));
     this.command = command;
   }
 
