@@ -18,8 +18,17 @@ public final class LiteralArgument extends Argument<String> {
     super(
         argumentId,
         String.class,
-        (value) -> value,
-        (value) -> {
+        value -> value,
+        value -> {
+          if (caseSensitive) {
+            return literals.contains(value);
+          } else {
+            return literals.contains(value.toLowerCase(Locale.ROOT));
+          }
+        },
+        value -> {
+          // Soft match shouldn't overwrite soft match for string - literals do not need to soft
+          // match
           if (caseSensitive) {
             return literals.contains(value);
           } else {
@@ -42,7 +51,7 @@ public final class LiteralArgument extends Argument<String> {
       }
     }
 
-    return false;
+    return other instanceof PlayerArgument || other instanceof StringArgument;
   }
 
   public static LiteralArgument.Builder newBuilder(String argumentId) {

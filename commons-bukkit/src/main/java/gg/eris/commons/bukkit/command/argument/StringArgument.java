@@ -5,8 +5,9 @@ public final class StringArgument extends Argument<String> {
   private StringArgument(String argumentId) {
     super(argumentId,
         String.class,
-        (value) -> value,
-        (value) -> true
+        value -> value,
+        value -> true,
+        value -> true
     );
   }
 
@@ -14,4 +15,8 @@ public final class StringArgument extends Argument<String> {
     return new StringArgument(argumentId);
   }
 
+  @Override
+  public boolean isSimilar(Argument<?> other) {
+    return super.isSimilar(other) || other instanceof PlayerArgument || other instanceof LiteralArgument;
+  }
 }
