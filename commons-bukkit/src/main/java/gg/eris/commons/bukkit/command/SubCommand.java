@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import lombok.Getter;
+import net.minecraft.server.v1_8_R3.CommandPardon;
 
 
 public final class SubCommand {
@@ -26,6 +27,24 @@ public final class SubCommand {
   private final Permission permission;
   private final ArgumentInstance vararg;
   private final int minVarargCount;
+
+  protected SubCommand(Command parent, Consumer<CommandContext> callback,
+      List<ArgumentInstance> arguments, boolean playerOnly, String permission, boolean defaultCommand) {
+    this.parent = parent;
+    this.callback = callback;
+    this.arguments = arguments;
+    this.playerOnly = playerOnly;
+    if (!defaultCommand) {
+      this.permission = permission == null ? new InheritedPermission(parent, this) : new NamedPermission(parent, this, parent.getPermission().getLabel() + "." + permission);
+    } else {
+      this.permission = permission == null ? new InheritedPermission(parent, this) : new NamedPermission(parent, this, permission);
+    }
+    this.vararg = this.arguments.size() > 0 ?
+        (this.arguments.get(this.arguments.size() - 1).isVararg() ?
+            this.arguments.get(this.arguments.size() - 1) : null) : null;
+    this.minVarargCount = this.arguments.size() > 0 ? Math
+        .max(0, this.arguments.get(this.arguments.size() - 1).getMinVarargCount()) : 0;
+  }
 
   public SubCommand(Command parent, Consumer<CommandContext> callback,
       List<ArgumentInstance> arguments, boolean playerOnly, String permission) {

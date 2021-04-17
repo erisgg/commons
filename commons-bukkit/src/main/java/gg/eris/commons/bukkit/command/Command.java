@@ -36,7 +36,8 @@ public final class Command {
         defaultHandler,
         List.of(),
         this.playerOnly,
-        permission
+        permission,
+        true
     );
     this.subCommands = subCommands.stream()
         .map(builder -> builder.build(this))
