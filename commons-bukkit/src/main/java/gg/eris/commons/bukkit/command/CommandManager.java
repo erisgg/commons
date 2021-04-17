@@ -17,10 +17,12 @@ public interface CommandManager {
   /**
    * Registers a command from an {@link CommandProvider}
    *
-   * @param provider is the {@link CommandProvider} instance to register a command from
+   * @param providers are the {@link CommandProvider} instances to register a command from
    */
-  default void registerCommand(CommandProvider provider) {
-    registerCommand(provider.getCommand(this));
+  default void registerCommands(CommandProvider... providers) {
+    for (CommandProvider provider : providers) {
+      registerCommand(provider.getCommand(this));
+    }
   }
 
   /**
