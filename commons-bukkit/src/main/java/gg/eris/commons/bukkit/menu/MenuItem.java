@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 public interface MenuItem {
 
   /**
-   * Gets the item
+   * Returns the item
    *
    * @param menuViewer is the menu viewer
    * @param menu       is the menu the item was clicked in

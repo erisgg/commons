@@ -6,8 +6,8 @@ import com.google.common.collect.Maps;
 import gg.eris.commons.bukkit.command.argument.Argument;
 import gg.eris.commons.bukkit.impl.command.ArgumentInstance;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
-import gg.eris.commons.bukkit.impl.command.permission.type.InheritedPermission;
-import gg.eris.commons.bukkit.impl.command.permission.type.NamedPermission;
+import gg.eris.commons.bukkit.command.permission.type.InheritedPermission;
+import gg.eris.commons.bukkit.command.permission.type.NamedPermission;
 import gg.eris.commons.core.Validate;
 import java.util.List;
 import java.util.Map;
@@ -21,16 +21,18 @@ public final class SubCommand {
   private final Command parent;
   private final Consumer<CommandContext> callback;
   private final List<ArgumentInstance> arguments;
+  private final boolean playerOnly;
   @Getter
   private final Permission permission;
   private final ArgumentInstance vararg;
   private final int minVarargCount;
 
   public SubCommand(Command parent, Consumer<CommandContext> callback,
-      List<ArgumentInstance> arguments, String permission) {
+      List<ArgumentInstance> arguments, boolean playerOnly, String permission) {
     this.parent = parent;
     this.callback = callback;
     this.arguments = arguments;
+    this.playerOnly = playerOnly;
     this.permission = permission == null ? new InheritedPermission(parent, this) :
         new NamedPermission(parent, this, parent.getPermission().getLabel() + "." + permission);
     this.vararg = this.arguments.size() > 0 ?
@@ -93,6 +95,7 @@ public final class SubCommand {
 
     private Consumer<CommandContext> handler;
     private String permission;
+    private boolean playerOnly;
     private boolean finalized;
 
     public Builder(Command.Builder parentBuilder) {
@@ -138,7 +141,7 @@ public final class SubCommand {
       return this;
     }
 
-    public Builder permission(String permission) {
+    public Builder requiresPermission(String permission) {
       Validate.isTrue(!this.finalized, "builder is already finalized");
       this.permission = permission;
       return this;
@@ -147,6 +150,11 @@ public final class SubCommand {
     public Builder handler(Consumer<CommandContext> handler) {
       Validate.isTrue(!this.finalized, "builder is already finalized");
       this.handler = handler;
+      return this;
+    }
+
+    public Builder asPlayerOnly() {
+      this.playerOnly = true;
       return this;
     }
 
@@ -164,6 +172,7 @@ public final class SubCommand {
           command,
           this.handler,
           ImmutableList.copyOf(this.arguments),
+          this.playerOnly,
           this.permission
       );
     }

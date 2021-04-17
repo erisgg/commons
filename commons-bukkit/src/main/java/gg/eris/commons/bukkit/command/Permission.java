@@ -1,8 +1,6 @@
 package gg.eris.commons.bukkit.command;
 
-import gg.eris.commons.bukkit.command.Command;
-import gg.eris.commons.bukkit.command.SubCommand;
-import gg.eris.commons.bukkit.impl.command.permission.PermissionType;
+import gg.eris.commons.bukkit.command.permission.PermissionType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;

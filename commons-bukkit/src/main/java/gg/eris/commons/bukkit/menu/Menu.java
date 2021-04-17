@@ -37,7 +37,7 @@ public abstract class Menu {
   }
 
   /**
-   * Gets the menu title for a given {@link MenuViewer}
+   * Returns the menu title for a given {@link MenuViewer}
    *
    * @param viewer is the viewer to get the title for
    * @return the menu title

@@ -1,9 +1,9 @@
-package gg.eris.commons.bukkit.impl.command.permission.type;
+package gg.eris.commons.bukkit.command.permission.type;
 
 import gg.eris.commons.bukkit.command.Command;
-import gg.eris.commons.bukkit.command.SubCommand;
 import gg.eris.commons.bukkit.command.Permission;
-import gg.eris.commons.bukkit.impl.command.permission.PermissionType;
+import gg.eris.commons.bukkit.command.SubCommand;
+import gg.eris.commons.bukkit.command.permission.PermissionType;
 import org.bukkit.command.CommandSender;
 
 public final class InheritedPermission extends Permission {

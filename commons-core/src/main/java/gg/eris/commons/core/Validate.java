@@ -25,4 +25,14 @@ public class Validate {
     }
   }
 
+  public static void notEmpty(String string) {
+    notEmpty(string, null);
+  }
+
+  public static void notEmpty(String string, String message) {
+    if (string == null || string.isEmpty()) {
+      throw new RuntimeException(message);
+    }
+  }
+
 }

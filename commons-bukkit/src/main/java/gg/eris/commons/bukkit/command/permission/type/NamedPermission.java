@@ -1,9 +1,9 @@
-package gg.eris.commons.bukkit.impl.command.permission.type;
+package gg.eris.commons.bukkit.command.permission.type;
 
 import gg.eris.commons.bukkit.command.Command;
-import gg.eris.commons.bukkit.command.SubCommand;
 import gg.eris.commons.bukkit.command.Permission;
-import gg.eris.commons.bukkit.impl.command.permission.PermissionType;
+import gg.eris.commons.bukkit.command.SubCommand;
+import gg.eris.commons.bukkit.command.permission.PermissionType;
 import org.bukkit.command.CommandSender;
 
 public final class NamedPermission extends Permission {
@@ -22,12 +22,12 @@ public final class NamedPermission extends Permission {
 
   @Override
   public boolean hasPermission(CommandSender sender) {
-    return sender.hasPermission(permission);
+    return sender.hasPermission(getLabel()) || OwnerPermission.isOwner(sender);
   }
 
   @Override
   public String getLabel() {
-    return this.permission;
+    return "eris." + this.permission;
   }
 }
 

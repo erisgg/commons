@@ -6,14 +6,31 @@ import gg.eris.commons.bukkit.command.Command.Builder;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.command.PermissionRegistry;
 import gg.eris.commons.core.Validate;
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Set;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
 
 public final class CommandManagerImpl implements CommandManager {
 
+  private static final String FALLBACK_PREFIX = "eris";
+
+  private final CommandMap commandMap;
   private final Map<String, Command> commands;
 
   public CommandManagerImpl() {
+    CommandMap commandMap = null;
+    try {
+      Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+      field.setAccessible(true);
+      commandMap = (CommandMap) field.get(Bukkit.getServer());
+      field.setAccessible(false);
+    } catch (NoSuchFieldException | IllegalAccessException err) {
+      err.printStackTrace();
+    }
+
+    this.commandMap = commandMap;
     this.commands = Maps.newHashMap();
   }
 
@@ -35,6 +52,8 @@ public final class CommandManagerImpl implements CommandManager {
     for (String alias : command.getAliases()) {
       this.commands.put(alias, command);
     }
+
+    this.commandMap.register(command.getName(), FALLBACK_PREFIX, new InternalCommand(command));
   }
 
   @Override

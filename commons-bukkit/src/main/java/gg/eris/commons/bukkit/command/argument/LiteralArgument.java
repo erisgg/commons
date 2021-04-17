@@ -2,7 +2,6 @@ package gg.eris.commons.bukkit.command.argument;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import gg.eris.commons.bukkit.impl.command.ArgumentInstance;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Set;

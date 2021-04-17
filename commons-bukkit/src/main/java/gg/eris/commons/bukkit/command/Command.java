@@ -15,29 +15,50 @@ import org.bukkit.command.CommandSender;
 @Getter
 public final class Command {
 
-
   private final String name;
   private final Set<String> aliases;
   private final String description;
+  private final boolean playerOnly;
   private final Set<SubCommand> subCommands;
   private final SubCommand defaultSubCommand;
 
-  public Command(String name, Set<String> aliases, String description,
-      Set<SubCommand.Builder> subCommands,
-      String permission, Consumer<CommandContext> defaultHandler) {
+  public Command(String name, Set<String> aliases, String description, boolean playerOnly,
+      Set<SubCommand.Builder> subCommands, String permission,
+      Consumer<CommandContext> defaultHandler) {
     this.name = name.toLowerCase(Locale.ROOT);
-    this.aliases = aliases.stream().map(string -> string.toLowerCase(Locale.ROOT)).collect(
-        Collectors.toUnmodifiableSet());
-    this.description = description;
-    this.subCommands = subCommands.stream().map(builder -> builder.build(this))
+    this.aliases = aliases.stream()
+        .map(string -> string.toLowerCase(Locale.ROOT))
         .collect(Collectors.toUnmodifiableSet());
-    this.defaultSubCommand = new SubCommand(this, defaultHandler, List.of(), permission);
+    this.description = description;
+    this.playerOnly = playerOnly;
+    this.subCommands = subCommands.stream()
+        .map(builder -> builder.build(this))
+        .collect(Collectors.toUnmodifiableSet());
+    this.defaultSubCommand = new SubCommand(
+        this,
+        defaultHandler,
+        List.of(),
+        this.playerOnly,
+        permission
+    );
   }
 
+  /**
+   * Returns the base permission
+   *
+   * @return the permission for the default subcommand (the base permission)
+   */
   public Permission getPermission() {
     return this.defaultSubCommand.getPermission();
   }
 
+  /**
+   * Handles a command execution
+   *
+   * @param sender is the command sender
+   * @param label is the command label
+   * @param args are the raw arguments
+   */
   public void handle(CommandSender sender, String label, String[] args) {
     SubCommandMatchResult matchResult = null;
     for (SubCommand subCommand : this.subCommands) {
@@ -64,13 +85,22 @@ public final class Command {
 
   private void execute(CommandContext context) {
     if (context.isSuccess()) {
-      context.getSubCommand().execute(context);
+      SubCommand subCommand = context.getSubCommand();
+      if (!subCommand.getPermission().hasPermission(context.getCommandSender())) {
+        // TODO: No permission message using TextController...
+        return;
+      }
+
+      subCommand.execute(context);
     } else {
       // TODO: Help message using TextController
     }
   }
 
 
+  /**
+   * Builder class for an {@link Command}
+   */
   public static class Builder {
 
     private boolean built;
@@ -81,31 +111,74 @@ public final class Command {
     private final Set<SubCommand.Builder> subCommands;
 
     private Consumer<CommandContext> defaultHandler;
+    private boolean playerOnly;
 
+    /**
+     * Creates a new {@link Command.Builder} instacne. Should not be used outside of Commons -
+     * use the {@link CommandManager}
+     *
+     * @param name is the name of the command
+     * @param description is the command description
+     * @param permission is the base permission (which is automatically prefixed with eris.)
+     * @param aliases are the command aliases
+     */
     public Builder(String name, String description, String permission, Set<String> aliases) {
-      Validate.isTrue(name != null, "name cannot be null");
-      Validate.isTrue(description != null, "description cannot be null");
-      Validate.isTrue(permission != null, "permission cannot be null");
-      Validate.isTrue(aliases != null, "aliases cannot be null");
+      Validate.notEmpty(name, "name cannot be null or empty");
+      Validate.notEmpty(description, "description cannot be null or empty");
+      Validate.notEmpty(permission, "permission cannot be null or empty");
+      for (String alias : aliases) {
+        Validate.notEmpty(alias, "aliases cannot be null or empty");
+      }
+
       this.built = false;
       this.name = name;
       this.description = description;
       this.permission = permission;
       this.aliases = aliases;
       this.subCommands = Sets.newHashSet();
+      this.playerOnly = false;
     }
 
+    /**
+     * Creates a new subcommand builder for this command
+     *
+     * @return the {@link Command.Builder} instance
+     */
     public SubCommand.Builder withSubCommand() {
       SubCommand.Builder builder = new SubCommand.Builder(this);
       this.subCommands.add(builder);
       return builder;
     }
 
+    /**
+     * Sets the no args handler (default sub command)
+     *
+     * @param defaultHandler is the handler
+     * @return the {@link Command.Builder} instance
+     */
     public Builder noArgsHandler(Consumer<CommandContext> defaultHandler) {
+      return noArgsHandler(defaultHandler, false);
+    }
+
+    /**
+     * Sets the no args handler and whether it is player only
+     *
+     * @param defaultHandler is the handler (default sub command)
+     * @param playerOnly is whether the command is player only
+     * @return the {@link Command.Builder} instance
+     */
+    public Builder noArgsHandler(Consumer<CommandContext> defaultHandler, boolean playerOnly) {
       this.defaultHandler = defaultHandler;
+      this.playerOnly = playerOnly;
       return this;
     }
 
+
+    /**
+     * Builds the command. Should not be used outside of Commons - build with the {@link CommandManager}
+     *
+     * @return the built {@link Command}
+     */
     public synchronized Command build() {
       Validate.isTrue(!this.built, "command has already been built");
       Validate.isTrue(this.defaultHandler != null, "default handler cannot be null");
@@ -114,6 +187,7 @@ public final class Command {
           this.name,
           this.aliases,
           this.description,
+          this.playerOnly,
           this.subCommands,
           this.permission,
           this.defaultHandler
