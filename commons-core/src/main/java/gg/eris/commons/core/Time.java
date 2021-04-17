@@ -118,7 +118,6 @@ public class Time {
 
   // todo: implement
   private static long fromLonghandTime(String message, TimeUnit unit) {
-    // 00 days and 00 hours and 00 minutes, 00 seconds
     long days = 0;
     long hours = 0;
     long minutes = 0;
