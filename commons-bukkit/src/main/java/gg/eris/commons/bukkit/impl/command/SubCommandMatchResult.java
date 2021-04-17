@@ -18,7 +18,7 @@ public final class SubCommandMatchResult {
   private final Map<String, Object> mappedArgs;
 
   public boolean isEmpty() {
-    return NO_MATCH == this;
+    return this == NO_MATCH;
   }
 
   public static SubCommandMatchResult noMatch() {

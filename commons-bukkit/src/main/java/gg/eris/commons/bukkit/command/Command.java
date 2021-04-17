@@ -70,7 +70,7 @@ public final class Command {
     }
 
     CommandContext context;
-    if (matchResult == null) {
+    if (matchResult == null || matchResult.isEmpty()) {
       if (args.length == 0) {
         context = CommandContext.success(sender, this,
             SubCommandMatchResult.match(this.defaultSubCommand, Map.of()), label, args);
@@ -88,12 +88,14 @@ public final class Command {
     if (context.isSuccess()) {
       SubCommand subCommand = context.getSubCommand();
       if (!subCommand.getPermission().hasPermission(context.getCommandSender())) {
-        // TODO: No permission message using TextController...
+        context.getCommandSender().sendMessage("No permission");
+        // TODO: Permission message text ctrller
         return;
       }
 
       subCommand.execute(context);
     } else {
+      context.getCommandSender().sendMessage("Help message todo");
       // TODO: Help message using TextController
     }
   }
