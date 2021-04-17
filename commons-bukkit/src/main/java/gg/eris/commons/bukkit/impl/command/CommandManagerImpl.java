@@ -4,9 +4,9 @@ import com.google.common.collect.Maps;
 import gg.eris.commons.bukkit.command.Command;
 import gg.eris.commons.bukkit.command.Command.Builder;
 import gg.eris.commons.bukkit.command.CommandManager;
-import gg.eris.commons.bukkit.command.PermissionRegistry;
 import gg.eris.commons.core.Validate;
 import java.lang.reflect.Field;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.Bukkit;
@@ -35,11 +35,6 @@ public final class CommandManagerImpl implements CommandManager {
   }
 
   @Override
-  public PermissionRegistry getPermissionRegistry() {
-    return null;
-  }
-
-  @Override
   public void registerCommand(Builder builder) {
     Command command = builder.build();
     Validate.isTrue(!this.commands.containsKey(command.getName()),
@@ -65,5 +60,10 @@ public final class CommandManagerImpl implements CommandManager {
         permission,
         Set.of(aliases)
     );
+  }
+
+  @Override
+  public Command getCommand(String alias) {
+    return this.commands.get(alias.toLowerCase(Locale.ROOT));
   }
 }
