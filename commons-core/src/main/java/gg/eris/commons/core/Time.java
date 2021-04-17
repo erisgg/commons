@@ -118,7 +118,55 @@ public class Time {
 
   // todo: implement
   private static long fromLonghandTime(String message, TimeUnit unit) {
-    return -1;
+    // 00 days and 00 hours and 00 minutes, 00 seconds
+    long days = 0;
+    long hours = 0;
+    long minutes = 0;
+    long seconds = 0;
+
+    int previousIndex = -1;
+
+    if(message.contains(" days")){
+      int index = message.indexOf(" days");
+      days = Long.parseLong(message.substring(0, index));
+      if(message.contains(" days and ")){
+        previousIndex = index + 10;
+      }
+      else if(message.contains(" days, ")){
+        previousIndex = index + 7;
+      }
+    }
+    if(message.contains(" hours")){
+      int index = message.indexOf(" hours");
+      hours = Long.parseLong(message.substring(previousIndex, index));
+      if(message.contains(" hours and ")){
+        previousIndex = index + 11;
+      }
+      else if(message.contains(" hours, ")){
+        previousIndex = index + 8;
+      }
+    }
+    if(message.contains(" minutes")){
+      int index = message.indexOf(" minutes");
+      minutes = Long.parseLong(message.substring(previousIndex, index));
+      if(message.contains(" minutes and ")){
+        previousIndex = index + 13;
+      }
+      else if(message.contains(" minutes, ")){
+        previousIndex = index + 10;
+      }
+    }
+    if(message.contains(" seconds")){
+      int index = message.indexOf(" seconds");
+      seconds = Long.parseLong(message.substring(previousIndex, index));
+    }
+
+    long daysInSeconds = days * 60 * 60 * 24;
+    long hoursInSeconds = hours * 60 * 60;
+    long minutesInSeconds = minutes * 60;
+    long time = daysInSeconds + hoursInSeconds + minutesInSeconds + seconds;
+
+    return unit.convert(time, TimeUnit.SECONDS);
   }
 
   private static String toShorthandTime(long time, TimeUnit unit) {
