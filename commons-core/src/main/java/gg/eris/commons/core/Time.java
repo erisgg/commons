@@ -77,51 +77,46 @@ public class Time {
     }
   }
 
-  /*
-   TODO: Implement this shit
-   */
-
   private static long fromShorthandTime(String message, TimeUnit unit) {
-    //00d00h00m00s
     long days = 0;
     long hours = 0;
     long minutes = 0;
     long seconds = 0;
 
-    int ofPrevValue = -1;
+    int previousIndex = -1;
 
-    if(message.contains("d")){
-      int indexOfD = message.indexOf("d");
-      days = Long.parseLong(message.substring(ofPrevValue+1, indexOfD));
-      ofPrevValue = indexOfD;
-    }
-    if(message.contains("h")){
-      int indexOfH = message.indexOf("h");
-      hours = Long.parseLong(message.substring(ofPrevValue+1, indexOfH));
-      ofPrevValue = indexOfH;
-    }
-    if(message.contains("m")){
-      int indexOfM = message.indexOf("m");
-      minutes = Long.parseLong(message.substring(ofPrevValue+1, indexOfM));
-      ofPrevValue = indexOfM;
-    }
-    if(message.contains("s")){
-      int indexOfS = message.indexOf("s");
-      seconds = Long.parseLong(message.substring(ofPrevValue+1, indexOfS));
-      ofPrevValue = indexOfS;
+    if (message.contains("d")) {
+      int index = message.indexOf("d");
+      days = Long.parseLong(message.substring(0, index));
+      previousIndex = index;
     }
 
-    long daysToSecs = days * 84600;
-    long hrsToSecs = hours * 3600;
-    long minsToSecs = minutes * 60;
+    if (message.contains("h")) {
+      int index = message.indexOf("h");
+      hours = Long.parseLong(message.substring(previousIndex + 1, index));
+      previousIndex = index;
+    }
 
-    long time = daysToSecs + hrsToSecs + minsToSecs + seconds;
+    if (message.contains("m")) {
+      int index = message.indexOf("m");
+      minutes = Long.parseLong(message.substring(previousIndex + 1, index));
+      previousIndex = index;
+    }
 
-    time = unit.convert(time, TimeUnit.SECONDS);
+    if (message.contains("s")) {
+      int index = message.indexOf("s");
+      seconds = Long.parseLong(message.substring(previousIndex + 1, index));
+    }
 
-    return time;
+    long daysInSeconds = days * 60 * 60 * 24;
+    long hoursInSeconds = hours * 60 * 60;
+    long minutesInSeconds = minutes * 60;
+    long time = daysInSeconds + hoursInSeconds + minutesInSeconds + seconds;
+
+    return unit.convert(time, TimeUnit.SECONDS);
   }
 
+  // todo: implement
   private static long fromLonghandTime(String message, TimeUnit unit) {
     return -1;
   }
@@ -169,27 +164,27 @@ public class Time {
     StringBuilder builder = new StringBuilder();
 
     if (days > 0) {
-      builder.append(days).append(" days ");
+      builder.append(days).append(" days");
       if (--valueCount == 1) {
-        builder.append("and ");
+        builder.append(" and ");
       } else if (valueCount > 1) {
         builder.append(", ");
       }
     }
 
     if (hours > 0) {
-      builder.append(hours).append(" hours ");
+      builder.append(hours).append(" hours");
       if (--valueCount == 1) {
-        builder.append("and ");
+        builder.append(" and ");
       } else if (valueCount > 1) {
         builder.append(", ");
       }
     }
 
     if (minutes > 0) {
-      builder.append(minutes).append(" minutes ");
+      builder.append(minutes).append(" minutes");
       if (--valueCount == 1) {
-        builder.append("and ");
+        builder.append(" and ");
       } else if (valueCount > 1) {
         builder.append(", ");
       }
