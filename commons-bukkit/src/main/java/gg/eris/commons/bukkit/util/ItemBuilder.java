@@ -155,7 +155,7 @@ public final class ItemBuilder {
   /**
    * Builds the item
    *
-   * @return an itemstack of the item
+   * @return a built {@link ItemStack}
    */
   public ItemStack build() {
     item.setItemMeta(meta);

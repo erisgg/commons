@@ -1,7 +1,5 @@
 package gg.eris.commons.bukkit.command;
 
-import java.util.Map;
-
 /**
  * The {@link CommandManager}. Use this to register commands, and view registered commands
  */

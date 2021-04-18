@@ -4,12 +4,11 @@ import com.google.common.collect.Maps;
 import gg.eris.commons.bukkit.command.Command;
 import gg.eris.commons.bukkit.command.Command.Builder;
 import gg.eris.commons.bukkit.command.CommandManager;
+import gg.eris.commons.bukkit.util.CommandUtil;
 import gg.eris.commons.core.Validate;
-import java.lang.reflect.Field;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 
 public final class CommandManagerImpl implements CommandManager {
@@ -20,17 +19,7 @@ public final class CommandManagerImpl implements CommandManager {
   private final Map<String, Command> commands;
 
   public CommandManagerImpl() {
-    CommandMap commandMap = null;
-    try {
-      Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-      field.setAccessible(true);
-      commandMap = (CommandMap) field.get(Bukkit.getServer());
-      field.setAccessible(false);
-    } catch (NoSuchFieldException | IllegalAccessException err) {
-      err.printStackTrace();
-    }
-
-    this.commandMap = commandMap;
+    this.commandMap = CommandUtil.getCommandMap();
     this.commands = Maps.newHashMap();
   }
 
