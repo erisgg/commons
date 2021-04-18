@@ -8,9 +8,5 @@ import org.bukkit.command.CommandSender;
  */
 public interface TextController {
 
-  // come on oli get a move on
-  default void sendMessage(CommandSender sender, String message) {
-    sender.sendMessage(message);
-  }
-
+  default void sendMessage(CommandSender sender, String message) { sender.sendMessage(message); }
 }
