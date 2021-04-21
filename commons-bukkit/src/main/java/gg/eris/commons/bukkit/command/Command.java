@@ -2,6 +2,8 @@ package gg.eris.commons.bukkit.command;
 
 import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
+import gg.eris.commons.bukkit.text.TextController;
+import gg.eris.commons.bukkit.text.TextType;
 import gg.eris.commons.core.Validate;
 import java.util.List;
 import java.util.Locale;
@@ -96,7 +98,9 @@ public final class Command {
       subCommand.execute(context);
     } else {
       context.getCommandSender().sendMessage("Help message todo");
-      // TODO: Help message using TextController
+      TextController.Builder builder = TextController.builder("HELP COMMAND", TextType.INFORMATION);
+      TextController.send(builder, context.getSenderAsPlayer());
+      // TODO: Set help message data
     }
   }
 
