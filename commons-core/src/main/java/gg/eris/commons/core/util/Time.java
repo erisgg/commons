@@ -116,7 +116,6 @@ public class Time {
     return unit.convert(time, TimeUnit.SECONDS);
   }
 
-  // todo: implement
   private static long fromLonghandTime(String message, TimeUnit unit) {
     long days = 0;
     long hours = 0;
