@@ -1,7 +1,7 @@
 package gg.eris.commons.bukkit.command;
 
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
-import gg.eris.commons.core.Validate;
+import gg.eris.commons.core.util.Validate;
 import java.util.Map;
 import lombok.AccessLevel;
 import lombok.Getter;

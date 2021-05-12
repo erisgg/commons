@@ -2,7 +2,7 @@ package gg.eris.commons.bukkit.menu;
 
 import gg.eris.commons.bukkit.impl.menu.MenuInventoryHolder;
 import gg.eris.commons.bukkit.menu.item.ActionlessMenuItem;
-import gg.eris.commons.core.Validate;
+import gg.eris.commons.core.util.Validate;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import java.util.Collection;
 import lombok.Getter;

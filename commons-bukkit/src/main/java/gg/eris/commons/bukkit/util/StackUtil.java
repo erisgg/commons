@@ -1,6 +1,6 @@
 package gg.eris.commons.bukkit.util;
 
-import gg.eris.commons.core.Text;
+import gg.eris.commons.core.util.Text;
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

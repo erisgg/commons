@@ -1,7 +1,7 @@
 package gg.eris.commons.bukkit.text;
 
 import com.google.common.collect.Maps;
-import gg.eris.commons.core.Text;
+import gg.eris.commons.core.util.Text;
 import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Matcher;

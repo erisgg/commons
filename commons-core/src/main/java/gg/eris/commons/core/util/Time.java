@@ -1,4 +1,4 @@
-package gg.eris.commons.core;
+package gg.eris.commons.core.util;
 
 import java.util.concurrent.TimeUnit;
 import lombok.experimental.UtilityClass;

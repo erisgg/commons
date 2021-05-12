@@ -8,7 +8,7 @@ import gg.eris.commons.bukkit.command.permission.type.InheritedPermission;
 import gg.eris.commons.bukkit.command.permission.type.NamedPermission;
 import gg.eris.commons.bukkit.impl.command.ArgumentInstance;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
-import gg.eris.commons.core.Validate;
+import gg.eris.commons.core.util.Validate;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;

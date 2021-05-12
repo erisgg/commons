@@ -2,6 +2,7 @@ package gg.eris.commons.core;
 
 import static org.junit.Assert.assertEquals;
 
+import gg.eris.commons.core.util.Time;
 import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 

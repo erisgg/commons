@@ -5,7 +5,7 @@ import gg.eris.commons.bukkit.command.Command;
 import gg.eris.commons.bukkit.command.Command.Builder;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.util.CommandUtil;
-import gg.eris.commons.core.Validate;
+import gg.eris.commons.core.util.Validate;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;

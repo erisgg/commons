@@ -1,4 +1,4 @@
-package gg.eris.commons.core;
+package gg.eris.commons.core.util;
 
 import com.google.common.collect.Lists;
 import java.util.List;
