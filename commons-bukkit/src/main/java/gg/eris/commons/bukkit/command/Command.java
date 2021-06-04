@@ -2,9 +2,9 @@ package gg.eris.commons.bukkit.command;
 
 import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
-import gg.eris.commons.core.util.Validate;
 import gg.eris.commons.bukkit.text.TextController;
 import gg.eris.commons.bukkit.text.TextType;
+import gg.eris.commons.core.util.Validate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;

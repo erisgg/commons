@@ -1,6 +1,5 @@
 package gg.eris.commons.core.util;
 
-import com.fasterxml.jackson.databind.ser.impl.MapEntrySerializer;
 import com.google.common.collect.Multimap;
 import java.util.Collection;
 import lombok.experimental.UtilityClass;
