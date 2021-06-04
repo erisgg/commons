@@ -59,8 +59,8 @@ public final class Command {
    * Handles a command execution
    *
    * @param sender is the command sender
-   * @param label is the command label
-   * @param args are the raw arguments
+   * @param label  is the command label
+   * @param args   are the raw arguments
    */
   public void handle(CommandSender sender, String label, String[] args) {
     SubCommandMatchResult matchResult = null;
@@ -121,13 +121,13 @@ public final class Command {
     private boolean playerOnly;
 
     /**
-     * Creates a new {@link Command.Builder} instacne. Should not be used outside of Commons -
-     * use the {@link CommandManager}
+     * Creates a new {@link Command.Builder} instacne. Should not be used outside of Commons - use
+     * the {@link CommandManager}
      *
-     * @param name is the name of the command
+     * @param name        is the name of the command
      * @param description is the command description
-     * @param permission is the base permission (which is automatically prefixed with eris.)
-     * @param aliases are the command aliases
+     * @param permission  is the base permission (which is automatically prefixed with eris.)
+     * @param aliases     are the command aliases
      */
     public Builder(String name, String description, String permission, Set<String> aliases) {
       Validate.notEmpty(name, "name cannot be null or empty");
@@ -171,7 +171,7 @@ public final class Command {
      * Sets the no args handler and whether it is player only
      *
      * @param defaultHandler is the handler (default sub command)
-     * @param playerOnly is whether the command is player only
+     * @param playerOnly     is whether the command is player only
      * @return the {@link Command.Builder} instance
      */
     public Builder noArgsHandler(Consumer<CommandContext> defaultHandler, boolean playerOnly) {
@@ -182,7 +182,8 @@ public final class Command {
 
 
     /**
-     * Builds the command. Should not be used outside of Commons - build with the {@link CommandManager}
+     * Builds the command. Should not be used outside of Commons - build with the {@link
+     * CommandManager}
      *
      * @return the built {@link Command}
      */

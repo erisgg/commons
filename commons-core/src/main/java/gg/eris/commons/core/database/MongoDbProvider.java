@@ -12,8 +12,10 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class MongoDbProvider {
 
-  public static MongoDatabase newClient(String host, int port, String database, String username, String password) {
-    MongoCredential credential = MongoCredential.createCredential(username, database, password.toCharArray());
+  public static MongoDatabase newClient(String host, int port, String database, String username,
+      String password) {
+    MongoCredential credential = MongoCredential
+        .createCredential(username, database, password.toCharArray());
     return getDatabase(newClient(MongoClientSettings.builder()
         .credential(credential)
         .applyToClusterSettings(builder ->

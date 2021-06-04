@@ -17,6 +17,7 @@ public final class StringArgument extends Argument<String> {
 
   @Override
   public boolean isSimilar(Argument<?> other) {
-    return super.isSimilar(other) || other instanceof PlayerArgument || other instanceof LiteralArgument;
+    return super.isSimilar(other) || other instanceof PlayerArgument
+        || other instanceof LiteralArgument;
   }
 }

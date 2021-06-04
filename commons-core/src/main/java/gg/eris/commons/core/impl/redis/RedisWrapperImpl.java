@@ -53,6 +53,7 @@ public class RedisWrapperImpl implements RedisWrapper {
     ObjectNode payloadJson = prePayloadJson.deepCopy();
     payloadJson.put("uuid", this.uuidString);
     String payload = payloadJson.toString();
+
     try (Jedis jedis = this.pool.getResource()) {
       for (String channel : publisher.getChannels()) {
         jedis.publish(channel, payload);

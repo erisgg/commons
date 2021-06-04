@@ -12,7 +12,8 @@ public enum TextType {
   PROMPT(ChatColor.WHITE, ChatColor.LIGHT_PURPLE);
 
   private final ChatColor baseColor;
-  private final ChatColor accentColor;;
+  private final ChatColor accentColor;
+  ;
 
   TextType(ChatColor baseColor, ChatColor accentColor) {
     this.baseColor = baseColor;

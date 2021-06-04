@@ -124,37 +124,34 @@ public class Time {
 
     int previousIndex = -1;
 
-    if(message.contains(" days")){
+    if (message.contains(" days")) {
       int index = message.indexOf(" days");
       days = Long.parseLong(message.substring(0, index));
-      if(message.contains(" days and ")){
+      if (message.contains(" days and ")) {
         previousIndex = index + 10;
-      }
-      else if(message.contains(" days, ")){
+      } else if (message.contains(" days, ")) {
         previousIndex = index + 7;
       }
     }
-    if(message.contains(" hours")){
+    if (message.contains(" hours")) {
       int index = message.indexOf(" hours");
       hours = Long.parseLong(message.substring(previousIndex, index));
-      if(message.contains(" hours and ")){
+      if (message.contains(" hours and ")) {
         previousIndex = index + 11;
-      }
-      else if(message.contains(" hours, ")){
+      } else if (message.contains(" hours, ")) {
         previousIndex = index + 8;
       }
     }
-    if(message.contains(" minutes")){
+    if (message.contains(" minutes")) {
       int index = message.indexOf(" minutes");
       minutes = Long.parseLong(message.substring(previousIndex, index));
-      if(message.contains(" minutes and ")){
+      if (message.contains(" minutes and ")) {
         previousIndex = index + 13;
-      }
-      else if(message.contains(" minutes, ")){
+      } else if (message.contains(" minutes, ")) {
         previousIndex = index + 10;
       }
     }
-    if(message.contains(" seconds")){
+    if (message.contains(" seconds")) {
       int index = message.indexOf(" seconds");
       seconds = Long.parseLong(message.substring(previousIndex, index));
     }

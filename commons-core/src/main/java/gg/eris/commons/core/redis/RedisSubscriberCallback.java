@@ -27,6 +27,7 @@ public interface RedisSubscriberCallback {
 
   /**
    * Consumes a {@link RedisMessage}
+   *
    * @param message is the {@link RedisMessage} that was received
    */
   void accept(RedisMessage message);

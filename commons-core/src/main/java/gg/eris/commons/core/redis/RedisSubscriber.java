@@ -13,7 +13,8 @@ public final class RedisSubscriber {
   private final Set<String> channels;
   private final Multimap<RedisSubscriberCallback.Priority, RedisSubscriberCallback> callbacks;
 
-  public RedisSubscriber(Set<String> channels, Multimap<Priority, RedisSubscriberCallback> callbacks) {
+  public RedisSubscriber(Set<String> channels,
+      Multimap<Priority, RedisSubscriberCallback> callbacks) {
     this.channels = channels;
     this.callbacks = callbacks;
   }

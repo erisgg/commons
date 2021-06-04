@@ -9,8 +9,8 @@ public enum PermissionType {
    */
   NAMED,
   /**
-   * An inherited permission, which inherits the permission from the base command (can only be
-   * used for sub commands)
+   * An inherited permission, which inherits the permission from the base command (can only be used
+   * for sub commands)
    */
   INHERITED,
   /**

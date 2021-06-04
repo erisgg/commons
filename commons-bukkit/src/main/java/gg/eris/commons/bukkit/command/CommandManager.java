@@ -26,10 +26,10 @@ public interface CommandManager {
   /**
    * Returns a new {@link Command.Builder} instance
    *
-   * @param name is the name of the command
+   * @param name        is the name of the command
    * @param description is the command description
-   * @param permission is the command permission
-   * @param aliases is the command alias
+   * @param permission  is the command permission
+   * @param aliases     is the command alias
    * @return a new {@link Command.Builder} instance
    */
   Command.Builder newCommandBuilder(String name, String description, String permission,

@@ -34,7 +34,7 @@ public final class CommandContext {
   /**
    * Returns an argument from the parameters
    *
-   * @param id is the argument id
+   * @param id  is the argument id
    * @param <T> is the type of the argument
    * @return the argument
    */

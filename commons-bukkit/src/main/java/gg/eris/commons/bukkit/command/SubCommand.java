@@ -28,15 +28,18 @@ public final class SubCommand {
   private final int minVarargCount;
 
   protected SubCommand(Command parent, Consumer<CommandContext> callback,
-      List<ArgumentInstance> arguments, boolean playerOnly, String permission, boolean defaultCommand) {
+      List<ArgumentInstance> arguments, boolean playerOnly, String permission,
+      boolean defaultCommand) {
     this.parent = parent;
     this.callback = callback;
     this.arguments = arguments;
     this.playerOnly = playerOnly;
     if (!defaultCommand) {
-      this.permission = permission == null ? new InheritedPermission(parent, this) : new NamedPermission(parent, this, parent.getPermission().getLabel() + "." + permission);
+      this.permission = permission == null ? new InheritedPermission(parent, this)
+          : new NamedPermission(parent, this, parent.getPermission().getLabel() + "." + permission);
     } else {
-      this.permission = permission == null ? new InheritedPermission(parent, this) : new NamedPermission(parent, this, permission);
+      this.permission = permission == null ? new InheritedPermission(parent, this)
+          : new NamedPermission(parent, this, permission);
     }
     this.vararg = this.arguments.size() > 0 ?
         (this.arguments.get(this.arguments.size() - 1).isVararg() ?

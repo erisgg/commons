@@ -55,7 +55,8 @@
           </execution>
         </executions>
         <configuration>
-          <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+          <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml
+          </dependencyReducedPomLocation>
           <relocations>
           </relocations>
           <artifactSet>
