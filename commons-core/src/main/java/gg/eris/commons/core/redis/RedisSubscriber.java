@@ -18,6 +18,16 @@ public final class RedisSubscriber {
     this.callbacks = callbacks;
   }
 
+  public void accept(RedisMessage message) {
+    for (Priority priority : Priority.priorityOrder()) {
+      callbacks.get(priority).forEach(callback -> callback.accept(message));
+    }
+  }
+
+  public boolean isChannel(String channel) {
+    return this.channels.contains(channel);
+  }
+
   public static Builder builder(String... channels) {
     return new Builder(channels);
   }

@@ -1,5 +1,7 @@
 package gg.eris.commons.core.redis;
 
+import java.util.Arrays;
+
 @FunctionalInterface
 public interface RedisSubscriberCallback {
 
@@ -9,6 +11,18 @@ public interface RedisSubscriberCallback {
     NORMAL,
     LOW,
     VERY_LOW;
+
+    private static final Priority[] priorityOrder = {
+        VERY_HIGH,
+        HIGH,
+        NORMAL,
+        LOW,
+        VERY_LOW
+    };
+
+    public static Priority[] priorityOrder() {
+      return Arrays.copyOf(priorityOrder, priorityOrder.length);
+    }
   }
 
   /**
