@@ -18,10 +18,6 @@ public final class Identifier {
     return new Identifier(namespace, value);
   }
 
-  public static Identifier of(Class<?> clazz, String value) {
-    return of(clazz.getSimpleName(), value);
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
