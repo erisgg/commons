@@ -36,7 +36,7 @@ public class ParticleUtil {
           (float) particleLocation.getZ(),
           0, 0, 0, particleData, particlesPerPoint, 0);
 
-      ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+      PlayerUtil.getHandle(player).playerConnection.sendPacket(packet);
     }
   }
 
