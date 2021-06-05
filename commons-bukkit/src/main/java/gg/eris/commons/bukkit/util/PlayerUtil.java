@@ -1,6 +1,8 @@
 package gg.eris.commons.bukkit.util;
 
 import lombok.experimental.UtilityClass;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,4 +32,7 @@ public class PlayerUtil {
     }
   }
 
+  public static EntityPlayer getHandle(Player player) {
+    return ((CraftPlayer) player).getHandle();
+  }
 }
