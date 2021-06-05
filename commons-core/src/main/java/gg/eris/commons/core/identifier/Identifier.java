@@ -1,4 +1,4 @@
-package gg.eris.commons.core.util;
+package gg.eris.commons.core.identifier;
 
 import java.util.Objects;
 import lombok.Getter;

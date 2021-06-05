@@ -1,7 +1,7 @@
 package gg.eris.commons.core.registry;
 
 import com.google.common.collect.Maps;
-import gg.eris.commons.core.util.Identifier;
+import gg.eris.commons.core.identifier.Identifier;
 import java.util.Collections;
 import java.util.Map;
 import lombok.Getter;

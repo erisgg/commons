@@ -1,4 +1,4 @@
-package gg.eris.commons.core.util;
+package gg.eris.commons.core.identifier;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
