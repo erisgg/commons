@@ -13,9 +13,12 @@ import org.bukkit.entity.Player;
  */
 public final class Permission implements Identifiable {
 
+  private static final IdentifierProvider DEFAULT_IDENTIFIER_PROVIDER =
+      new IdentifierProvider("eris");
+
   private final Identifier identifier;
 
-  public Permission(Identifier identifier) {
+  private Permission(Identifier identifier) {
     this.identifier = identifier;
   }
 
@@ -29,7 +32,11 @@ public final class Permission implements Identifiable {
   }
 
   public static Permission ofDefault(PermissionRegistry registry, String name) {
-    return registry.register(new Permission(registry.generateIdentifier(name)));
+    return of(registry, DEFAULT_IDENTIFIER_PROVIDER.id(name));
+  }
+
+  public static Permission of(PermissionRegistry registry, Identifier identifier) {
+    return registry.register(new Permission(identifier));
   }
 
   @Override

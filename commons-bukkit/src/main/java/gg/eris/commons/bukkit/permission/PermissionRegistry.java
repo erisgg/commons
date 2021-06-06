@@ -5,7 +5,7 @@ import gg.eris.commons.core.registry.Registry;
 public abstract class PermissionRegistry extends Registry<Permission> {
 
   public PermissionRegistry() {
-    super("permission");
+    super();
   }
 
 }
