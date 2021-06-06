@@ -2,11 +2,11 @@ package gg.eris.commons.bukkit.rank;
 
 import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.permission.Permission;
+import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
 import java.util.Set;
-import org.bukkit.entity.Player;
 
-public final class Rank {
+public final class Rank implements Identifiable {
 
   private final Identifier identifier;
   private final Set<Identifier> permissions;
@@ -17,11 +17,16 @@ public final class Rank {
   }
 
   public boolean hasPermission(Permission permission) {
-    return hasPermission(permission.getPermissionIdentifier());
+    return hasPermission(permission.getIdentifier());
   }
 
   public boolean hasPermission(Identifier identifier) {
     return this.permissions.contains(identifier);
+  }
+
+  @Override
+  public Identifier getIdentifier() {
+    return this.identifier;
   }
 
   public static Rank newRank(String name) {

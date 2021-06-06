@@ -1,6 +1,5 @@
 package gg.eris.commons.bukkit.util;
 
-import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.ChatColor;
 
 public final class CC {

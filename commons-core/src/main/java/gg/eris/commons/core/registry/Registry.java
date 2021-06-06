@@ -1,14 +1,13 @@
 package gg.eris.commons.core.registry;
 
 import com.google.common.collect.Maps;
+import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
 import java.util.Collections;
 import java.util.Map;
-import lombok.Getter;
 
-public abstract class Registry<T> {
+public abstract class Registry<T extends Identifiable> implements Identifiable {
 
-  @Getter
   private final Identifier identifier;
 
   private final Map<Identifier, T> registeredItems;
@@ -18,11 +17,16 @@ public abstract class Registry<T> {
     this.registeredItems = Collections.synchronizedMap(Maps.newHashMap());
   }
 
-  public <S extends T> S register(Identifier identifier, S item) {
-    return (S) this.registeredItems.put(identifier, item);
+  @Override
+  public Identifier getIdentifier() {
+    return this.identifier;
   }
 
-  public T get(Identifier identifier) {
+  public final <S extends T> S register(S item) {
+    return (S) this.registeredItems.put(item.getIdentifier(), item);
+  }
+
+  public final T get(Identifier identifier) {
     return this.registeredItems.get(identifier);
   }
 

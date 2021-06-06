@@ -1,24 +1,27 @@
 package gg.eris.commons.bukkit.permission;
 
+import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.identifier.IdentifierProvider;
-import lombok.Getter;
 import org.bukkit.entity.Player;
 
 /**
- * Represents a server permission
- * The namespace would typically be 'eris' and the value whatever comes after,
- * such as fly or message.others
+ * Represents a server permission The namespace would typically be 'eris' and the value whatever
+ * comes after, such as fly or message.others
  */
-public final class Permission {
+public final class Permission implements Identifiable {
 
   private static final IdentifierProvider DEFAULT_PROVIDER = new IdentifierProvider("eris");
 
-  @Getter
-  private final Identifier permissionIdentifier;
+  private final Identifier identifier;
 
-  public Permission(Identifier permissionIdentifier) {
-    this.permissionIdentifier = permissionIdentifier;
+  public Permission(Identifier identifier) {
+    this.identifier = identifier;
+  }
+
+  @Override
+  public Identifier getIdentifier() {
+    return this.identifier;
   }
 
   public boolean hasPermission(Player player) {
@@ -31,6 +34,6 @@ public final class Permission {
 
   @Override
   public String toString() {
-    return this.permissionIdentifier.getNamespace() + "." + this.permissionIdentifier.getValue();
+    return this.identifier.getNamespace() + "." + this.identifier.getValue();
   }
 }

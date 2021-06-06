@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-class InternalCommand extends Command {
+final class InternalCommand extends Command {
 
   private final gg.eris.commons.bukkit.command.Command command;
 
