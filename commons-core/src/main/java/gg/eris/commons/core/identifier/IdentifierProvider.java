@@ -13,6 +13,8 @@ public final class IdentifierProvider {
     return Identifier.of(namespace, value);
   }
 
-
+  public static IdentifierProvider fromIdentifier(Identifier identifier) {
+    return new IdentifierProvider(identifier.getNamespace());
+  }
 
 }

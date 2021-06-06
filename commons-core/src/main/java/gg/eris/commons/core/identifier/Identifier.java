@@ -3,6 +3,9 @@ package gg.eris.commons.core.identifier;
 import java.util.Objects;
 import lombok.Getter;
 
+/**
+ * Used as a key value. Composed of a namespace and a value, to group together common values.
+ */
 @Getter
 public final class Identifier {
 
@@ -14,6 +17,11 @@ public final class Identifier {
     this.value = value;
   }
 
+  /**
+   * @param namespace is the namespace of the {@link Identifier}
+   * @param value     is the value of the {@link Identifier}
+   * @return a new {@link Identifier} with the given namespace and value
+   */
   public static Identifier of(String namespace, String value) {
     return new Identifier(namespace, value);
   }
