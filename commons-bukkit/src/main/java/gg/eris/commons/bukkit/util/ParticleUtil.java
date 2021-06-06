@@ -2,6 +2,7 @@ package gg.eris.commons.bukkit.util;
 
 import gg.eris.commons.core.util.MathUtil;
 import java.util.Collection;
+import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
@@ -9,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+@UtilityClass
 public class ParticleUtil {
 
   public static void spawnSpiralForPlayer(EnumParticle particleType, boolean longDistance,

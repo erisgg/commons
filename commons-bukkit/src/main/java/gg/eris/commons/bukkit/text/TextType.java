@@ -13,7 +13,6 @@ public enum TextType {
 
   private final ChatColor baseColor;
   private final ChatColor accentColor;
-  ;
 
   TextType(ChatColor baseColor, ChatColor accentColor) {
     this.baseColor = baseColor;

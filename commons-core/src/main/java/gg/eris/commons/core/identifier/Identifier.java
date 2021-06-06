@@ -34,4 +34,10 @@ public final class Identifier {
   public int hashCode() {
     return Objects.hash(this.namespace, value);
   }
+
+  @Override
+  public String toString() {
+    return this.namespace + ":" + this.value;
+  }
+
 }

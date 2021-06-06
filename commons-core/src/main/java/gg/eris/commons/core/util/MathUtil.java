@@ -1,5 +1,10 @@
 package gg.eris.commons.core.util;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public final class MathUtil {
 
   /**
@@ -11,5 +16,13 @@ public final class MathUtil {
    */
   public static double lerp(double a, double b, double factor) {
     return a + (b - a) * factor;
+  }
+
+  /**
+   * Returns a random instance from {@link ThreadLocalRandom}
+   * @return the {@link ThreadLocalRandom} current {@link Random}
+   */
+  public static Random getRandom() {
+    return ThreadLocalRandom.current();
   }
 }

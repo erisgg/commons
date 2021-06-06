@@ -3,6 +3,10 @@ package gg.eris.commons.bukkit;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
+import gg.eris.commons.bukkit.impl.permission.PermissionRegistryImpl;
+import gg.eris.commons.bukkit.impl.rank.RankRegistryImpl;
+import gg.eris.commons.bukkit.permission.PermissionRegistry;
+import gg.eris.commons.bukkit.rank.RankRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -14,10 +18,14 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     Listener {
 
   private CommandManager commandManager;
+  private PermissionRegistry permissionRegistry;
+  private RankRegistry rankRegistry;
 
   @Override
   public void onEnable() {
     this.commandManager = new CommandManagerImpl();
+    this.permissionRegistry = new PermissionRegistryImpl();
+    this.rankRegistry = new RankRegistryImpl();
 
     PluginManager pluginManager = Bukkit.getPluginManager();
     pluginManager.registerEvents(new MenuListener(this), this);
@@ -32,4 +40,15 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   public CommandManager getCommandManager() {
     return this.commandManager;
   }
+
+  @Override
+  public PermissionRegistry getPermissionRegistry() {
+    return this.permissionRegistry;
+  }
+
+  @Override
+  public RankRegistry getRankRegistry() {
+    return this.rankRegistry;
+  }
+
 }

@@ -1,5 +1,6 @@
 package gg.eris.commons.bukkit.util;
 
+import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.ChatColor;
 
 public final class CC {
@@ -28,16 +29,16 @@ public final class CC {
   public static final CC WHITE = of(ChatColor.WHITE);
 
 
-  private final ChatColor color;
+  private final ChatColor baseColor;
   private final String string;
 
   private CC(ChatColor color) {
-    this.color = color;
+    this.baseColor = color;
     this.string = color.toString();
   }
 
   private CC(ChatColor color, String string) {
-    this.color = color;
+    this.baseColor = color;
     this.string = string;
   }
 
@@ -47,31 +48,28 @@ public final class CC {
   }
 
   public CC bold() {
-    return new CC(this.color, string + CC.BOLD);
+    return new CC(this.baseColor, this.string + CC.BOLD);
   }
 
   public CC underline() {
-    return new CC(this.color, string + CC.UNDERLINE);
+    return new CC(this.baseColor, this.string + CC.UNDERLINE);
   }
 
   public CC strikethrough() {
-    return new CC(this.color, string + CC.STRIKETHROUGH);
+    return new CC(this.baseColor, this.string + CC.STRIKETHROUGH);
   }
 
   public CC italic() {
-    return new CC(this.color, string + CC.ITALIC);
+    return new CC(this.baseColor, this.string + CC.ITALIC);
   }
 
   public CC reset() {
-    return new CC(this.color, string + CC.RESET);
+    return new CC(this.baseColor, this.string + CC.RESET);
   }
 
-  public String prefix() {
-    return bold() + "(!) " + CC.RESET + this.string;
-  }
-
+  @Override
   public String toString() {
-    return string;
+    return this.string;
   }
 
   public static String strip(String message) {
