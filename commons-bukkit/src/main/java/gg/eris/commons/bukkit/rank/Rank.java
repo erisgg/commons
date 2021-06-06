@@ -29,8 +29,8 @@ public final class Rank implements Identifiable {
     return this.identifier;
   }
 
-  public static Rank newRank(String name) {
-    return new Rank(Identifier.of(RankRegistry.NAMESPACE, name));
+  public static Rank newRank(RankRegistry registry, String name) {
+    return registry.register(new Rank(registry.generateIdentifier(name)));
   }
 
 }

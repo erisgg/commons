@@ -1,5 +1,7 @@
 package gg.eris.commons.bukkit.permission;
 
+import gg.eris.commons.bukkit.rank.Rank;
+import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.identifier.IdentifierProvider;
@@ -10,8 +12,6 @@ import org.bukkit.entity.Player;
  * comes after, such as fly or message.others
  */
 public final class Permission implements Identifiable {
-
-  private static final IdentifierProvider DEFAULT_PROVIDER = new IdentifierProvider("eris");
 
   private final Identifier identifier;
 
@@ -28,12 +28,13 @@ public final class Permission implements Identifiable {
     return player.hasPermission(this.toString());
   }
 
-  public static Permission ofDefault(String value) {
-    return new Permission(DEFAULT_PROVIDER.id(value));
+  public static Permission ofDefault(PermissionRegistry registry, String name) {
+    return registry.register(new Permission(registry.generateIdentifier(name)));
   }
 
   @Override
   public String toString() {
     return this.identifier.getNamespace() + "." + this.identifier.getValue();
   }
+
 }

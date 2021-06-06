@@ -4,10 +4,8 @@ import gg.eris.commons.core.registry.Registry;
 
 public abstract class PermissionRegistry extends Registry<Permission> {
 
-  protected static final String NAMESPACE = "permission";
-
   public PermissionRegistry() {
-    super(NAMESPACE);
+    super("permission");
   }
 
 }

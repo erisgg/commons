@@ -10,7 +10,7 @@ public final class IdentifierProvider {
   private final String namespace;
 
   public Identifier id(String value) {
-    return Identifier.of(namespace, value);
+    return Identifier.of(this.namespace, value);
   }
 
   public static IdentifierProvider fromIdentifier(Identifier identifier) {

@@ -7,7 +7,7 @@ import lombok.Getter;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-public class MenuInventoryHolder implements InventoryHolder {
+public final class MenuInventoryHolder implements InventoryHolder {
 
   @Getter
   private final MenuViewer viewer;
