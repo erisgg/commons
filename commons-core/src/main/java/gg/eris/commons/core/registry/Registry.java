@@ -3,6 +3,7 @@ package gg.eris.commons.core.registry;
 import com.google.common.collect.Maps;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
+import gg.eris.commons.core.util.Validate;
 import java.util.Collections;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ public abstract class Registry<T extends Identifiable> implements Identifiable {
   }
 
   public final <S extends T> S register(S item) {
+    Validate.isTrue(item.getIdentifier().getNamespace().equals(this.identifier.getNamespace()), "registry and its contents must have the same namespace");
     return (S) this.registeredItems.put(item.getIdentifier(), item);
   }
 
