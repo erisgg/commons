@@ -30,7 +30,7 @@ public final class Rank implements Identifiable {
   }
 
   public static Rank newRank(String name) {
-    return new Rank(RankRegistry.IDENTIFIER_PROVIDER.id(name));
+    return new Rank(Identifier.of(RankRegistry.NAMESPACE, name));
   }
 
 }
