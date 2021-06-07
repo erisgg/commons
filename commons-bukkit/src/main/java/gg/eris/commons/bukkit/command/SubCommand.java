@@ -4,10 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import gg.eris.commons.bukkit.command.argument.Argument;
-import gg.eris.commons.bukkit.command.permission.type.InheritedPermission;
-import gg.eris.commons.bukkit.command.permission.type.NamedPermission;
 import gg.eris.commons.bukkit.impl.command.ArgumentInstance;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
+import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.util.Validate;
 import java.util.List;
 import java.util.Map;
@@ -23,24 +22,18 @@ public final class SubCommand {
   private final List<ArgumentInstance> arguments;
   private final boolean playerOnly;
   @Getter
-  private final Permission permission;
+  private final Identifier permission;
   private final ArgumentInstance vararg;
   private final int minVarargCount;
 
   protected SubCommand(Command parent, Consumer<CommandContext> callback,
-      List<ArgumentInstance> arguments, boolean playerOnly, String permission,
+      List<ArgumentInstance> arguments, boolean playerOnly, Identifier permission,
       boolean defaultCommand) {
     this.parent = parent;
     this.callback = callback;
     this.arguments = arguments;
     this.playerOnly = playerOnly;
-    if (!defaultCommand) {
-      this.permission = permission == null ? new InheritedPermission(parent, this)
-          : new NamedPermission(parent, this, parent.getPermission().getLabel() + "." + permission);
-    } else {
-      this.permission = permission == null ? new InheritedPermission(parent, this)
-          : new NamedPermission(parent, this, permission);
-    }
+    this.permission = permission == null ? parent.getPermission() : permission;
     this.vararg = this.arguments.size() > 0 ?
         (this.arguments.get(this.arguments.size() - 1).isVararg() ?
             this.arguments.get(this.arguments.size() - 1) : null) : null;
@@ -49,13 +42,12 @@ public final class SubCommand {
   }
 
   public SubCommand(Command parent, Consumer<CommandContext> callback,
-      List<ArgumentInstance> arguments, boolean playerOnly, String permission) {
+      List<ArgumentInstance> arguments, boolean playerOnly, Identifier permission) {
     this.parent = parent;
     this.callback = callback;
     this.arguments = arguments;
     this.playerOnly = playerOnly;
-    this.permission = permission == null ? new InheritedPermission(parent, this) :
-        new NamedPermission(parent, this, parent.getPermission().getLabel() + "." + permission);
+    this.permission = permission == null ? parent.getPermission() : permission;
     this.vararg = this.arguments.size() > 0 ?
         (this.arguments.get(this.arguments.size() - 1).isVararg() ?
             this.arguments.get(this.arguments.size() - 1) : null) : null;
@@ -115,7 +107,7 @@ public final class SubCommand {
     private final List<ArgumentInstance> arguments;
 
     private Consumer<CommandContext> handler;
-    private String permission;
+    private Identifier permission;
     private boolean playerOnly;
     private boolean finalized;
 
@@ -162,7 +154,7 @@ public final class SubCommand {
       return this;
     }
 
-    public Builder requiresPermission(String permission) {
+    public Builder requiresPermission(Identifier permission) {
       Validate.isTrue(!this.finalized, "builder is already finalized");
       this.permission = permission;
       return this;

@@ -1,9 +1,13 @@
 package gg.eris.commons.bukkit.command;
 
 import com.google.common.collect.Sets;
+import gg.eris.commons.bukkit.ErisBukkitCommons;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
+import gg.eris.commons.bukkit.permission.PermissionRegistry;
+import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.text.TextController;
 import gg.eris.commons.bukkit.text.TextType;
+import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.util.Validate;
 import java.util.List;
 import java.util.Locale;
@@ -12,10 +16,14 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 @Getter
 public final class Command {
+
+  private static final PermissionRegistry PERMISSION_REGISTRY = Bukkit.getServicesManager()
+      .getRegistration(ErisBukkitCommons.class).getProvider().getPermissionRegistry();
 
   private final String name;
   private final Set<String> aliases;
@@ -25,7 +33,7 @@ public final class Command {
   private final SubCommand defaultSubCommand;
 
   public Command(String name, Set<String> aliases, String description, boolean playerOnly,
-      Set<SubCommand.Builder> subCommands, String permission,
+      Set<SubCommand.Builder> subCommands, Identifier permission,
       Consumer<CommandContext> defaultHandler) {
     this.name = name.toLowerCase(Locale.ROOT);
     this.aliases = aliases.stream()
@@ -51,7 +59,7 @@ public final class Command {
    *
    * @return the permission for the default subcommand (the base permission)
    */
-  public Permission getPermission() {
+  public Identifier getPermission() {
     return this.defaultSubCommand.getPermission();
   }
 
@@ -83,13 +91,13 @@ public final class Command {
       context = CommandContext.success(sender, this, matchResult, label, args);
     }
 
-    execute(context);
+    execute(context, PERMISSION_REGISTRY);
   }
 
-  private void execute(CommandContext context) {
+  private void execute(CommandContext context, PermissionRegistry permissionRegistry) {
     if (context.isSuccess()) {
       SubCommand subCommand = context.getSubCommand();
-      if (!subCommand.getPermission().hasPermission(context.getCommandSender())) {
+      if (!permissionRegistry.get(this.getPermission()).hasPermission(context.getCommandSender())) {
         context.getCommandSender().sendMessage("No permission");
         // TODO: Permission message text ctrller
         return;
@@ -113,7 +121,7 @@ public final class Command {
     private boolean built;
     private final String name;
     private final String description;
-    private final String permission;
+    private final Identifier permission;
     private final Set<String> aliases;
     private final Set<SubCommand.Builder> subCommands;
 
@@ -126,13 +134,13 @@ public final class Command {
      *
      * @param name        is the name of the command
      * @param description is the command description
-     * @param permission  is the base permission (which is automatically prefixed with eris.)
+     * @param permission  is the permission identifier
      * @param aliases     are the command aliases
      */
-    public Builder(String name, String description, String permission, Set<String> aliases) {
+    public Builder(String name, String description, Identifier permission, Set<String> aliases) {
       Validate.notEmpty(name, "name cannot be null or empty");
       Validate.notEmpty(description, "description cannot be null or empty");
-      Validate.notEmpty(permission, "permission cannot be null or empty");
+      Validate.notNull(permission, "permission cannot be null or empty");
       for (String alias : aliases) {
         Validate.notEmpty(alias, "aliases cannot be null or empty");
       }

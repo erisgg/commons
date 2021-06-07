@@ -1,5 +1,7 @@
 package gg.eris.commons.bukkit.command;
 
+import gg.eris.commons.core.identifier.Identifier;
+
 /**
  * The {@link CommandManager}. Use this to register commands, and view registered commands
  */
@@ -28,11 +30,11 @@ public interface CommandManager {
    *
    * @param name        is the name of the command
    * @param description is the command description
-   * @param permission  is the command permission
+   * @param permission  is the command permission identifier
    * @param aliases     is the command alias
    * @return a new {@link Command.Builder} instance
    */
-  Command.Builder newCommandBuilder(String name, String description, String permission,
+  Command.Builder newCommandBuilder(String name, String description, Identifier permission,
       String... aliases);
 
   /**

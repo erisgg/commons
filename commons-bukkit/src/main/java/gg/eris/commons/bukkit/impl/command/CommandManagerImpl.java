@@ -5,6 +5,7 @@ import gg.eris.commons.bukkit.command.Command;
 import gg.eris.commons.bukkit.command.Command.Builder;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.util.CommandUtil;
+import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.util.Validate;
 import java.util.Locale;
 import java.util.Map;
@@ -41,7 +42,7 @@ public final class CommandManagerImpl implements CommandManager {
   }
 
   @Override
-  public Builder newCommandBuilder(String name, String description, String permission,
+  public Builder newCommandBuilder(String name, String description, Identifier permission,
       String... aliases) {
     return new Command.Builder(
         name,

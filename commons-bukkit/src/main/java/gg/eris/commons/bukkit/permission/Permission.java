@@ -5,6 +5,7 @@ import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.identifier.IdentifierProvider;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -27,8 +28,8 @@ public final class Permission implements Identifiable {
     return this.identifier;
   }
 
-  public boolean hasPermission(Player player) {
-    return player.hasPermission(this.toString());
+  public boolean hasPermission(CommandSender sender) {
+    return sender.hasPermission(this.toString());
   }
 
   public static Permission ofDefault(PermissionRegistry registry, String name) {
