@@ -136,11 +136,11 @@ public final class SubCommand {
       return this;
     }
 
-    public Builder variableArgument(Argument<?> argument, String label) {
-      return variableArgument(argument, label, 0);
+    public Builder variableArgument(Argument<?> argument) {
+      return variableArgument(argument, 0);
     }
 
-    public Builder variableArgument(Argument<?> argument, String label, int minVarargCount) {
+    public Builder variableArgument(Argument<?> argument, int minVarargCount) {
       Validate.isTrue(
           this.arguments.size() == 0 || !this.arguments.get(this.arguments.size() - 1).isVararg(),
           "subcommand cannot have any more arguments");

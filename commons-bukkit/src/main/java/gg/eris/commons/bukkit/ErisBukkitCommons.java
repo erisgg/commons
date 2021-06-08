@@ -1,5 +1,6 @@
 package gg.eris.commons.bukkit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.rank.RankRegistry;
@@ -22,10 +23,17 @@ public interface ErisBukkitCommons {
   PermissionRegistry getPermissionRegistry();
 
   /**
-   * Returns the server {@link RankRegistry}
+   * Returns the server's {@link RankRegistry}
    *
    * @return the server's {@link RankRegistry}
    */
   RankRegistry getRankRegistry();
+
+  /**
+   * Returns the server's {@link ObjectMapper}
+   *
+   * @return the server's {@link ObjectMapper}
+   */
+  ObjectMapper getObjectMapper();
 
 }

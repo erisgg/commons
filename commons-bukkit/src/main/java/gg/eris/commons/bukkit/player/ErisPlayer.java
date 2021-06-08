@@ -1,30 +1,37 @@
 package gg.eris.commons.bukkit.player;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
+import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public abstract class ErisPlayer {
+public abstract class ErisPlayer<T extends ErisPlayer<T>> implements Serializable {
 
-  @Getter
+  @JsonProperty
   protected final UUID uuid;
 
   @Getter
+  @JsonProperty
   protected final String name;
 
   @Getter
+  @JsonProperty
   protected final Set<String> knownAliases;
 
   @Getter
+  @JsonProperty
   protected final long firstLogin;
 
   @Getter
+  @JsonProperty
   protected final long lastLogin;
 
   @Getter
+  @JsonProperty
   protected final long lastLogout;
 
   public ErisPlayer(UUID uuid, String name, Set<String> knownAliases, long firstLogin,

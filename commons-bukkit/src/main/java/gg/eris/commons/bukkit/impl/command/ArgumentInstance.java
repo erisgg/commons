@@ -9,6 +9,10 @@ import lombok.Getter;
 @Getter
 public final class ArgumentInstance {
 
+  private final Argument<?> argument;
+  private final int index;
+  private final int minVarargCount;
+
   /**
    * A non vararg {@link ArgumentInstance}
    *
@@ -31,10 +35,6 @@ public final class ArgumentInstance {
     this.index = index;
     this.minVarargCount = minVarargCount;
   }
-
-  private final Argument<?> argument;
-  private final int index;
-  private final int minVarargCount;
 
   public boolean isVararg() {
     return this.minVarargCount >= 0;
