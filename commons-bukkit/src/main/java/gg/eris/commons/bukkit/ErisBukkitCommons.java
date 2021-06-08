@@ -3,6 +3,7 @@ package gg.eris.commons.bukkit;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.rank.RankRegistry;
+import gg.eris.commons.core.redis.RedisWrapper;
 
 public interface ErisBukkitCommons {
 

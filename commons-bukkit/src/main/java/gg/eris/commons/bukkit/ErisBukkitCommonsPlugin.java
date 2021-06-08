@@ -7,6 +7,8 @@ import gg.eris.commons.bukkit.impl.permission.PermissionRegistryImpl;
 import gg.eris.commons.bukkit.impl.rank.RankRegistryImpl;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.rank.RankRegistry;
+import gg.eris.commons.core.impl.redis.RedisWrapperImpl;
+import gg.eris.commons.core.redis.RedisWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
