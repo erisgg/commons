@@ -1,7 +1,6 @@
 package gg.eris.commons.bukkit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
@@ -9,8 +8,6 @@ import gg.eris.commons.bukkit.impl.permission.PermissionRegistryImpl;
 import gg.eris.commons.bukkit.impl.rank.RankRegistryImpl;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.rank.RankRegistry;
-import gg.eris.commons.core.impl.redis.RedisWrapperImpl;
-import gg.eris.commons.core.redis.RedisWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;

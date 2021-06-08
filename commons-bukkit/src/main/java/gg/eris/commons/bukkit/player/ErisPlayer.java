@@ -9,7 +9,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public abstract class ErisPlayer<T extends ErisPlayer<T>> implements Serializable {
+public abstract class ErisPlayer implements Serializable {
 
   @JsonProperty
   protected final UUID uuid;
