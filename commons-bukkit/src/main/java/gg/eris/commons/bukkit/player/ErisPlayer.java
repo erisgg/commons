@@ -9,7 +9,17 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public abstract class ErisPlayer implements Serializable {
+/**
+ * The Eris wrapper around the {@link Player} class. Can be extended to add and load additional
+ * fields for one plugin per server. This can be changed by setting the
+ * {@link ErisPlayerClassProvider} in the {@link gg.eris.commons.bukkit.ErisBukkitCommons} service.
+ * Unmarked or fields annotated with the appropriate Jackson Annotation annotations will be
+ * serialized. Transient fields will be ignored. All of the serialization is done through the
+ * {@link gg.eris.commons.bukkit.ErisBukkitCommons}
+ * {@link com.fasterxml.jackson.databind.ObjectMapper} and custom serializations and
+ * deserialization can be registered there.
+ */
+public class ErisPlayer implements Serializable {
 
   @JsonProperty
   protected final UUID uuid;
