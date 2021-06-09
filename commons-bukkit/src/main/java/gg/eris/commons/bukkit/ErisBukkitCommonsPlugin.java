@@ -1,6 +1,7 @@
 package gg.eris.commons.bukkit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.client.MongoDatabase;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
@@ -9,11 +10,15 @@ import gg.eris.commons.bukkit.impl.player.DefaultErisPlayerClassProvider;
 import gg.eris.commons.bukkit.impl.player.ErisPlayerManagerImpl;
 import gg.eris.commons.bukkit.impl.rank.RankRegistryImpl;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
-import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.ErisPlayerClassProvider;
+import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.rank.RankRegistry;
+import gg.eris.commons.core.database.MongoCredentials;
+import gg.eris.commons.core.database.MongoDbProvider;
+import gg.eris.commons.core.redis.RedisWrapper;
 import gg.eris.commons.core.util.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
@@ -22,6 +27,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBukkitCommons,
     Listener {
+
+  private MongoDatabase mongoDatabase;
+  private RedisWrapper redisWrapper;
 
   private CommandManager commandManager;
   private PermissionRegistry permissionRegistry;
@@ -34,11 +42,32 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
 
   @Override
   public void onEnable() {
+    saveDefaultConfig();
+
+    FileConfiguration config = getConfig();
+
+    this.mongoDatabase = MongoDbProvider.newClient(
+        new MongoCredentials(
+            config.getString("database.username"),
+            config.getString("database.password"),
+            config.getString("database.database"),
+            config.getString("database.hostname"),
+            config.getInt("database.port")
+            )
+    );
+
+    this.redisWrapper = RedisWrapper.newWrapper(
+        config.getString("redis.username"),
+        config.getString("redis.password"),
+        config.getString("redis.hostname"),
+        config.getInt("redis.port")
+    );
+
     this.commandManager = new CommandManagerImpl();
     this.permissionRegistry = new PermissionRegistryImpl();
     this.rankRegistry = new RankRegistryImpl();
     this.objectMapper = new ObjectMapper();
-    this.erisPlayerManager = new ErisPlayerManagerImpl();
+    this.erisPlayerManager = new ErisPlayerManagerImpl(this);
     this.erisPlayerProvider = new DefaultErisPlayerClassProvider();
     this.erisPlayerProviderSet = false;
 
@@ -50,6 +79,15 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     servicesManager.register(ErisBukkitCommons.class, this, this, ServicePriority.Highest);
   }
 
+  @Override
+  public MongoDatabase getMongoDatabase() {
+    return this.mongoDatabase;
+  }
+
+  @Override
+  public RedisWrapper getRedisWrapper() {
+    return this.redisWrapper;
+  }
 
   @Override
   public CommandManager getCommandManager() {

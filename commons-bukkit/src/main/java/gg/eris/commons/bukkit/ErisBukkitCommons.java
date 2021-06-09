@@ -1,16 +1,33 @@
 package gg.eris.commons.bukkit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoDatabase;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.ErisPlayerClassProvider;
 import gg.eris.commons.bukkit.rank.RankRegistry;
+import gg.eris.commons.core.redis.RedisWrapper;
 
 /**
- *
+ * The commons service for all Eris plugins to use.
  */
 public interface ErisBukkitCommons {
+
+  /**
+   * Returns the server {@link MongoDatabase} instance
+   *
+   * @return the server's {@link MongoDatabase} instance
+   */
+  MongoDatabase getMongoDatabase();
+
+  /**
+   * Returns the server {@link RedisWrapper} instance
+   *
+   * @return the server's {@link RedisWrapper} instance
+   */
+  RedisWrapper getRedisWrapper();
 
   /**
    * Returns the server command manager instance

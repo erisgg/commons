@@ -1,0 +1,12 @@
+database:
+  username: 'user'
+  password: 'pass'
+  database: 'database'
+  hostname: 'localhost'
+  port: 27017
+
+redis:
+  username: 'user'
+  password: 'pass'
+  hostname: 'localhost'
+  port: 6379
