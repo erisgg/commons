@@ -32,6 +32,17 @@ public class PlayerUtil {
     }
   }
 
+  /**
+   * Resets a given {@link Player}
+   *
+   * @param player is the player to reset
+   */
+  public static void resetPlayer(Player player) {
+    player.setHealth(player.getMaxHealth());
+    player.setSaturation(10f);
+    player.setFoodLevel(20);
+  }
+
   public static EntityPlayer getHandle(Player player) {
     return ((CraftPlayer) player).getHandle();
   }
