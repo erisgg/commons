@@ -18,6 +18,18 @@ public final class SidebarBuilder {
     objective.setDisplaySlot(DisplaySlot.SIDEBAR);
   }
 
+  public SidebarBuilder withEmptyLine() {
+    // This ensures that given multiple blank scoreboard lines they don't have the same value.
+    String empty = "";
+    for (int i = 0; i < nextLine; i++) {
+      empty += CC.RESET;
+    }
+
+    objective.getScore(empty).setScore(nextLine++);
+
+    return this;
+  }
+
   public SidebarBuilder withLine(String lineContents) {
     objective.getScore(lineContents).setScore(nextLine++);
 
