@@ -1,5 +1,6 @@
 package gg.eris.commons.bukkit.player;
 
+import java.util.Collection;
 import java.util.UUID;
 import org.bukkit.entity.Player;
 
@@ -16,6 +17,14 @@ public interface ErisPlayerManager {
    * @return the {@link ErisPlayer} instance, null if not
    */
   <T extends ErisPlayer> T getPlayer(UUID uuid);
+
+  /**
+   * Gets all {@link ErisPlayer} on the server
+   *
+   * @param <T> is the type of {@link ErisPlayer}
+   * @return an snapshot of the players at the time of the call
+   */
+  <T extends ErisPlayer> Collection<T> getPlayers();
 
   default <T extends ErisPlayer> T getPlayer(Player player) {
     return getPlayer(player.getUniqueId());

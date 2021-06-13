@@ -46,4 +46,5 @@ public class PlayerUtil {
   public static EntityPlayer getHandle(Player player) {
     return ((CraftPlayer) player).getHandle();
   }
+
 }
