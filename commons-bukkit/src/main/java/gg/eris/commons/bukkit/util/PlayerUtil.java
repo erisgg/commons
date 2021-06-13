@@ -41,6 +41,7 @@ public class PlayerUtil {
     player.setHealth(player.getMaxHealth());
     player.setSaturation(10f);
     player.setFoodLevel(20);
+    player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
   }
 
   public static EntityPlayer getHandle(Player player) {

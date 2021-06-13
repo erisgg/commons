@@ -13,7 +13,7 @@ public class TimeTest {
     long time = 5398535L;
     String display = Time.toShortDisplayTime(time, TimeUnit.SECONDS);
     assertEquals("62d11h35m35s", display);
-    long back = Time.fromDisplayTime(display, TimeUnit.SECONDS, true);
+    long back = Time.fromShortDisplayTime(display, TimeUnit.SECONDS);
     assertEquals(time, back);
   }
 
@@ -22,7 +22,7 @@ public class TimeTest {
     long time = 5398535L;
     String display = Time.toLongDisplayTime(time, TimeUnit.SECONDS);
     assertEquals("62 days, 11 hours, 35 minutes and 35 seconds", display);
-    long back = Time.fromDisplayTime(display, TimeUnit.SECONDS, false);
+    long back = Time.fromLongDisplayTime(display, TimeUnit.SECONDS);
     assertEquals(time, back);
   }
 
