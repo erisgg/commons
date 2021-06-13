@@ -14,6 +14,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.ComponentBuilder.FormatRetention;
 import net.md_5.bungee.api.chat.HoverEvent;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 @UtilityClass
@@ -33,6 +34,10 @@ public final class TextController {
     for (Player player : players) {
       player.spigot().sendMessage(built);
     }
+  }
+
+  public static void broadcast(Builder builder) {
+    send(builder, Bukkit.getOnlinePlayers());
   }
 
   public static TextController.Builder builder(String rawText, TextType textType, Object... variables) {
