@@ -13,16 +13,22 @@ public class Time {
 
   private static final TimeUnit DEFAULT_UNIT = TimeUnit.MILLISECONDS;
 
-  /**
-   * Returns the time from a string
-   *
-   * @param message   is the message to convert to a long time
-   * @param shorthand is whether the message is in shorthand time format
-   * @return the display time as a numeric value in the {@value #DEFAULT_UNIT} time unit
-   */
-  public static long fromDisplayTime(String message, boolean shorthand) {
-    return fromDisplayTime(message, DEFAULT_UNIT, shorthand);
+  public static long fromLongDisplayTime(String message) {
+    return fromLonghandTime(message, DEFAULT_UNIT);
   }
+
+  public static long fromLongDisplayTime(String message, TimeUnit unit) {
+    return fromDisplayTime(message, unit, false);
+  }
+
+  public static long fromShortDisplayTime(String message) {
+    return fromShortDisplayTime(message, DEFAULT_UNIT);
+  }
+
+  public static long fromShortDisplayTime(String message, TimeUnit unit) {
+    return fromDisplayTime(message, unit, true);
+  }
+
 
   /**
    * Returns the time from a string
@@ -32,7 +38,7 @@ public class Time {
    * @param shorthand is whether the message is in shorthand time format
    * @return the display time as a numeric value in the given time unit
    */
-  public static long fromDisplayTime(String message, TimeUnit unit, boolean shorthand) {
+  private static long fromDisplayTime(String message, TimeUnit unit, boolean shorthand) {
     if (shorthand) {
       return fromShorthandTime(message, unit);
     } else {
@@ -40,24 +46,19 @@ public class Time {
     }
   }
 
-  /**
-   * Converts a long time into a shorthand display time using the {@value #DEFAULT_UNIT} time unit
-   *
-   * @param time is the time to convert to a display time
-   * @return the display time
-   */
-  public static String toDisplayTime(long time) {
-    return toDisplayTime(time, DEFAULT_UNIT);
+  public static String toLongDisplayTime(long time) {
+    return toLongDisplayTime(time, DEFAULT_UNIT);
   }
 
-  /**
-   * Converts a long time into a shorthand display time using the given time unit
-   *
-   * @param time is the time to convert to a display time
-   * @param unit is the time unit the time value represents
-   * @return the display time
-   */
-  public static String toDisplayTime(long time, TimeUnit unit) {
+  public static String toLongDisplayTime(long time, TimeUnit unit) {
+    return toDisplayTime(time, unit, false);
+  }
+
+  public static String toShortDisplayTime(long time) {
+    return toShortDisplayTime(time, DEFAULT_UNIT);
+  }
+
+  public static String toShortDisplayTime(long time, TimeUnit unit) {
     return toDisplayTime(time, unit, true);
   }
 
@@ -69,7 +70,7 @@ public class Time {
    * @param shorthand is whether the display time is in shorthand form
    * @return the display time
    */
-  public static String toDisplayTime(long time, TimeUnit unit, boolean shorthand) {
+  private static String toDisplayTime(long time, TimeUnit unit, boolean shorthand) {
     if (shorthand) {
       return toShorthandTime(time, unit);
     } else {
