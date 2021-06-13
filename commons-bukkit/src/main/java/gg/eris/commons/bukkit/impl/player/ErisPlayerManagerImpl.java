@@ -12,7 +12,7 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
 
   public ErisPlayerManagerImpl(ErisBukkitCommonsPlugin plugin) {
     this.players = Maps.newHashMap();
-    Bukkit.getPluginManager().registerEvents(new ErisPlayerManagerListener(this), plugin);
+    Bukkit.getPluginManager().registerEvents(new ErisPlayerManagerListener(plugin, this), plugin);
   }
 
   private final Map<UUID, ErisPlayer> players;
@@ -21,14 +21,10 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
 
   }
 
-  public <T extends ErisPlayer> T addPlayer(T player) {
-    this.players.put(player.getUniqueId(), player);
-    return player;
+  protected void unloadPlayer(UUID uuid) {
+
   }
 
-  public <T extends ErisPlayer> T removePlayer(ErisPlayer player) {
-    return (T) this.players.remove(player.getUniqueId());
-  }
 
   @Override
   public <T extends ErisPlayer> T getPlayer(UUID uuid) {

@@ -124,6 +124,15 @@ public final class ItemBuilder {
     return this;
   }
 
+  public ItemBuilder unbreakable() {
+    return unbreakable(true);
+  }
+
+  public ItemBuilder unbreakable(boolean unbreakable) {
+    this.meta.spigot().setUnbreakable(unbreakable);
+    return this;
+  }
+
   /**
    * Adds flags to the item
    *
