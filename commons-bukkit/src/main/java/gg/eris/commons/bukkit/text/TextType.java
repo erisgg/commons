@@ -8,8 +8,8 @@ public enum TextType {
 
   SUCCESS(ChatColor.WHITE, ChatColor.GREEN),
   ERROR(ChatColor.RED, ChatColor.DARK_RED),
-  INFORMATION(ChatColor.WHITE, ChatColor.BLUE),
-  PROMPT(ChatColor.WHITE, ChatColor.LIGHT_PURPLE);
+  INFORMATION(ChatColor.BLUE, ChatColor.AQUA),
+  PROMPT(ChatColor.YELLOW, ChatColor.GOLD);
 
   private final ChatColor baseColor;
   private final ChatColor accentColor;

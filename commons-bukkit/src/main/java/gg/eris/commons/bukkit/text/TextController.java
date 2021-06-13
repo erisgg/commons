@@ -28,15 +28,14 @@ public final class TextController {
     }
   }
 
-  public static void send(TextController.Builder builder, Collection<Player> players) {
+  public static void send(Builder builder, Collection<? extends Player> players) {
     BaseComponent[] built = builder.build();
     for (Player player : players) {
       player.spigot().sendMessage(built);
     }
   }
 
-  public static TextController.Builder builder(String rawText, TextType textType,
-      Object... variables) {
+  public static TextController.Builder builder(String rawText, TextType textType, Object... variables) {
     return new Builder(rawText, textType, variables);
   }
 
