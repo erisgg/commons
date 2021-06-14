@@ -32,7 +32,8 @@ public abstract class Registry<T extends Identifiable> {
   public final <S extends T> S register(S item) {
     Validate.isTrue(!this.registeredItems.containsKey(item.getIdentifier()),
         "identifier already registered");
-    return (S) this.registeredItems.put(item.getIdentifier(), item);
+    this.registeredItems.put(item.getIdentifier(), item);
+    return item;
   }
 
   /**
