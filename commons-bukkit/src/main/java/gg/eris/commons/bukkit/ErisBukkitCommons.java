@@ -68,7 +68,7 @@ public interface ErisBukkitCommons {
    *
    * @return the server's {@link ErisPlayerSerializer}
    */
-  ErisPlayerSerializer<?> getErisPlayerProvider();
+  ErisPlayerSerializer<?> getErisPlayerSerializer();
 
   /**
    * Sets the server's {@link ErisPlayerSerializer}. This can only be done once and will error if

@@ -45,7 +45,7 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
   protected void unloadPlayer(UUID uuid) {
     ErisPlayer player = this.players.remove(uuid);
     if (player != null) {
-      JsonNode data = this.plugin.getErisPlayerProvider().toNode(player);
+      JsonNode data = this.plugin.getErisPlayerSerializer().toNode(player);
       Document document = Document.parse(data.toString());
       this.playerCollection.updateOne(
           Filters.eq("uuid", uuid.toString()),
@@ -56,7 +56,10 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
   }
 
   protected void createNewPlayer(Player player) {
-    this.players.put(player.getUniqueId(), this.plugin.getErisPlayerProvider().newPlayer(player));
+    this.players.put(
+        player.getUniqueId(),
+        this.plugin.getErisPlayerSerializer().newPlayer(player)
+    );
   }
 
 

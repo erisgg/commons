@@ -124,7 +124,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   }
 
   @Override
-  public ErisPlayerSerializer<?> getErisPlayerProvider() {
+  public ErisPlayerSerializer<?> getErisPlayerSerializer() {
     return this.erisPlayerProvider;
   }
 
