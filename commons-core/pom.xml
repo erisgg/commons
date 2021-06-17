@@ -67,6 +67,11 @@
       <version>2.12.3</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>dev.morphia.morphia</groupId>
+      <artifactId>morphia-core</artifactId>
+      <version>2.2.1</version>
+    </dependency>
   </dependencies>
 
   <build>

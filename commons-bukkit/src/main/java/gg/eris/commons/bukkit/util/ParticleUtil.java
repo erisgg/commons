@@ -43,7 +43,8 @@ public class ParticleUtil {
 
   public static void spawnSpiralForPlayers(EnumParticle particleType, boolean longDistance,
       int particlesPerPoint, Location origin, int spiralPointCount,
-      double spiralHeight, double spiralRadius, int spiralRotations, Collection<? extends Player> players) {
+      double spiralHeight, double spiralRadius, int spiralRotations,
+      Collection<? extends Player> players) {
 
     for (Player player : players) {
       spawnSpiralForPlayer(particleType, longDistance, particlesPerPoint, origin, spiralPointCount,

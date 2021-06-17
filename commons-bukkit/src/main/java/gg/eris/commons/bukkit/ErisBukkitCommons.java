@@ -1,12 +1,11 @@
 package gg.eris.commons.bukkit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
-import gg.eris.commons.bukkit.player.ErisPlayerClassProvider;
+import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.redis.RedisWrapper;
 
@@ -65,20 +64,20 @@ public interface ErisBukkitCommons {
   ErisPlayerManager getErisPlayerManager();
 
   /**
-   * Returns the server's {@link ErisPlayerClassProvider}
+   * Returns the server's {@link ErisPlayerSerializer}
    *
-   * @return the server's {@link ErisPlayerClassProvider}
+   * @return the server's {@link ErisPlayerSerializer}
    */
-  ErisPlayerClassProvider<?> getErisPlayerProvider();
+  ErisPlayerSerializer<?> getErisPlayerProvider();
 
   /**
-   * Sets the server's {@link ErisPlayerClassProvider}. This can only be done once and will error if
+   * Sets the server's {@link ErisPlayerSerializer}. This can only be done once and will error if
    * attempted multiple times. This defines the type that all
    * {@link gg.eris.commons.bukkit.player.ErisPlayer} will be de-serialized and stored as in the
    * {@link ErisPlayerManager}.
    *
-   * @param erisPlayerProvider is the {@link ErisPlayerClassProvider} to set
+   * @param erisPlayerProvider is the {@link ErisPlayerSerializer} to set
    */
-  void setErisPlayerProvider(ErisPlayerClassProvider<?> erisPlayerProvider);
+  void setErisPlayerProvider(ErisPlayerSerializer<?> erisPlayerProvider);
 
 }
