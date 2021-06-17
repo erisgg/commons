@@ -1,7 +1,6 @@
 package gg.eris.commons.bukkit.impl.player;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
@@ -11,7 +10,6 @@ import com.mongodb.client.model.UpdateOptions;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
-import gg.eris.commons.core.util.UUIDUtil;
 import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
@@ -37,7 +35,7 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
   protected void loadPlayer(UUID uuid) {
     // Finding all player documents with the UUID
     ErisPlayer player = this.playerCollection
-        .find(Filters.eq("uuid", UUIDUtil.toShortString(uuid))).first();
+        .find(Filters.eq("uuid", uuid.toString())).first();
 
     if (player != null) {
       this.players.put(uuid, player);
@@ -50,7 +48,7 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
       JsonNode data = this.plugin.getErisPlayerProvider().toNode(player);
       Document document = Document.parse(data.toString());
       this.playerCollection.updateOne(
-          Filters.eq("uuid", UUIDUtil.toShortString(uuid)),
+          Filters.eq("uuid", uuid.toString()),
           document,
           new UpdateOptions().upsert(true)
       );
