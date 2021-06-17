@@ -1,15 +1,19 @@
 package gg.eris.commons.bukkit.player;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import gg.eris.commons.bukkit.ErisBukkitCommons;
+import gg.eris.commons.bukkit.rank.RankRegistry;
 import java.util.List;
 import org.bukkit.entity.Player;
 
 public final class DefaultErisPlayerSerializer extends ErisPlayerSerializer<ErisPlayer> {
 
-  public DefaultErisPlayerSerializer() {
-    super(ErisPlayer.class);
-  }
+  private final ErisBukkitCommons plugin;
 
+  public DefaultErisPlayerSerializer(ErisBukkitCommons plugin) {
+    super(ErisPlayer.class);
+    this.plugin = plugin;
+  }
 
   @Override
   public ErisPlayer newPlayer(Player player) {
@@ -19,7 +23,9 @@ public final class DefaultErisPlayerSerializer extends ErisPlayerSerializer<Eris
         player.getName(),
         List.of(player.getName()),
         time,
-        time
+        time,
+        plugin.getRankRegistry().DEFAULT,
+        List.of()
     );
   }
 

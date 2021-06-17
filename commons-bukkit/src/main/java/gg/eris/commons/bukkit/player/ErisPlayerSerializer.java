@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import lombok.Getter;
+import gg.eris.commons.bukkit.permission.Permission;
 import org.bukkit.entity.Player;
 
 public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
@@ -30,11 +30,19 @@ public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
         .put("name", player.getName())
         .put("first_login", player.getFirstLogin())
         .put("last_login", player.getLastLogin())
-        .putArray("name_history");
+        .put("rank", player.getRank().getIdentifier().toString());
 
+
+    node.putArray("name_history");
     ArrayNode nameHistory = (ArrayNode) node.get("name_history");
     for (String name : player.getNameHistory()) {
       nameHistory.add(name);
+    }
+
+    node.putArray("permissions");
+    ArrayNode permissions = (ArrayNode) node.get("permissions");
+    for (Permission permission : player.getPermissions()) {
+      permissions.add(permission.getIdentifier().toString());
     }
 
     return appendFields(player, node);

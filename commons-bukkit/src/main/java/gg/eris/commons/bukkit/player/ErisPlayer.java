@@ -2,7 +2,10 @@ package gg.eris.commons.bukkit.player;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
+import gg.eris.commons.bukkit.permission.Permission;
+import gg.eris.commons.bukkit.rank.Rank;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
@@ -35,13 +38,21 @@ public class ErisPlayer implements Serializable {
   @Getter
   protected final long lastLogin;
 
+  @Getter
+  protected Rank rank;
+
+  @Getter
+  protected final List<Permission> permissions;
+
   public ErisPlayer(UUID uuid, String name, List<String> nameHistory, long firstLogin,
-      long lastLogin) {
+      long lastLogin, Rank rank, List<Permission> permissions) {
     this.uuid = uuid;
     this.name = name;
     this.nameHistory = ImmutableList.copyOf(nameHistory);
     this.firstLogin = firstLogin;
     this.lastLogin = lastLogin;
+    this.rank = rank;
+    this.permissions = new ArrayList<>(permissions);
   }
 
   public final Player getHandle() {

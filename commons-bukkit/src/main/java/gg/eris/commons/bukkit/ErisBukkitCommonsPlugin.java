@@ -7,13 +7,11 @@ import com.mongodb.client.MongoDatabase;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
-import gg.eris.commons.bukkit.impl.permission.PermissionRegistryImpl;
 import gg.eris.commons.bukkit.impl.player.ErisPlayerManagerImpl;
-import gg.eris.commons.bukkit.impl.rank.RankRegistryImpl;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.DefaultErisPlayerSerializer;
-import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
+import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.database.MongoCredentials;
 import gg.eris.commons.core.database.MongoDbProvider;
@@ -67,8 +65,8 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     );
 
     this.commandManager = new CommandManagerImpl();
-    this.permissionRegistry = new PermissionRegistryImpl();
-    this.rankRegistry = new RankRegistryImpl();
+    this.permissionRegistry = new PermissionRegistry();
+    this.rankRegistry = new RankRegistry();
     this.objectMapper = new ObjectMapper();
     this.erisPlayerManager = new ErisPlayerManagerImpl(this);
     this.erisPlayerProviderSet = false;
