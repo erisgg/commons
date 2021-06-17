@@ -81,7 +81,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     // Setting the player provider if none has been set by any plugin
     Bukkit.getScheduler().runTask(this, () -> {
       if (!this.erisPlayerProviderSet) {
-        setErisPlayerProvider(new DefaultErisPlayerSerializer());
+        setErisPlayerProvider(new DefaultErisPlayerSerializer(this));
       }
     });
   }
