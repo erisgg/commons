@@ -38,8 +38,7 @@
   </dependencies>
 
   <build>
-    <finalName>commonsgit add .
-    </finalName>
+    <finalName>commons</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
