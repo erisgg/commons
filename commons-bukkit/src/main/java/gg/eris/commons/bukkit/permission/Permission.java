@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
  */
 public final class Permission implements Identifiable {
 
-  private static final IdentifierProvider DEFAULT_IDENTIFIER_PROVIDER =
+  public static final IdentifierProvider DEFAULT_IDENTIFIER_PROVIDER =
       new IdentifierProvider("eris");
 
   private final Identifier identifier;
