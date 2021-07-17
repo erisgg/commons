@@ -51,6 +51,7 @@
             </goals>
             <configuration>
               <createDependencyReducedPom>false</createDependencyReducedPom>
+              <finalName>core</finalName>
             </configuration>
           </execution>
         </executions>
