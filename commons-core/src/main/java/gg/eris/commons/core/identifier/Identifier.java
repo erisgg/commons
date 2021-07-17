@@ -40,7 +40,7 @@ public final class Identifier {
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.namespace, value);
+    return Objects.hash(this.namespace, this.value);
   }
 
   @Override
