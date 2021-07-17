@@ -38,6 +38,7 @@
   </dependencies>
 
   <build>
+    <finalName>core</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -51,7 +52,6 @@
             </goals>
             <configuration>
               <createDependencyReducedPom>false</createDependencyReducedPom>
-              <finalName>core</finalName>
             </configuration>
           </execution>
         </executions>

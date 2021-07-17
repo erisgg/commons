@@ -4,18 +4,19 @@ import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
-import gg.eris.commons.core.identifier.IdentifierProvider;
 import java.util.Set;
+import lombok.Getter;
 
+@Getter
 public final class Rank implements Identifiable {
 
-  private static final IdentifierProvider IDENTIFIER_PROVIDER = new IdentifierProvider("rank");
-
   private final Identifier identifier;
+  private final String prefix;
   private final Set<Identifier> permissions;
 
-  private Rank(Identifier identifier) {
+  public Rank(Identifier identifier, String prefix) {
     this.identifier = identifier;
+    this.prefix = prefix;
     this.permissions = Sets.newHashSet();
   }
 
@@ -30,10 +31,6 @@ public final class Rank implements Identifiable {
   @Override
   public Identifier getIdentifier() {
     return this.identifier;
-  }
-
-  public static Rank newRank(RankRegistry registry, String name) {
-    return registry.register(new Rank(IDENTIFIER_PROVIDER.id(name)));
   }
 
 }

@@ -23,4 +23,9 @@ public class UUIDUtil {
     };
   }
 
+  public static String toDashlessString(UUID uuid) {
+    return uuid.toString().replace("-", "");
+  }
+
+
 }

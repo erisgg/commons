@@ -1,17 +1,17 @@
 package gg.eris.commons.bukkit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.ReadConcern;
+import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoDatabase;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
-import gg.eris.commons.bukkit.impl.permission.PermissionRegistryImpl;
-import gg.eris.commons.bukkit.impl.player.DefaultErisPlayerClassProvider;
 import gg.eris.commons.bukkit.impl.player.ErisPlayerManagerImpl;
-import gg.eris.commons.bukkit.impl.rank.RankRegistryImpl;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
-import gg.eris.commons.bukkit.player.ErisPlayerClassProvider;
+import gg.eris.commons.bukkit.player.DefaultErisPlayerSerializer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
+import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.database.MongoCredentials;
 import gg.eris.commons.core.database.MongoDbProvider;
@@ -37,7 +37,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   private ObjectMapper objectMapper;
 
   private ErisPlayerManager erisPlayerManager;
-  private ErisPlayerClassProvider<?> erisPlayerProvider;
+  private ErisPlayerSerializer<?> erisPlayerProvider;
   private boolean erisPlayerProviderSet;
 
   @Override
@@ -53,8 +53,9 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
             config.getString("database.database"),
             config.getString("database.hostname"),
             config.getInt("database.port")
-            )
-    );
+        )
+    ).withReadConcern(ReadConcern.MAJORITY)
+        .withWriteConcern(WriteConcern.MAJORITY);
 
     this.redisWrapper = RedisWrapper.newWrapper(
         config.getString("redis.username"),
@@ -64,11 +65,10 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     );
 
     this.commandManager = new CommandManagerImpl();
-    this.permissionRegistry = new PermissionRegistryImpl();
-    this.rankRegistry = new RankRegistryImpl();
+    this.permissionRegistry = new PermissionRegistry();
+    this.rankRegistry = new RankRegistry();
     this.objectMapper = new ObjectMapper();
     this.erisPlayerManager = new ErisPlayerManagerImpl(this);
-    this.erisPlayerProvider = new DefaultErisPlayerClassProvider();
     this.erisPlayerProviderSet = false;
 
     PluginManager pluginManager = Bukkit.getPluginManager();
@@ -77,6 +77,13 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     // Register service
     ServicesManager servicesManager = Bukkit.getServicesManager();
     servicesManager.register(ErisBukkitCommons.class, this, this, ServicePriority.Highest);
+
+    // Setting the player provider if none has been set by any plugin
+    Bukkit.getScheduler().runTask(this, () -> {
+      if (!this.erisPlayerProviderSet) {
+        setErisPlayerProvider(new DefaultErisPlayerSerializer(this));
+      }
+    });
   }
 
   @Override
@@ -115,14 +122,15 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   }
 
   @Override
-  public ErisPlayerClassProvider<?> getErisPlayerProvider() {
+  public ErisPlayerSerializer<?> getErisPlayerSerializer() {
     return this.erisPlayerProvider;
   }
 
   @Override
-  public synchronized void setErisPlayerProvider(ErisPlayerClassProvider<?> erisPlayerProvider) {
+  public synchronized void setErisPlayerProvider(ErisPlayerSerializer<?> erisPlayerProvider) {
     Validate.isTrue(!this.erisPlayerProviderSet, "eris player provider has already been set");
     this.erisPlayerProvider = erisPlayerProvider;
     this.erisPlayerProviderSet = true;
+    ((ErisPlayerManagerImpl) this.erisPlayerManager).setupCollection();
   }
 }
