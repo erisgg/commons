@@ -38,6 +38,7 @@ public class PlayerUtil {
    * @param player is the player to reset
    */
   public static void resetPlayer(Player player) {
+    player.getInventory().clear();
     player.setHealth(player.getMaxHealth());
     player.setSaturation(10f);
     player.setFoodLevel(20);
