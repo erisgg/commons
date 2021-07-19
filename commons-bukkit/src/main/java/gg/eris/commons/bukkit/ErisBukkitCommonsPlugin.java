@@ -8,11 +8,13 @@ import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
 import gg.eris.commons.bukkit.impl.player.ErisPlayerManagerImpl;
+import gg.eris.commons.bukkit.impl.scoreboard.ScoreboardControllerImpl;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.DefaultErisPlayerSerializer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.rank.RankRegistry;
+import gg.eris.commons.bukkit.scoreboard.ScoreboardController;
 import gg.eris.commons.core.database.MongoCredentials;
 import gg.eris.commons.core.database.MongoDbProvider;
 import gg.eris.commons.core.redis.RedisWrapper;
@@ -31,6 +33,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   private MongoDatabase mongoDatabase;
   private RedisWrapper redisWrapper;
 
+  private ScoreboardController scoreboardController;
   private CommandManager commandManager;
   private PermissionRegistry permissionRegistry;
   private RankRegistry rankRegistry;
@@ -65,6 +68,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     );
 
     this.commandManager = new CommandManagerImpl();
+    this.scoreboardController = new ScoreboardControllerImpl(this);
     this.permissionRegistry = new PermissionRegistry();
     this.rankRegistry = new RankRegistry();
     this.objectMapper = new ObjectMapper();
@@ -119,6 +123,11 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   @Override
   public ErisPlayerManager getErisPlayerManager() {
     return this.erisPlayerManager;
+  }
+
+  @Override
+  public ScoreboardController getScoreboardController() {
+    return this.scoreboardController;
   }
 
   @Override
