@@ -7,7 +7,9 @@ import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.rank.RankRegistry;
+import gg.eris.commons.bukkit.scoreboard.ScoreboardController;
 import gg.eris.commons.core.redis.RedisWrapper;
+import org.bukkit.scoreboard.Score;
 
 /**
  * The commons service for all Eris plugins to use.
@@ -62,6 +64,13 @@ public interface ErisBukkitCommons {
    * @return the server's {@link ErisPlayerManager}
    */
   ErisPlayerManager getErisPlayerManager();
+
+  /**
+   * Returns the server's {@link ScoreboardController}
+   *
+   * @return the server's {@link ScoreboardController}
+   */
+  ScoreboardController getScoreboardController();
 
   /**
    * Returns the server's {@link ErisPlayerSerializer}
