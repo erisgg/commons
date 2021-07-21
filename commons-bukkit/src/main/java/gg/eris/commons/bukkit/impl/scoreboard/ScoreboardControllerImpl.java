@@ -6,26 +6,65 @@ import gg.eris.commons.bukkit.scoreboard.Scoreboard;
 import gg.eris.commons.bukkit.scoreboard.ScoreboardController;
 import gg.eris.commons.core.identifier.Identifier;
 import java.util.Map;
+import java.util.UUID;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
 
 public final class ScoreboardControllerImpl implements ScoreboardController {
 
-  private final Map<Identifier, Scoreboard> scoreboards;
+  private final Map<Identifier, ScoreboardImpl> scoreboards;
 
   public ScoreboardControllerImpl(ErisBukkitCommonsPlugin plugin) {
     this.scoreboards = Maps.newHashMap();
 
     Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-      for (Scoreboard scoreboard : scoreboards.values()) {
+      for (ScoreboardImpl scoreboard : scoreboards.values()) {
+        org.bukkit.scoreboard.Scoreboard handle = scoreboard.getHandle();
+        Objective objective = handle.getObjective(DisplaySlot.SIDEBAR);
+
+        for (ScoreboardEntry entry : scoreboard.getRemovedEntries()) {
+          handle.resetScores(entry.getName());
+        }
+
+        for (ScoreboardEntry entry : scoreboard.getEntries()) {
+          entry.getTeam().setPrefix(entry.getValueSupplier().get());
+          objective.getScore(entry.getName()).setScore(entry.getIndex());
+        }
+
+        if (scoreboard.hasNameChanged()) {
+          handle.getObjective(DisplaySlot.SIDEBAR).setDisplayName(scoreboard.getDisplayName());
+        }
+
+        if (!scoreboard.getAddedPlayers().isEmpty()) {
+          for (UUID uuid : scoreboard.getAddedPlayers()) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+              player.setScoreboard(handle);
+            }
+          }
+        }
+
+        if (!scoreboard.getRemovedPlayers().isEmpty()) {
+          for (UUID uuid : scoreboard.getRemovedPlayers()) {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player != null) {
+              if (player.getScoreboard() == handle) {
+                player.setScoreboard(null);
+              }
+            }
+          }
+        }
 
       }
     }, 0L, 1L);
   }
 
   @Override
-  public Scoreboard createScoreboard(Identifier identifier) {
-    Scoreboard scoreboard = new ScoreboardImpl(this, identifier);
+  public Scoreboard createScoreboard(Identifier identifier, String displayName) {
     if (!this.scoreboards.containsKey(identifier)) {
+      ScoreboardImpl scoreboard = new ScoreboardImpl(identifier, displayName);
       this.scoreboards.put(identifier, scoreboard);
       return scoreboard;
     }

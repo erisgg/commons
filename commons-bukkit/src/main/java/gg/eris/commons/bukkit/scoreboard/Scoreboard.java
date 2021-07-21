@@ -1,9 +1,9 @@
 package gg.eris.commons.bukkit.scoreboard;
 
 import gg.eris.commons.core.identifier.Identifiable;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Supplier;
 import org.bukkit.entity.Player;
 
 public interface Scoreboard extends Identifiable {
@@ -14,9 +14,13 @@ public interface Scoreboard extends Identifiable {
 
   void addLine(String line);
 
-  void removeLine(int line);
+  void addLine(Supplier<String> line);
 
-  List<String> getLines();
+  void removeLine(int index);
+
+  void setDisplayName(String displayName);
+
+  String getDisplayName();
 
   Set<UUID> getPlayers();
 
