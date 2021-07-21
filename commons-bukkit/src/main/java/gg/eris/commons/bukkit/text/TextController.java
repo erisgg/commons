@@ -54,7 +54,7 @@ public final class TextController {
     while ((highlight = StringUtils.substringBetween(message, "$$")) != null) {
       message = message.replace("$$" + highlight + "$$", accent + highlight + base);
     }
-    return message;
+    return base + message;
   }
 
   public static class Builder {
