@@ -8,6 +8,7 @@ import gg.eris.commons.core.identifier.Identifier;
 import java.util.Map;
 import java.util.UUID;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -29,7 +30,16 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
         }
 
         for (ScoreboardEntry entry : scoreboard.getEntries().values()) {
-          entry.getTeam().setPrefix(entry.getValueSupplier().get());
+          String value = entry.getValueSupplier().get();
+          if (value.length() > 16) {
+            String substring = value.substring(0, 16);
+            entry.getTeam().setPrefix(entry.getValueSupplier().get());
+            value = ChatColor.getLastColors(substring) + value.substring(16);
+            entry.getTeam().setSuffix(value);
+          } else {
+            entry.getTeam().setPrefix(entry.getValueSupplier().get());
+          }
+
           objective.getScore(entry.getName()).setScore(entry.getIndex());
         }
 

@@ -66,14 +66,12 @@ public final class ScoreboardImpl implements Scoreboard {
 
   @Override
   public void addLine(String line) {
-    this.entries.put(SCOREBOARD_LIMIT - this.entries.size(), new ScoreboardEntry(this,
-        SCOREBOARD_LIMIT - this.entries.size(), () -> line));
+    setLine(this.entries.size(), line);
   }
 
   @Override
   public void addLine(Supplier<String> line) {
-    this.entries.put(SCOREBOARD_LIMIT - this.entries.size(), new ScoreboardEntry(this,
-        SCOREBOARD_LIMIT - this.entries.size(), line));
+    setLine(this.entries.size(), line);
   }
 
   public void setLine(int index, String line) {
@@ -81,7 +79,7 @@ public final class ScoreboardImpl implements Scoreboard {
   }
 
   public void setLine(int index, Supplier<String> line) {
-    this.entries.put(SCOREBOARD_LIMIT - index, new ScoreboardEntry(this, index, line));
+    this.entries.put(index, new ScoreboardEntry(this, SCOREBOARD_LIMIT - index, line));
   }
 
   @Override
@@ -112,7 +110,6 @@ public final class ScoreboardImpl implements Scoreboard {
   public String getDisplayName() {
     return this.displayName;
   }
-
 
   public boolean hasNameChanged() {
     return this.nameChanged;
