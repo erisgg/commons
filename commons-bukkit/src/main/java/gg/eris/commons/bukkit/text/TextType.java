@@ -6,15 +6,15 @@ import net.md_5.bungee.api.ChatColor;
 @Getter
 public enum TextType {
 
-  SUCCESS(ChatColor.GREEN, ChatColor.DARK_GREEN),
-  ERROR(ChatColor.RED, ChatColor.DARK_RED),
-  INFORMATION(ChatColor.AQUA, ChatColor.DARK_AQUA),
-  PROMPT(ChatColor.LIGHT_PURPLE, ChatColor.DARK_PURPLE);
+  SUCCESS(TextColor.GREEN, TextColor.DARK_GREEN),
+  ERROR(TextColor.RED, TextColor.DARK_RED),
+  INFORMATION(TextColor.AQUA, TextColor.DARK_AQUA),
+  PROMPT(TextColor.LIGHT_PURPLE, TextColor.DARK_PURPLE);
 
-  private final ChatColor baseColor;
-  private final ChatColor accentColor;
+  private final TextColor baseColor;
+  private final TextColor accentColor;
 
-  TextType(ChatColor baseColor, ChatColor accentColor) {
+  TextType(TextColor baseColor, TextColor accentColor) {
     this.baseColor = baseColor;
     this.accentColor = accentColor;
   }

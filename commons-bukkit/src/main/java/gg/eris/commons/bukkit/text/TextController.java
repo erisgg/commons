@@ -1,126 +1,52 @@
 package gg.eris.commons.bukkit.text;
 
-import com.google.common.collect.Maps;
-import gg.eris.commons.bukkit.util.CC;
+import com.google.common.collect.Lists;
+import gg.eris.commons.core.util.Pair;
 import gg.eris.commons.core.util.Text;
-import java.util.Collection;
-import java.util.Map;
-import java.util.regex.Matcher;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
-import lombok.experimental.UtilityClass;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.ComponentBuilder.FormatRetention;
-import net.md_5.bungee.api.chat.HoverEvent;
-import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
+import net.md_5.bungee.chat.ComponentSerializer;
+import net.md_5.bungee.chat.TextComponentSerializer;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 import org.bukkit.entity.Player;
 
-@UtilityClass
 public final class TextController {
 
   private static final Pattern EVENT_PATTERN = Pattern.compile("<event=[0-9]+>(.+?)</event>");
   public static final char ARROW = '\u00BB';
+  private static final TextComponent ERIS_COMPONENT =
+      TextComponent.builder("Eris " + ARROW + " ").color(TextColor.YELLOW).build();
 
-  public static void send(TextController.Builder builder, Player... players) {
-    BaseComponent[] built = builder.build();
-    for (Player player : players) {
-      player.spigot().sendMessage(built);
-    }
+  public static void send(Player player, TextType textType, String message, Object... variables) {
+    List<TextComponent> parsedComponents = parseComponents(textType, message, variables);
+    TextComponent[] parsedComponentsArray = parsedComponents.toArray(new TextComponent[0]);
+
+    TextComponent[] components = new TextComponent[parsedComponents.size() + 1];
+    components[0] = ERIS_COMPONENT;
+    System.arraycopy(parsedComponentsArray, 0, components, 1, parsedComponentsArray.length);
+
+    TextMessage textMessage = TextMessage.of(
+        components
+    );
+
+    player.spigot().sendMessage(textMessage.getBaseComponent());
   }
 
-  public static void send(Builder builder, Collection<? extends Player> players) {
-    BaseComponent[] built = builder.build();
-    for (Player player : players) {
-      player.spigot().sendMessage(built);
-    }
-  }
 
-  public static void broadcast(Builder builder) {
-    send(builder, Bukkit.getOnlinePlayers());
-  }
+  /*
+   * This is my $$highlighted <event=0>text but$$</event> this <event=1>$$carries over</event>$$.
+   */
 
-  public static TextController.Builder builder(String rawText, TextType textType,
+  private static List<TextComponent> parseComponents(TextType textType, String message,
       Object... variables) {
-    return new Builder(rawText, textType, variables);
+    message = Text.replaceVariables(message, variables);
+
+    List<TextComponent> components = Lists.newArrayList();
+
+    return components;
   }
 
-  public static String highlight(TextType type, String message) {
-    return highlight(type.getBaseColor(), type.getAccentColor(), message);
-  }
-
-  public static String highlight(ChatColor base, ChatColor accent, String message) {
-    String highlight;
-    while ((highlight = StringUtils.substringBetween(message, "$$")) != null) {
-      message = message.replace("$$" + highlight + "$$", accent + highlight + base);
-    }
-    return base + message;
-  }
-
-  public static class Builder {
-
-    private final String rawText;
-    private final TextType textType;
-    private final Object[] variables;
-
-    private final Map<Integer, ClickEvent> clickEventMap;
-    private final Map<Integer, HoverEvent> hoverEventMap;
-
-    private Builder(String rawText, TextType textType, Object... variables) {
-      this.rawText = rawText;
-      this.textType = textType;
-      this.variables = variables;
-      this.clickEventMap = Maps.newHashMap();
-      this.hoverEventMap = Maps.newHashMap();
-    }
-
-    public Builder withClickEvent(int index, ClickEvent clickEvent) {
-      this.clickEventMap.put(index, clickEvent);
-      return this;
-    }
-
-    public Builder withHoverEvent(int index, HoverEvent hoverEvent) {
-      this.hoverEventMap.put(index, hoverEvent);
-      return this;
-    }
-
-    private BaseComponent[] build() {
-      ComponentBuilder builder = new ComponentBuilder("");
-
-      String formattedRaw = CC.YELLOW + "Eris " + ARROW + " " + TextController.highlight(
-          this.textType,
-          Text.replaceVariables(this.rawText, this.variables)
-      );
-
-      Matcher matcher = EVENT_PATTERN.matcher(formattedRaw);
-
-      int lastIndex = 0;
-
-      while (matcher.find()) {
-        int start = matcher.start();
-        int end = matcher.end();
-
-        builder.append(formattedRaw.substring(lastIndex, start), FormatRetention.FORMATTING);
-        builder.append(matcher.group(1), FormatRetention.FORMATTING);
-
-        String flag = formattedRaw.substring(start, end);
-
-        int index = Integer.parseInt(flag.substring(flag.indexOf('=') + 1, flag.indexOf('>')));
-
-        if (this.clickEventMap.containsKey(index)) {
-          builder.event(this.clickEventMap.get(index));
-        } else if (hoverEventMap.containsKey(index)) {
-          builder.event(this.hoverEventMap.get(index));
-        }
-
-        lastIndex = end;
-      }
-
-      builder.append(formattedRaw.substring(lastIndex), FormatRetention.FORMATTING);
-
-      return builder.create();
-    }
-  }
 }

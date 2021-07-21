@@ -4,8 +4,6 @@ import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.ErisBukkitCommons;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
-import gg.eris.commons.bukkit.text.TextController;
-import gg.eris.commons.bukkit.text.TextType;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.util.Validate;
 import java.util.List;
@@ -105,8 +103,6 @@ public final class Command {
       subCommand.execute(context);
     } else {
       context.getCommandSender().sendMessage("Help message todo");
-      TextController.Builder builder = TextController.builder("HELP COMMAND", TextType.INFORMATION);
-      TextController.send(builder, context.getSenderAsPlayer());
       // TODO: Set help message data
     }
   }

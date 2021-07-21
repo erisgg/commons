@@ -1,6 +1,7 @@
 package gg.eris.commons.bukkit.util;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public final class CC {
 
@@ -64,6 +65,10 @@ public final class CC {
 
   public CC reset() {
     return new CC(this.baseColor, this.string + CC.RESET);
+  }
+
+  public TextComponent component() {
+    return new TextComponent(this.string);
   }
 
   @Override
