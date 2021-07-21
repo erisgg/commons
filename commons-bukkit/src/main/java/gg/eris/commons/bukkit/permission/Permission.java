@@ -1,12 +1,9 @@
 package gg.eris.commons.bukkit.permission;
 
-import gg.eris.commons.bukkit.rank.Rank;
-import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.identifier.IdentifierProvider;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 /**
  * Represents a server permission The namespace would typically be 'eris' and the value whatever

@@ -13,7 +13,7 @@ public interface ErisPlayerManager {
    * Gets an {@link ErisPlayer}
    *
    * @param uuid is the UUID of the player to get
-   * @param <T> is the type of {@link ErisPlayer}
+   * @param <T>  is the type of {@link ErisPlayer}
    * @return the {@link ErisPlayer} instance, null if not
    */
   <T extends ErisPlayer> T getPlayer(UUID uuid);

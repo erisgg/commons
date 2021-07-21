@@ -1,6 +1,5 @@
 package gg.eris.commons.bukkit.player;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.rank.Rank;
@@ -14,13 +13,12 @@ import org.bukkit.entity.Player;
 
 /**
  * The Eris wrapper around the {@link Player} class. Can be extended to add and load additional
- * fields for one plugin per server. This can be changed by setting the
- * {@link ErisPlayerSerializer} in the {@link gg.eris.commons.bukkit.ErisBukkitCommons} service.
- * Unmarked or fields annotated with the appropriate Jackson Annotation annotations will be
- * serialized. Transient fields will be ignored. All of the serialization is done through the
- * {@link gg.eris.commons.bukkit.ErisBukkitCommons}
- * {@link com.fasterxml.jackson.databind.ObjectMapper} and custom serializations and
- * deserialization can be registered there.
+ * fields for one plugin per server. This can be changed by setting the {@link ErisPlayerSerializer}
+ * in the {@link gg.eris.commons.bukkit.ErisBukkitCommons} service. Unmarked or fields annotated
+ * with the appropriate Jackson Annotation annotations will be serialized. Transient fields will be
+ * ignored. All of the serialization is done through the {@link gg.eris.commons.bukkit.ErisBukkitCommons}
+ * {@link com.fasterxml.jackson.databind.ObjectMapper} and custom serializations and deserialization
+ * can be registered there.
  */
 public class ErisPlayer implements Serializable {
 

@@ -40,7 +40,8 @@ public final class TextController {
     send(builder, Bukkit.getOnlinePlayers());
   }
 
-  public static TextController.Builder builder(String rawText, TextType textType, Object... variables) {
+  public static TextController.Builder builder(String rawText, TextType textType,
+      Object... variables) {
     return new Builder(rawText, textType, variables);
   }
 

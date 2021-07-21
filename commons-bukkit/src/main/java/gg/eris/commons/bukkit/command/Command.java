@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.ErisBukkitCommons;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
-import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.text.TextController;
 import gg.eris.commons.bukkit.text.TextType;
 import gg.eris.commons.core.identifier.Identifier;

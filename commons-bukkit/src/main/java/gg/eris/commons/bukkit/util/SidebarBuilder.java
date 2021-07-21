@@ -6,6 +6,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 public final class SidebarBuilder {
+
   private final Scoreboard scoreboard;
   private final Objective objective;
 

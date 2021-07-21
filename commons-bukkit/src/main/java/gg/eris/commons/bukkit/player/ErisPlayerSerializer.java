@@ -32,7 +32,6 @@ public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
         .put("last_login", player.getLastLogin())
         .put("rank", player.getRank().getIdentifier().toString());
 
-
     node.putArray("name_history");
     ArrayNode nameHistory = (ArrayNode) node.get("name_history");
     for (String name : player.getNameHistory()) {

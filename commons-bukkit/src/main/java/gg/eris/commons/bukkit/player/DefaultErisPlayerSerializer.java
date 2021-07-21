@@ -2,7 +2,6 @@ package gg.eris.commons.bukkit.player;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import gg.eris.commons.bukkit.ErisBukkitCommons;
-import gg.eris.commons.bukkit.rank.RankRegistry;
 import java.util.List;
 import org.bukkit.entity.Player;
 

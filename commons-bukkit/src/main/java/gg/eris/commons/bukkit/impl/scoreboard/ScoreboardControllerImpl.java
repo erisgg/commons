@@ -28,7 +28,7 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
           handle.resetScores(entry.getName());
         }
 
-        for (ScoreboardEntry entry : scoreboard.getEntries()) {
+        for (ScoreboardEntry entry : scoreboard.getEntries().values()) {
           entry.getTeam().setPrefix(entry.getValueSupplier().get());
           objective.getScore(entry.getName()).setScore(entry.getIndex());
         }
@@ -57,6 +57,7 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
           }
         }
 
+        scoreboard.clean();
       }
     }, 0L, 1L);
   }

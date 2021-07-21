@@ -1,11 +1,11 @@
 package gg.eris.commons.bukkit.impl.scoreboard;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.scoreboard.Scoreboard;
 import gg.eris.commons.core.identifier.Identifier;
-import java.util.List;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -20,7 +20,7 @@ public final class ScoreboardImpl implements Scoreboard {
   private final Identifier identifier;
   private final Set<UUID> players;
   @Getter
-  private final List<ScoreboardEntry> entries;
+  private final Int2ObjectMap<ScoreboardEntry> entries;
 
   private String displayName;
 
@@ -31,20 +31,18 @@ public final class ScoreboardImpl implements Scoreboard {
   private final Set<UUID> removedPlayers;
   @Getter
   private final Set<UUID> addedPlayers;
-
   @Getter
   private final Set<ScoreboardEntry> removedEntries;
-
   private boolean nameChanged;
 
   public ScoreboardImpl(Identifier identifier, String displayName) {
     this.identifier = identifier;
     this.players = Sets.newHashSet();
-    this.entries = Lists.newArrayList();
+    this.entries = new Int2ObjectArrayMap<>();
     this.displayName = displayName;
 
     this.handle = Bukkit.getScoreboardManager().getNewScoreboard();
-    Objective objective = this.handle.registerNewObjective(identifier.toString(),  "dummy");
+    Objective objective = this.handle.registerNewObjective(identifier.toString(), "dummy");
     objective.setDisplayName(displayName);
     objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
@@ -68,17 +66,27 @@ public final class ScoreboardImpl implements Scoreboard {
 
   @Override
   public void addLine(String line) {
-    this.entries.add(new ScoreboardEntry(this, this.entries.size(), () -> line));
+    this.entries.put(SCOREBOARD_LIMIT - this.entries.size(), new ScoreboardEntry(this,
+        SCOREBOARD_LIMIT - this.entries.size(), () -> line));
   }
 
   @Override
   public void addLine(Supplier<String> line) {
-    this.entries.add(new ScoreboardEntry(this, this.entries.size(), line));
+    this.entries.put(SCOREBOARD_LIMIT - this.entries.size(), new ScoreboardEntry(this,
+        SCOREBOARD_LIMIT - this.entries.size(), line));
+  }
+
+  public void setLine(int index, String line) {
+    setLine(index, () -> line);
+  }
+
+  public void setLine(int index, Supplier<String> line) {
+    this.entries.put(SCOREBOARD_LIMIT - index, new ScoreboardEntry(this, index, line));
   }
 
   @Override
   public void removeLine(int index) {
-    ScoreboardEntry entry = this.entries.remove(index);
+    ScoreboardEntry entry = this.entries.remove(SCOREBOARD_LIMIT - index);
     if (entry != null) {
       this.removedEntries.add(entry);
     }
@@ -110,5 +118,11 @@ public final class ScoreboardImpl implements Scoreboard {
     return this.nameChanged;
   }
 
+  public void clean() {
+    this.removedPlayers.clear();
+    this.addedPlayers.clear();
+    this.removedEntries.clear();
+    this.nameChanged = false;
+  }
 
 }
