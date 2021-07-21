@@ -89,7 +89,7 @@ public final class TextController {
     private BaseComponent[] build() {
       ComponentBuilder builder = new ComponentBuilder("");
 
-      String formattedRaw = CC.YELLOW + "Eris " + CC.BOLD + ARROW + " " + TextController.highlight(
+      String formattedRaw = CC.YELLOW + "Eris " + ARROW + " " + TextController.highlight(
           this.textType,
           Text.replaceVariables(this.rawText, this.variables)
       );
