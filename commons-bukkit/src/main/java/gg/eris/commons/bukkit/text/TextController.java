@@ -22,7 +22,7 @@ import org.bukkit.entity.Player;
 public final class TextController {
 
   private static final Pattern EVENT_PATTERN = Pattern.compile("<event=[0-9]+>(.+?)</event>");
-  public static final char ARROW = '\u203A';
+  public static final char ARROW = '\u00BB';
 
   public static void send(TextController.Builder builder, Player... players) {
     BaseComponent[] built = builder.build();
@@ -89,7 +89,7 @@ public final class TextController {
     private BaseComponent[] build() {
       ComponentBuilder builder = new ComponentBuilder("");
 
-      String formattedRaw = CC.YELLOW + "Eris " + CC.BOLD + ARROW + TextController.highlight(
+      String formattedRaw = CC.YELLOW + "Eris " + CC.BOLD + ARROW + " " + TextController.highlight(
           this.textType,
           Text.replaceVariables(this.rawText, this.variables)
       );
