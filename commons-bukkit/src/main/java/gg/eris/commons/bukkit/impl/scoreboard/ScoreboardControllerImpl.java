@@ -33,7 +33,7 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
           String value = entry.getValueSupplier().get();
           if (value.length() > 16) {
             String substring = value.substring(0, 16);
-            entry.getTeam().setPrefix(entry.getValueSupplier().get());
+            entry.getTeam().setPrefix(substring);
             value = ChatColor.getLastColors(substring) + value.substring(16);
             entry.getTeam().setSuffix(value);
           } else {
