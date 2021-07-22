@@ -12,9 +12,14 @@ public final class TextController {
   private static final TextMessage ERIS_MESSAGE =
       TextMessage.of(TextComponent.builder("Eris " + ARROW + " ").color(TextColor.YELLOW).build());
 
-  public static void send(Player player, TextType textType, String message, Object... variables) {
-    TextMessage textMessage = parse(textType, message, variables);
+  public static void send(Player player, TextType textType, Int2ObjectMap<ClickEvent> clickEvents,
+      Int2ObjectMap<HoverEvent> hoverEvents, String message, Object... variables) {
+    TextMessage textMessage = parse(textType, clickEvents, hoverEvents, message, variables);
     player.spigot().sendMessage(ComponentSerializer.parse(textMessage.getJsonMessage()));
+  }
+
+  public static void send(Player player, TextType textType, String message, Object... variables) {
+    send(player,textType, Int2ObjectMaps.emptyMap(), Int2ObjectMaps.emptyMap(), message, variables);
   }
 
   public static TextMessage parse(TextType textType, Int2ObjectMap<ClickEvent> clickEvents,
