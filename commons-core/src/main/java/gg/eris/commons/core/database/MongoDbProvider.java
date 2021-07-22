@@ -7,6 +7,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -21,9 +22,16 @@ public class MongoDbProvider {
 
     return getDatabase(newClient(MongoClientSettings.builder()
         .credential(credential)
-        .applyToClusterSettings(builder ->
-            builder.hosts(Collections.singletonList(
-                new ServerAddress(credentials.getHostname(), credentials.getPort()))))
+        .applyToSocketSettings(builder -> {
+          builder.connectTimeout(1000, TimeUnit.MILLISECONDS);
+          builder.readTimeout(10, TimeUnit.MILLISECONDS);
+        })
+        .applyToClusterSettings(builder -> {
+          builder.hosts(Collections.singletonList(
+              new ServerAddress(credentials.getHostname(), credentials.getPort())));
+          builder.serverSelectionTimeout(1000, TimeUnit.MILLISECONDS);
+        })
+
         .build()
     ), credentials.getDatabase());
   }

@@ -7,13 +7,15 @@ import com.google.common.collect.Multimaps;
 import gg.eris.commons.core.redis.RedisSubscriberCallback.Priority;
 import gg.eris.commons.core.util.Validate;
 import java.util.Set;
+import lombok.Getter;
 
 public final class RedisSubscriber {
 
+  @Getter
   private final Set<String> channels;
   private final Multimap<RedisSubscriberCallback.Priority, RedisSubscriberCallback> callbacks;
 
-  public RedisSubscriber(Set<String> channels,
+  private RedisSubscriber(Set<String> channels,
       Multimap<Priority, RedisSubscriberCallback> callbacks) {
     this.channels = channels;
     this.callbacks = callbacks;

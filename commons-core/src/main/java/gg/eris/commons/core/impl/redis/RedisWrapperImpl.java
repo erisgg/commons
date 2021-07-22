@@ -47,7 +47,7 @@ public class RedisWrapperImpl implements RedisWrapper {
             }
           }
         }
-      });
+      }, subscriber.getChannels().toArray(new String[0]));
     }
   }
 

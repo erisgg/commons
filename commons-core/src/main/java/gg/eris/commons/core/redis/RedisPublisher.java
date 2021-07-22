@@ -13,7 +13,7 @@ public final class RedisPublisher {
   @Getter
   private final Set<String> channels;
 
-  public RedisPublisher(JsonNode payload, Set<String> channels) {
+  private RedisPublisher(JsonNode payload, Set<String> channels) {
     this.payload = payload;
     this.channels = channels;
   }
