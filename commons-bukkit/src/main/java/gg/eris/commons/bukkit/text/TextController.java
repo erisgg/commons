@@ -19,7 +19,8 @@ public final class TextController {
   }
 
   public static void send(Player player, TextType textType, String message, Object... variables) {
-    send(player,textType, Int2ObjectMaps.emptyMap(), Int2ObjectMaps.emptyMap(), message, variables);
+    send(player, textType, Int2ObjectMaps.emptyMap(), Int2ObjectMaps.emptyMap(), message,
+        variables);
   }
 
   public static TextMessage parse(TextType textType, Int2ObjectMap<ClickEvent> clickEvents,
