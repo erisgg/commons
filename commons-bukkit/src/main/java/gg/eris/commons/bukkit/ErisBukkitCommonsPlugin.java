@@ -61,7 +61,6 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
         .withWriteConcern(WriteConcern.MAJORITY);
 
     this.redisWrapper = RedisWrapper.newWrapper(
-        config.getString("redis.username"),
         config.getString("redis.password"),
         config.getString("redis.hostname"),
         config.getInt("redis.port")

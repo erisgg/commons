@@ -11,8 +11,8 @@ public interface RedisWrapper {
 
   int DEFAULT_PORT = 6379;
 
-  static RedisWrapper newWrapper(String username, String password, String address, int port) {
-    return new RedisWrapperImpl(username, password, address, port);
+  static RedisWrapper newWrapper(String password, String address, int port) {
+    return new RedisWrapperImpl(password, address, port);
   }
 
   /**

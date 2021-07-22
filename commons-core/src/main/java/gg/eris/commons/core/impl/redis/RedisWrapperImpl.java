@@ -10,21 +10,24 @@ import gg.eris.commons.core.redis.RedisSubscriber;
 import gg.eris.commons.core.redis.RedisWrapper;
 import gg.eris.commons.core.util.Validate;
 import java.util.UUID;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
 public class RedisWrapperImpl implements RedisWrapper {
 
+  private static final int TIMEOUT = 5000;
+
   private final String uuidString;
   private final JedisPool pool;
   private final JsonMapper mapper;
 
-  public RedisWrapperImpl(String username, String password, String host, int port) {
+  public RedisWrapperImpl(String password, String host, int port) {
     this.uuidString = UUID.randomUUID().toString();
     this.pool = password == null ?
         new JedisPool(host, port) :
-        new JedisPool(host, port, username, password);
+        new JedisPool(new GenericObjectPoolConfig<>(), host, port, TIMEOUT, password);
 
     this.mapper = new JsonMapper();
   }
