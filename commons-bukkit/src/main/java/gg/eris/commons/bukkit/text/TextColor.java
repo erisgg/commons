@@ -1,6 +1,9 @@
 package gg.eris.commons.bukkit.text;
 
-import java.util.Objects;
+import com.google.common.collect.ImmutableMap;
+import gg.eris.commons.core.util.Validate;
+import java.util.Locale;
+import java.util.Map;
 import lombok.Getter;
 
 public final class TextColor {
@@ -22,11 +25,43 @@ public final class TextColor {
   public static final TextColor WHITE = new TextColor("white");
   public static final TextColor RESET = new TextColor("reset");
 
+  private static final Map<String, TextColor> colorMap;
+
+  static {
+    colorMap = ImmutableMap.<String, TextColor>builder()
+        .put(BLACK.getId(), BLACK)
+        .put(DARK_BLUE.getId(), DARK_BLUE)
+        .put(DARK_GREEN.getId(), DARK_GREEN)
+        .put(DARK_AQUA.getId(), DARK_AQUA)
+        .put(DARK_RED.getId(), DARK_RED)
+        .put(DARK_PURPLE.getId(), DARK_PURPLE)
+        .put(GRAY.getId(), GRAY)
+        .put(DARK_GRAY.getId(), DARK_GRAY)
+        .put(BLUE.getId(), BLUE)
+        .put(GREEN.getId(), GREEN)
+        .put(AQUA.getId(), AQUA)
+        .put(RED.getId(), RED)
+        .put(LIGHT_PURPLE.getId(), LIGHT_PURPLE)
+        .put(YELLOW.getId(), YELLOW)
+        .put(WHITE.getId(), WHITE)
+        .put(RESET.getId(), RESET)
+        .build();
+  }
+
   @Getter
   private final String id;
 
   private TextColor(String id) {
     this.id = id;
+  }
+
+  public static TextColor getColor(String color) {
+    if (color == null) {
+      return null;
+    }
+
+    color = color.toLowerCase(Locale.ROOT);
+    return colorMap.get(color);
   }
 
 }

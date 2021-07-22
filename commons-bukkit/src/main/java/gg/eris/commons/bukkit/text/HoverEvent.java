@@ -11,4 +11,8 @@ public class HoverEvent {
     return "{\"action\":\"show_text\",\"value\":" + contents.getJsonMessage() + "}";
   }
 
+  public static HoverEvent of(String text, Object... variables) {
+    return of(TextController.parse(text, variables));
+  }
+
 }
