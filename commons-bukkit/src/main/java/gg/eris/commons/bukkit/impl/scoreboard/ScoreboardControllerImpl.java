@@ -40,7 +40,7 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
             entry.getTeam().setPrefix(entry.getValueSupplier().get());
           }
 
-          objective.getScore(entry.getName()).setScore(entry.getIndex());
+          objective.getScore(entry.getName()).setScore(entry.getIndex() - scoreboard.getOffset());
         }
 
         if (scoreboard.hasNameChanged()) {

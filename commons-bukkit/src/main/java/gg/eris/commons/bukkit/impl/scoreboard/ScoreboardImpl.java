@@ -21,6 +21,7 @@ public final class ScoreboardImpl implements Scoreboard {
   private final Set<UUID> players;
   @Getter
   private final Int2ObjectMap<ScoreboardEntry> entries;
+  private int highestEntry = -1;
 
   private String displayName;
 
@@ -79,6 +80,9 @@ public final class ScoreboardImpl implements Scoreboard {
   }
 
   public void setLine(int index, Supplier<String> line) {
+    if (index > this.highestEntry) {
+      this.highestEntry = index;
+    }
     this.entries.put(index, new ScoreboardEntry(this, SCOREBOARD_LIMIT - index, line));
   }
 
@@ -113,6 +117,10 @@ public final class ScoreboardImpl implements Scoreboard {
 
   public boolean hasNameChanged() {
     return this.nameChanged;
+  }
+
+  public int getOffset() {
+    return SCOREBOARD_LIMIT - this.highestEntry;
   }
 
   public void clean() {
