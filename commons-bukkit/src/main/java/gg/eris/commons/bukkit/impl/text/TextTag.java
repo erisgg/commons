@@ -29,7 +29,6 @@ public final class TextTag {
     this.requiresValue = requiresValue;
   }
 
-
   protected static boolean isBold(String tag) {
     return isTag(BOLD, tag);
   }
