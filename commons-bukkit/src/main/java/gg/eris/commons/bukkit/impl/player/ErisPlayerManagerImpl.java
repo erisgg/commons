@@ -78,8 +78,7 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
     this.playerCollection = this.plugin.getMongoDatabase()
         .getCollection("players", ErisPlayer.class);
 
-    this.playerCollection.createIndex(Indexes.hashed("uuid"),
-        new IndexOptions().unique(true));
+    this.playerCollection.createIndex(Indexes.hashed("uuid"));
     this.playerCollection.createIndex(Indexes.hashed("name"));
   }
 

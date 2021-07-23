@@ -1,12 +1,11 @@
 package gg.eris.commons.core.database;
 
+import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import lombok.experimental.UtilityClass;
 
@@ -14,23 +13,23 @@ import lombok.experimental.UtilityClass;
 public class MongoDbProvider {
 
   public static MongoDatabase newClient(MongoCredentials credentials) {
-    MongoCredential credential = MongoCredential.createCredential(
-        credentials.getUsername(),
-        credentials.getDatabase(),
-        credentials.getPassword().toCharArray()
+    ConnectionString connectionString = new ConnectionString(
+        "mongodb+srv://"
+            + credentials.getUsername() + ":" + credentials.getPassword()
+            + "@" + credentials.getHostname()
     );
 
     return getDatabase(newClient(MongoClientSettings.builder()
-        .credential(credential)
         .applyToSocketSettings(builder -> {
-          builder.connectTimeout(1000, TimeUnit.MILLISECONDS);
-          builder.readTimeout(10, TimeUnit.MILLISECONDS);
+          builder.connectTimeout(3000, TimeUnit.MILLISECONDS);
+          builder.readTimeout(3000, TimeUnit.MILLISECONDS);
         })
         .applyToClusterSettings(builder -> {
-          builder.hosts(Collections.singletonList(
-              new ServerAddress(credentials.getHostname(), credentials.getPort())));
-          builder.serverSelectionTimeout(1000, TimeUnit.MILLISECONDS);
+          builder.serverSelectionTimeout(3000, TimeUnit.MILLISECONDS);
         })
+        .applyConnectionString(connectionString)
+        .retryWrites(true)
+        .writeConcern(WriteConcern.MAJORITY)
 
         .build()
     ), credentials.getDatabase());
