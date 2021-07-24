@@ -40,9 +40,8 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
 
   private final Map<UUID, ErisPlayer> players;
 
-  protected void loadPlayer(UUID uuid) {
+  protected boolean loadPlayer(UUID uuid) {
     // Finding all player documents with the UUID
-
     Document document = this.playerCollection
         .find(Filters.eq("uuid", uuid.toString()))
         .first();
@@ -56,35 +55,48 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
       }
     }
 
-
     ErisPlayer player = null;
     if (node != null) {
-      player = this.playerSerializer.constructPlayer(node);
+      player = this.playerSerializer.deserializePlayer(node);
     }
 
     if (player != null) {
       this.players.put(uuid, player);
+      return true;
+    } else {
+      return false;
     }
   }
 
   protected void unloadPlayer(UUID uuid) {
     ErisPlayer player = this.players.remove(uuid);
     if (player != null) {
-      JsonNode data = this.playerSerializer.toNode(player);
-      Document document = Document.parse(data.toString());
+      JsonNode data = this.playerSerializer.serializePlayer(player);
+      Document document = new Document("$set", Document.parse(data.toString()));
       this.playerCollection.updateOne(
           Filters.eq("uuid", uuid.toString()),
           document,
           new UpdateOptions().upsert(true)
       );
+    } else {
+      Bukkit.getLogger().warning("Player with UUID " + uuid.toString()
+          + " had no ErisPlayer loaded and has disconnected without any data save.");
     }
   }
 
-  protected void createNewPlayer(Player player) {
+  public void createNewPlayer(Player player) {
     this.players.put(
         player.getUniqueId(),
         this.playerSerializer.newPlayer(player)
     );
+  }
+
+  public void setupCollection() {
+    this.playerCollection = this.plugin.getMongoDatabase()
+        .getCollection("players", Document.class);
+
+    this.playerCollection.createIndex(Indexes.hashed("uuid"));
+    this.playerCollection.createIndex(Indexes.hashed("name"));
   }
 
 
@@ -99,19 +111,12 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
         .collect(Collectors.toList());
   }
 
-  public void setupCollection() {
-    this.playerCollection = this.plugin.getMongoDatabase()
-        .getCollection("players", Document.class);
-
-    this.playerCollection.createIndex(Indexes.hashed("uuid"));
-    this.playerCollection.createIndex(Indexes.hashed("name"));
-  }
-
+  @Override
   public <T extends ErisPlayer> ErisPlayerSerializer<T> getPlayerSerializer() {
     return (ErisPlayerSerializer<T>) this.playerSerializer;
   }
 
-
+  @Override
   public synchronized <T extends ErisPlayer> void setPlayerSerializer(
       ErisPlayerSerializer<T> serializer) {
     Validate.isTrue(!isPlayerSerializerSet(), "eris player provider has already been set");

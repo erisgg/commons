@@ -32,7 +32,7 @@ public final class DefaultErisPlayerSerializer extends ErisPlayerSerializer<Eris
   }
 
   @Override
-  public ErisPlayer constructPlayer(JsonNode node) {
+  public ErisPlayer deserializePlayer(JsonNode node) {
     try {
       return new ErisPlayer(DefaultData.fromNode(node));
     } catch (IOException err) {

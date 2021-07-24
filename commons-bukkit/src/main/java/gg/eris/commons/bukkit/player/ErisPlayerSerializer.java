@@ -19,11 +19,11 @@ public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
 
   public abstract T newPlayer(Player player);
 
-  public abstract T constructPlayer(JsonNode node);
+  public abstract T deserializePlayer(JsonNode node);
 
   protected abstract ObjectNode appendFields(T player, ObjectNode node);
 
-  public final JsonNode toNode(ErisPlayer rootPlayer) {
+  public final JsonNode serializePlayer(ErisPlayer rootPlayer) {
     T player = cast(rootPlayer);
 
     ObjectNode node = mapper.createObjectNode();
@@ -32,7 +32,7 @@ public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
         .put("name", player.getName())
         .put("first_login", player.getFirstLogin())
         .put("last_login", player.getLastLogin())
-        .put("rank", player.getRank().getIdentifier().toString());
+        .put("rank", player.getRank().getIdentifier().getValue());
 
     JsonUtil.populateStringArray(node.putArray("name_history"), player.getNameHistory());
     JsonUtil.populateStringArray(node.putArray("permissions"),

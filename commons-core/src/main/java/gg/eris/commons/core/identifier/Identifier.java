@@ -1,5 +1,7 @@
 package gg.eris.commons.core.identifier;
 
+import gg.eris.commons.core.util.Text;
+import gg.eris.commons.core.util.Validate;
 import java.util.Objects;
 import lombok.Getter;
 
@@ -23,7 +25,19 @@ public final class Identifier {
    * @return a new {@link Identifier} with the given namespace and value
    */
   public static Identifier of(String namespace, String value) {
+    Validate.isTrue(namespace.indexOf(':') == -1 && value.indexOf(':') == -1,
+        "namespace and value cannot contain colon (namespace='"
+            + namespace + "', value='" + value + "')");
     return new Identifier(namespace, value);
+  }
+
+  public static Identifier fromString(String string) {
+    Validate.isTrue(Text.countMatches(string, ":") == 1,
+        "identifier can only contain one semicolon");
+    int index = string.indexOf(':');
+    String namespace = string.substring(0, index);
+    String value = string.substring(index + 1, string.length());
+    return Identifier.of(namespace, value);
   }
 
   @Override

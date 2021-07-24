@@ -3,6 +3,7 @@ package gg.eris.commons.core.util;
 import com.google.common.collect.Lists;
 import java.util.List;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.StringUtils;
 
 @UtilityClass
 public class Text {
@@ -35,6 +36,10 @@ public class Text {
       list.add(replaceVariables(message, variables));
     }
     return list;
+  }
+
+  public static int countMatches(String text, String sequence) {
+    return StringUtils.countMatches(text, sequence);
   }
 
 }
