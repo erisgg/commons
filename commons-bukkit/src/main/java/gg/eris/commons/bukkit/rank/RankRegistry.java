@@ -44,5 +44,9 @@ public final class RankRegistry extends Registry<Rank> {
     );
   }
 
+  public Rank get(String name) {
+    return get(IDENTIFIER_PROVIDER.id(name));
+  }
+
 
 }

@@ -2,9 +2,9 @@ package gg.eris.commons.bukkit.player;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import gg.eris.commons.bukkit.permission.Permission;
+import gg.eris.commons.core.json.JsonUtil;
+import java.util.stream.Collectors;
 import org.bukkit.entity.Player;
 
 public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
@@ -21,7 +21,7 @@ public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
 
   public abstract T constructPlayer(JsonNode node);
 
-  protected abstract JsonNode appendFields(T player, JsonNode node);
+  protected abstract ObjectNode appendFields(T player, ObjectNode node);
 
   public final JsonNode toNode(ErisPlayer rootPlayer) {
     T player = cast(rootPlayer);
@@ -34,17 +34,13 @@ public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
         .put("last_login", player.getLastLogin())
         .put("rank", player.getRank().getIdentifier().toString());
 
-    node.putArray("name_history");
-    ArrayNode nameHistory = (ArrayNode) node.get("name_history");
-    for (String name : player.getNameHistory()) {
-      nameHistory.add(name);
-    }
-
-    node.putArray("permissions");
-    ArrayNode permissions = (ArrayNode) node.get("permissions");
-    for (Permission permission : player.getPermissions()) {
-      permissions.add(permission.getIdentifier().toString());
-    }
+    JsonUtil.populateStringArray(node.putArray("name_history"), player.getNameHistory());
+    JsonUtil.populateStringArray(node.putArray("permissions"),
+        player.getPermissions()
+            .stream()
+            .map(permission -> permission.getIdentifier().toString())
+            .collect(Collectors.toList())
+    );
 
     return appendFields(player, node);
   }

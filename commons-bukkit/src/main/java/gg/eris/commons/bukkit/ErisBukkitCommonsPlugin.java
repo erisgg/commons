@@ -30,6 +30,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBukkitCommons,
     Listener {
 
+  private static ErisBukkitCommonsPlugin INSTANCE;
+
   private MongoDatabase mongoDatabase;
   private RedisWrapper redisWrapper;
 
@@ -43,6 +45,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
 
   @Override
   public void onEnable() {
+    INSTANCE = this;
     saveDefaultConfig();
 
     FileConfiguration config = getConfig();
@@ -131,6 +134,11 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   @Override
   public ScoreboardController getScoreboardController() {
     return this.scoreboardController;
+  }
+
+  @Deprecated
+  public static ErisBukkitCommonsPlugin getInstance() {
+    return INSTANCE;
   }
 
 }
