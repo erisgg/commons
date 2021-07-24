@@ -10,6 +10,18 @@ import org.bukkit.entity.Player;
 public interface ErisPlayerManager {
 
   /**
+   * @param <T> is the type of {@link ErisPlayer}
+   * @return the {@link ErisPlayerSerializer} instance being used
+   */
+  <T extends ErisPlayer> ErisPlayerSerializer<T> getPlayerSerializer();
+
+  /**
+   * @param serializer is the {@link ErisPlayerSerializer} to set
+   * @param <T> is the type of {@link ErisPlayer}
+   */
+  <T extends ErisPlayer> void setPlayerSerializer(ErisPlayerSerializer<T> serializer);
+
+  /**
    * Gets an {@link ErisPlayer}
    *
    * @param uuid is the UUID of the player to get

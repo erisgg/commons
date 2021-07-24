@@ -29,6 +29,11 @@ public final class DefaultErisPlayerSerializer extends ErisPlayerSerializer<Eris
   }
 
   @Override
+  public ErisPlayer constructPlayer(JsonNode node) {
+    return null;
+  }
+
+  @Override
   protected JsonNode appendFields(ErisPlayer player, JsonNode node) {
     return node;
   }

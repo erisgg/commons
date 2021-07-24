@@ -12,15 +12,15 @@ import gg.eris.commons.bukkit.impl.scoreboard.ScoreboardControllerImpl;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.DefaultErisPlayerSerializer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
-import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.scoreboard.ScoreboardController;
+import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.database.MongoCredentials;
 import gg.eris.commons.core.database.MongoDbProvider;
 import gg.eris.commons.core.redis.RedisWrapper;
-import gg.eris.commons.core.util.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
@@ -40,8 +40,6 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   private ObjectMapper objectMapper;
 
   private ErisPlayerManager erisPlayerManager;
-  private ErisPlayerSerializer<?> erisPlayerProvider;
-  private boolean erisPlayerProviderSet;
 
   @Override
   public void onEnable() {
@@ -72,7 +70,6 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     this.rankRegistry = new RankRegistry();
     this.objectMapper = new ObjectMapper();
     this.erisPlayerManager = new ErisPlayerManagerImpl(this);
-    this.erisPlayerProviderSet = false;
 
     PluginManager pluginManager = Bukkit.getPluginManager();
     pluginManager.registerEvents(new MenuListener(this), this);
@@ -83,10 +80,17 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
 
     // Setting the player provider if none has been set by any plugin
     Bukkit.getScheduler().runTask(this, () -> {
-      if (!this.erisPlayerProviderSet) {
-        setErisPlayerProvider(new DefaultErisPlayerSerializer(this));
+      if (!((ErisPlayerManagerImpl) this.erisPlayerManager).isPlayerSerializerSet()) {
+        this.erisPlayerManager.setPlayerSerializer(new DefaultErisPlayerSerializer(this));
       }
     });
+  }
+
+  @Override
+  public void onDisable() {
+    for (Player player : Bukkit.getOnlinePlayers()) {
+      player.kickPlayer(CC.RED.bold() + "Server shutting down");
+    }
   }
 
   @Override
@@ -129,16 +133,4 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     return this.scoreboardController;
   }
 
-  @Override
-  public ErisPlayerSerializer<?> getErisPlayerSerializer() {
-    return this.erisPlayerProvider;
-  }
-
-  @Override
-  public synchronized void setErisPlayerProvider(ErisPlayerSerializer<?> erisPlayerProvider) {
-    Validate.isTrue(!this.erisPlayerProviderSet, "eris player provider has already been set");
-    this.erisPlayerProvider = erisPlayerProvider;
-    this.erisPlayerProviderSet = true;
-    ((ErisPlayerManagerImpl) this.erisPlayerManager).setupCollection();
-  }
 }

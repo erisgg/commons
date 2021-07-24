@@ -71,20 +71,4 @@ public interface ErisBukkitCommons {
    */
   ScoreboardController getScoreboardController();
 
-  /**
-   * Returns the server's {@link ErisPlayerSerializer}
-   *
-   * @return the server's {@link ErisPlayerSerializer}
-   */
-  ErisPlayerSerializer<?> getErisPlayerSerializer();
-
-  /**
-   * Sets the server's {@link ErisPlayerSerializer}. This can only be done once and will error if
-   * attempted multiple times. This defines the type that all {@link gg.eris.commons.bukkit.player.ErisPlayer}
-   * will be de-serialized and stored as in the {@link ErisPlayerManager}.
-   *
-   * @param erisPlayerProvider is the {@link ErisPlayerSerializer} to set
-   */
-  void setErisPlayerProvider(ErisPlayerSerializer<?> erisPlayerProvider);
-
 }

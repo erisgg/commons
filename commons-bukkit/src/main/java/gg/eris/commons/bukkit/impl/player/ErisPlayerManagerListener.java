@@ -17,7 +17,6 @@ public final class ErisPlayerManagerListener implements Listener {
 
   @EventHandler(priority = EventPriority.LOWEST)
   public void onAsyncPlayerJoin(AsyncPlayerPreLoginEvent event) {
-    // Load data
     this.playerManagerImpl.loadPlayer(event.getUniqueId());
   }
 

@@ -19,6 +19,8 @@ public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
 
   public abstract T newPlayer(Player player);
 
+  public abstract T constructPlayer(JsonNode node);
+
   protected abstract JsonNode appendFields(T player, JsonNode node);
 
   public final JsonNode toNode(ErisPlayer rootPlayer) {
