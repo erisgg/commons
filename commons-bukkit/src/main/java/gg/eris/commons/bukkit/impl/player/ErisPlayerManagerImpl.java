@@ -73,6 +73,7 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
     if (player != null) {
       JsonNode data = this.playerSerializer.serializePlayer(player);
       Document document = new Document("$set", Document.parse(data.toString()));
+      System.out.println("Inserting document: " + document);
       this.playerCollection.updateOne(
           Filters.eq("uuid", uuid.toString()),
           document,

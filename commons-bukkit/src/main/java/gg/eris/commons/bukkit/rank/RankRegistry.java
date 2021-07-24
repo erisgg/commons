@@ -18,31 +18,32 @@ public final class RankRegistry extends Registry<Rank> {
 
   public RankRegistry() {
     super();
-    DEFAULT = new Rank(
+    DEFAULT = register(new Rank(
         IDENTIFIER_PROVIDER.id("default"),
         ""
-    );
-    TRIAL_MODERATOR = new Rank(
+    ));
+    TRIAL_MODERATOR = register(new Rank(
         IDENTIFIER_PROVIDER.id("trial_moderator"),
         CC.BLUE + "Trial"
-    );
-    MODERATOR = new Rank(
+    ));
+    MODERATOR = register(new Rank(
         IDENTIFIER_PROVIDER.id("moderator"),
         CC.GOLD + "Moderator"
-    );
-    COMMUNITY_ADMIN = new Rank(
+    ));
+    COMMUNITY_ADMIN = register(new Rank(
         IDENTIFIER_PROVIDER.id("community_admin"),
-        CC.RED + "Admin"
-    );
-    DEVELOPER = new Rank(
+        CC.DARK_RED + "Admin"
+    ));
+    DEVELOPER = register(new Rank(
         IDENTIFIER_PROVIDER.id("developer"),
         CC.LIGHT_PURPLE + "Developer"
-    );
-    OWNER = new Rank(
+    ));
+    OWNER = register(new Rank(
         IDENTIFIER_PROVIDER.id("owner"),
         CC.RED + "Owner"
-    );
+    ));
   }
+
 
   public Rank get(String name) {
     return get(IDENTIFIER_PROVIDER.id(name));
