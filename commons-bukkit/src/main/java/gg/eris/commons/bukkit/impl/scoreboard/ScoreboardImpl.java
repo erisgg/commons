@@ -43,7 +43,9 @@ public final class ScoreboardImpl implements Scoreboard {
     this.displayName = displayName;
 
     this.handle = Bukkit.getScoreboardManager().getNewScoreboard();
-    Objective objective = this.handle.registerNewObjective(identifier.toString(), "dummy");
+    String objectiveName = identifier.toString().length() > 16 ?
+        identifier.toString().substring(0, 16) : identifier.toString();
+    Objective objective = this.handle.registerNewObjective(objectiveName, "dummy");
     objective.setDisplayName(displayName);
     objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
