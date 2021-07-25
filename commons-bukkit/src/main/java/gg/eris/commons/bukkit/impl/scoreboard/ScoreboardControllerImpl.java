@@ -91,4 +91,10 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
   public Scoreboard removeScoreboard(Identifier identifier) {
     return this.scoreboards.remove(identifier);
   }
+
+  @Override
+  public Scoreboard removeScoreboard(Scoreboard scoreboard) {
+    return removeScoreboard(scoreboard.getIdentifier());
+  }
+
 }
