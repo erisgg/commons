@@ -7,7 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Team;
 
 @Getter
-public class ScoreboardEntry {
+public final class ScoreboardEntry {
 
   private final int index;
   private final Supplier<String> valueSupplier;

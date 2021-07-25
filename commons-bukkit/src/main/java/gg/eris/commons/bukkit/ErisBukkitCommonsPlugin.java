@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.ReadConcern;
 import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoDatabase;
+import gg.eris.commons.bukkit.chat.ChatController;
 import gg.eris.commons.bukkit.command.CommandManager;
+import gg.eris.commons.bukkit.impl.chat.ChatControllerImpl;
+import gg.eris.commons.bukkit.impl.chat.ChatControllerListener;
 import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
 import gg.eris.commons.bukkit.impl.player.ErisPlayerManagerImpl;
@@ -36,6 +39,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   private RedisWrapper redisWrapper;
 
   private ScoreboardController scoreboardController;
+  private ChatController chatController;
   private CommandManager commandManager;
   private PermissionRegistry permissionRegistry;
   private RankRegistry rankRegistry;
@@ -69,6 +73,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
 
     this.commandManager = new CommandManagerImpl();
     this.scoreboardController = new ScoreboardControllerImpl(this);
+    this.chatController = new ChatControllerImpl(this);
     this.permissionRegistry = new PermissionRegistry();
     this.rankRegistry = new RankRegistry();
     this.objectMapper = new ObjectMapper();
@@ -76,6 +81,8 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
 
     PluginManager pluginManager = Bukkit.getPluginManager();
     pluginManager.registerEvents(new MenuListener(this), this);
+    pluginManager.registerEvents(
+        new ChatControllerListener(this.erisPlayerManager, this.chatController), this);
 
     // Register service
     ServicesManager servicesManager = Bukkit.getServicesManager();
@@ -85,6 +92,17 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     Bukkit.getScheduler().runTask(this, () -> {
       if (!((ErisPlayerManagerImpl) this.erisPlayerManager).isPlayerSerializerSet()) {
         this.erisPlayerManager.setPlayerSerializer(new DefaultErisPlayerSerializer(this));
+      }
+
+      // Default chat format is:
+      // rankColor rankPrefix nameColor name message
+      if (this.chatController.getFormat() == null) {
+        this.chatController.setFormat("{0}[{1}]</col> {2}{3}: {4}</col>",
+            (player, chatMessage) -> "<col=" + player.getRank().getColor().getId() + ">",
+            (player, chatMessage) -> player.getRank().getRawDisplay(),
+            (player, chatMessage) -> player.getRank().isWhiteChat() ? "<col=white>" : "<col=gray>",
+            (player, chatMessage) -> player.getName(),
+            (player, chatMessage) -> chatMessage);
       }
     });
   }
@@ -136,6 +154,17 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     return this.scoreboardController;
   }
 
+  @Override
+  public ChatController getChatController() {
+    return this.chatController;
+  }
+
+  /**
+   * @return ugh. but needed for static registry accesses. tis what tis. avoid when possible! not
+   * because it makes any difference but because i don't like it. and i don't like you. go away.
+   * stop judging me. im going crazy. it's 02:01. the sweete scape by gwen stefani and akon is
+   * playing. joe parsons is based. - alfie 25/7/21 fuck off >:(
+   */
   @Deprecated
   public static ErisBukkitCommonsPlugin getInstance() {
     return INSTANCE;

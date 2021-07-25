@@ -3,6 +3,9 @@ package gg.eris.commons.bukkit.rank;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.permission.Permission;
+import gg.eris.commons.bukkit.text.TextColor;
+import gg.eris.commons.bukkit.text.TextController;
+import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
 import java.util.Set;
@@ -13,15 +16,27 @@ import lombok.Getter;
 public final class Rank implements Identifiable {
 
   private final Identifier identifier;
-  private final String prefix;
-  private final String display;
+  private final TextColor color;
+  private final String rawDisplay;
+  private final String coloredDisplay;
+
+  private final boolean whiteChat;
+
   @Getter(AccessLevel.NONE)
   private final Set<Identifier> permissions;
 
-  public Rank(Identifier identifier, String prefix, String display) {
+  // White chat by default
+  public Rank(Identifier identifier, TextColor color, String display) {
+    this(identifier, color, display, true);
+  }
+
+  public Rank(Identifier identifier, TextColor color, String display,
+      boolean whiteChat) {
     this.identifier = identifier;
-    this.prefix = prefix;
-    this.display = display;
+    this.color = color;
+    this.rawDisplay = CC.strip(display);
+    this.coloredDisplay = display;
+    this.whiteChat = whiteChat;
     this.permissions = Sets.newHashSet();
   }
 

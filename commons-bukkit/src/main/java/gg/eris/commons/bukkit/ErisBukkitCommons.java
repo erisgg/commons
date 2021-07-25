@@ -2,6 +2,7 @@ package gg.eris.commons.bukkit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoDatabase;
+import gg.eris.commons.bukkit.chat.ChatController;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
@@ -70,5 +71,12 @@ public interface ErisBukkitCommons {
    * @return the server's {@link ScoreboardController}
    */
   ScoreboardController getScoreboardController();
+
+  /**
+   * Returns the server's {@link ChatController}
+   *
+   * @return the server's {@link ChatController} instance
+   */
+  ChatController getChatController();
 
 }

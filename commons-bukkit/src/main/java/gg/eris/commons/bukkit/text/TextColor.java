@@ -14,6 +14,7 @@ public final class TextColor {
   public static final TextColor DARK_AQUA = new TextColor("dark_aqua");
   public static final TextColor DARK_RED = new TextColor("dark_red");
   public static final TextColor DARK_PURPLE = new TextColor("dark_purple");
+  public static final TextColor GOLD = new TextColor("gold");
   public static final TextColor GRAY = new TextColor("gray");
   public static final TextColor DARK_GRAY = new TextColor("dark_gray");
   public static final TextColor BLUE = new TextColor("blue");
@@ -35,6 +36,7 @@ public final class TextColor {
         .put(DARK_AQUA.getId(), DARK_AQUA)
         .put(DARK_RED.getId(), DARK_RED)
         .put(DARK_PURPLE.getId(), DARK_PURPLE)
+        .put(GOLD.getId(), GOLD)
         .put(GRAY.getId(), GRAY)
         .put(DARK_GRAY.getId(), DARK_GRAY)
         .put(BLUE.getId(), BLUE)
