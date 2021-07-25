@@ -4,7 +4,6 @@ import gg.eris.commons.bukkit.text.TextColor;
 import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.identifier.IdentifierProvider;
 import gg.eris.commons.core.registry.Registry;
-import org.yaml.snakeyaml.events.Event.ID;
 
 public final class RankRegistry extends Registry<Rank> {
 
@@ -16,7 +15,7 @@ public final class RankRegistry extends Registry<Rank> {
   public final Rank PARTNER;
   public final Rank TRIAL_MODERATOR;
   public final Rank MODERATOR;
-  public final Rank COMMUNITY_ADMIN;
+  public final Rank ADMIN;
   public final Rank DEVELOPER;
   public final Rank OWNER;
 
@@ -48,8 +47,8 @@ public final class RankRegistry extends Registry<Rank> {
         TextColor.GOLD,
         CC.GOLD + "Moderator"
     ));
-    COMMUNITY_ADMIN = register(new Rank(
-        IDENTIFIER_PROVIDER.id("community_admin"),
+    ADMIN = register(new Rank(
+        IDENTIFIER_PROVIDER.id("admin"),
         TextColor.DARK_RED,
         CC.DARK_RED + "Admin"
     ));
