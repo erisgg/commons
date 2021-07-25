@@ -1,10 +1,12 @@
 package gg.eris.commons.bukkit.rank;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
 import java.util.Set;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 @Getter
@@ -12,11 +14,14 @@ public final class Rank implements Identifiable {
 
   private final Identifier identifier;
   private final String prefix;
+  private final String display;
+  @Getter(AccessLevel.NONE)
   private final Set<Identifier> permissions;
 
-  public Rank(Identifier identifier, String prefix) {
+  public Rank(Identifier identifier, String prefix, String display) {
     this.identifier = identifier;
     this.prefix = prefix;
+    this.display = display;
     this.permissions = Sets.newHashSet();
   }
 
@@ -26,6 +31,10 @@ public final class Rank implements Identifiable {
 
   public boolean hasPermission(Identifier identifier) {
     return this.permissions.contains(identifier);
+  }
+
+  public Set<Identifier> getPermissions() {
+    return ImmutableSet.copyOf(this.permissions);
   }
 
   @Override
