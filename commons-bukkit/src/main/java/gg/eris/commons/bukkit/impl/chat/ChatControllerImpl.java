@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
 
 @RequiredArgsConstructor
 public final class ChatControllerImpl implements ChatController {

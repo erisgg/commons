@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 @RequiredArgsConstructor
-public class ChatControllerListener implements Listener {
+public final class ChatControllerListener implements Listener {
 
   private final ErisPlayerManager erisPlayerManager;
   private final ChatController chatController;

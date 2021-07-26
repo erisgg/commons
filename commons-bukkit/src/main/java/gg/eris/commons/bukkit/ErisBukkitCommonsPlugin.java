@@ -12,6 +12,7 @@ import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
 import gg.eris.commons.bukkit.impl.player.ErisPlayerManagerImpl;
 import gg.eris.commons.bukkit.impl.scoreboard.ScoreboardControllerImpl;
+import gg.eris.commons.bukkit.impl.scoreboard.ScoreboardListener;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.DefaultErisPlayerSerializer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
@@ -72,7 +73,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     );
 
     this.commandManager = new CommandManagerImpl();
-    this.scoreboardController = new ScoreboardControllerImpl(this);
+    this.scoreboardController = new ScoreboardControllerImpl(this, this.erisPlayerManager);
     this.chatController = new ChatControllerImpl(this);
     this.permissionRegistry = new PermissionRegistry();
     this.rankRegistry = new RankRegistry();
@@ -83,6 +84,8 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     pluginManager.registerEvents(new MenuListener(this), this);
     pluginManager.registerEvents(
         new ChatControllerListener(this.erisPlayerManager, this.chatController), this);
+    pluginManager.registerEvents(
+        new ScoreboardListener((ScoreboardControllerImpl) this.scoreboardController), this);
 
     // Register service
     ServicesManager servicesManager = Bukkit.getServicesManager();
