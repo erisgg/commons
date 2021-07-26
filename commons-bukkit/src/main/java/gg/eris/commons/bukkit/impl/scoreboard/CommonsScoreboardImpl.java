@@ -145,13 +145,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
 
       String value = line.getValueFunction().apply(player, 0L);
 
-      if (value.length() <= 16) {
-        team.setPrefix(value);
-        team.setSuffix("");
-      } else {
-        team.setPrefix(value.substring(0, 16));
-        team.setSuffix(value.substring(16));
-      }
+      applyValue(team, value);
 
       objective.getScore(line.getColorPair()).setScore(index);
     }
@@ -167,17 +161,20 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
 
       if (line.getUpdateTicks() != 0 && tick % line.getUpdateTicks() == 0) {
         String value = line.getValueFunction().apply(player, tick);
-
-        if (value.length() <= 16) {
-          team.setPrefix(value);
-          team.setSuffix("");
-        } else {
-          String firstSegment = value.substring(0, 16);
-          String colors = ChatColor.getLastColors(firstSegment);
-          team.setPrefix(firstSegment);
-          team.setSuffix(colors + value.substring(16));
-        }
+        applyValue(team, value);
       }
+    }
+  }
+
+  private void applyValue(Team team, String value) {
+    if (value.length() <= 16) {
+      team.setPrefix(value);
+      team.setSuffix("");
+    } else {
+      String firstSegment = value.substring(0, 16);
+      String colors = ChatColor.getLastColors(firstSegment);
+      team.setPrefix(firstSegment);
+      team.setSuffix(colors + value.substring(16));
     }
   }
 
