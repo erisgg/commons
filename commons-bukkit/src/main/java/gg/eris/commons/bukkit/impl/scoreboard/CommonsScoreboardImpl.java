@@ -172,8 +172,10 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
           team.setPrefix(value);
           team.setSuffix("");
         } else {
-          team.setPrefix(value.substring(0, 16));
-          team.setSuffix(value.substring(16));
+          String firstSegment = value.substring(0, 16);
+          String colors = ChatColor.getLastColors(firstSegment);
+          team.setPrefix(firstSegment);
+          team.setSuffix(colors + value.substring(16));
         }
       }
     }
