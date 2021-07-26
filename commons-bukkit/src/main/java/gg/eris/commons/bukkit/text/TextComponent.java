@@ -31,83 +31,50 @@ public final class TextComponent {
   public String toString() {
     StringBuilder builder = new StringBuilder("{");
 
-    boolean added = false;
-
     if (this.text != null) {
       builder.append("\"text\":\"").append(this.text).append("\"");
-      added = true;
+    } else {
+      builder.append("\"text\":\"\"");
     }
 
     if (this.color != null) {
-      if (added) {
-        builder.append(",");
-      }
-
+      builder.append(",");
       builder.append("\"color\":\"").append(this.color.getId()).append("\"");
-      added = true;
     }
 
     if (this.bold) {
-      if (added) {
-        builder.append(",");
-      }
-
+      builder.append(",");
       builder.append("\"bold\":").append("true");
-      added = true;
     }
 
     if (this.italic) {
-      if (added) {
-        builder.append(",");
-      }
-
+      builder.append(",");
       builder.append("\"italic\":").append("true");
-      added = true;
     }
 
     if (this.underlined) {
-      if (added) {
-        builder.append(",");
-      }
-
+      builder.append(",");
       builder.append("\"underlined\":").append("true");
-      added = true;
     }
 
     if (this.strikethrough) {
-      if (added) {
-        builder.append(",");
-      }
-
+      builder.append(",");
       builder.append("\"strikethrough\":").append("true");
-      added = true;
     }
 
     if (this.obfuscated) {
-      if (added) {
-        builder.append(",");
-      }
-
+      builder.append(",");
       builder.append("\"obfuscated\":").append("true");
-      added = true;
     }
 
     if (this.hoverEvent != null) {
-      if (added) {
-        builder.append(",");
-      }
-
+      builder.append(",");
       builder.append("\"hoverEvent\":").append(this.hoverEvent.toJsonMessage());
-      added = true;
     }
 
     if (this.clickEvent != null) {
-      if (added) {
-        builder.append(",");
-      }
-
+      builder.append(",");
       builder.append("\"clickEvent\":").append(this.clickEvent.toJsonMessage());
-      added = true;
     }
 
     builder.append("}");

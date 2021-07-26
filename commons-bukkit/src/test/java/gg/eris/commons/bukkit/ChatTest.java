@@ -7,7 +7,6 @@ import gg.eris.commons.bukkit.text.ClickEvent;
 import gg.eris.commons.bukkit.text.ClickEvent.Action;
 import gg.eris.commons.bukkit.text.HoverEvent;
 import gg.eris.commons.bukkit.text.TextComponent;
-import gg.eris.commons.bukkit.text.TextController;
 import gg.eris.commons.bukkit.text.TextMessage;
 import gg.eris.commons.bukkit.text.TextType;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
