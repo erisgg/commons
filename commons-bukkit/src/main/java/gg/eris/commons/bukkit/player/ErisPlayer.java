@@ -30,7 +30,7 @@ public class ErisPlayer implements Serializable {
   protected final UUID uuid;
 
   @Getter
-  protected final String name;
+  protected String name;
 
   @Getter
   protected final List<String> nameHistory;
@@ -39,7 +39,7 @@ public class ErisPlayer implements Serializable {
   protected final long firstLogin;
 
   @Getter
-  protected final long lastLogin;
+  protected long lastLogin;
 
   @Getter
   protected Rank rank;
@@ -68,6 +68,17 @@ public class ErisPlayer implements Serializable {
   public final boolean isOnline() {
     Player player = getHandle();
     return player != null && player.isOnline();
+  }
+
+  public void updateFromHandle() {
+    Player player = getHandle();
+    this.lastLogin = System.currentTimeMillis();
+
+    String lastName = this.nameHistory.get(this.nameHistory.size() - 1);
+    if (!player.getName().equals(lastName)) {
+      this.nameHistory.add(player.getName());
+      this.name = player.getName();
+    }
   }
 
   @Getter

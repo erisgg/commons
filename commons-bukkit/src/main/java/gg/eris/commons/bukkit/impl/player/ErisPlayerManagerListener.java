@@ -43,6 +43,8 @@ public final class ErisPlayerManagerListener implements Listener {
       this.addQueue.invalidate(event.getPlayer().getUniqueId());
       this.playerManagerImpl.createNewPlayer(event.getPlayer());
     }
+
+    this.playerManagerImpl.updateFromHandleOnJoin(event.getPlayer());
   }
 
   @EventHandler(priority = EventPriority.MONITOR)

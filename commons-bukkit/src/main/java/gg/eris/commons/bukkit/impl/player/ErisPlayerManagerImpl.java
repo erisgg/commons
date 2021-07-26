@@ -85,14 +85,14 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
     }
   }
 
-  public void createNewPlayer(Player player) {
+  protected void createNewPlayer(Player player) {
     this.players.put(
         player.getUniqueId(),
         this.playerSerializer.newPlayer(player)
     );
   }
 
-  public void setupCollection() {
+  protected void setupCollection() {
     this.playerCollection = this.plugin.getMongoDatabase()
         .getCollection("players", Document.class);
 
@@ -100,6 +100,9 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
     this.playerCollection.createIndex(Indexes.hashed("name"));
   }
 
+  protected void updateFromHandleOnJoin(Player player) {
+    this.players.get(player.getUniqueId()).updateFromHandle();
+  }
 
   @Override
   public <T extends ErisPlayer> T getPlayer(UUID uuid) {
