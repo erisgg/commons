@@ -20,6 +20,10 @@ public final class ComponentParser {
 
   public static TextMessage parse(TextType textType, Int2ObjectMap<ClickEvent> clickEvents,
       Int2ObjectMap<HoverEvent> hoverEvents, String message, Object... variables) {
+    if (message == null || message.isEmpty()) {
+      return TextMessage.empty();
+    }
+
     message = Text.replaceVariables(message, variables);
 
     List<TextComponent> components = Lists.newArrayList();

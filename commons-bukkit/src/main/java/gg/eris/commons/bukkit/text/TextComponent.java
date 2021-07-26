@@ -2,6 +2,8 @@ package gg.eris.commons.bukkit.text;
 
 public final class TextComponent {
 
+  private static final TextComponent EMPTY = TextComponent.builder().build();
+
   private final String text;
   private final TextColor color;
   private final boolean bold;
@@ -118,6 +120,10 @@ public final class TextComponent {
 
   public static TextComponent.Builder builder(String text) {
     return new Builder(text);
+  }
+
+  public static TextComponent empty() {
+    return EMPTY;
   }
 
   public static final class Builder {

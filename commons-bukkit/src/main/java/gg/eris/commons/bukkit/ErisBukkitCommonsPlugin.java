@@ -13,11 +13,13 @@ import gg.eris.commons.bukkit.impl.menu.MenuListener;
 import gg.eris.commons.bukkit.impl.player.ErisPlayerManagerImpl;
 import gg.eris.commons.bukkit.impl.scoreboard.ScoreboardControllerImpl;
 import gg.eris.commons.bukkit.impl.scoreboard.ScoreboardListener;
+import gg.eris.commons.bukkit.impl.tablist.TablistControllerImpl;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.DefaultErisPlayerSerializer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.scoreboard.ScoreboardController;
+import gg.eris.commons.bukkit.tablist.TablistController;
 import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.database.MongoCredentials;
 import gg.eris.commons.core.database.MongoDbProvider;
@@ -42,6 +44,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   private ScoreboardController scoreboardController;
   private ChatController chatController;
   private CommandManager commandManager;
+  private TablistController tablistController;
   private PermissionRegistry permissionRegistry;
   private RankRegistry rankRegistry;
   private ObjectMapper objectMapper;
@@ -78,6 +81,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     this.permissionRegistry = new PermissionRegistry();
     this.rankRegistry = new RankRegistry();
     this.erisPlayerManager = new ErisPlayerManagerImpl(this);
+    this.tablistController = new TablistControllerImpl(this.erisPlayerManager);
     this.scoreboardController = new ScoreboardControllerImpl(this, this.erisPlayerManager);
 
     PluginManager pluginManager = Bukkit.getPluginManager();
@@ -160,6 +164,11 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   @Override
   public ChatController getChatController() {
     return this.chatController;
+  }
+
+  @Override
+  public TablistController getTablistController() {
+    return this.tablistController;
   }
 
   /**

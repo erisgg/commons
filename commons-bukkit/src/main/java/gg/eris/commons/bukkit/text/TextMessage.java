@@ -8,6 +8,8 @@ import net.md_5.bungee.chat.ComponentSerializer;
 
 public final class TextMessage {
 
+  private static final TextMessage EMPTY = TextMessage.of(TextComponent.empty());
+
   private final TextComponent[] components;
 
   private TextMessage(TextComponent... components) {
@@ -44,6 +46,10 @@ public final class TextMessage {
 
   public static TextMessage of(TextComponent... components) {
     return new TextMessage(components);
+  }
+
+  public static TextMessage empty() {
+    return EMPTY;
   }
 
 }

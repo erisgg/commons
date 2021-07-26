@@ -9,6 +9,7 @@ import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.scoreboard.ScoreboardController;
+import gg.eris.commons.bukkit.tablist.TablistController;
 import gg.eris.commons.core.redis.RedisWrapper;
 
 /**
@@ -78,5 +79,12 @@ public interface ErisBukkitCommons {
    * @return the server's {@link ChatController} instance
    */
   ChatController getChatController();
+
+  /**
+   * Returns the server's {@link TablistController}
+   *
+   * @return the server's {@link TablistController} instance
+   */
+  TablistController getTablistController();
 
 }
