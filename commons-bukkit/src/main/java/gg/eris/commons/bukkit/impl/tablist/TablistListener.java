@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 @RequiredArgsConstructor
 public class TablistListener implements Listener {
@@ -12,7 +13,12 @@ public class TablistListener implements Listener {
 
   @EventHandler
   public void onPlayerJoin(PlayerJoinEvent event) {
-    this.tablistController.update(event.getPlayer());
+    this.tablistController.onJoin(event.getPlayer());
+  }
+
+  @EventHandler
+  public void onPlayerQuit(PlayerQuitEvent event) {
+    this.tablistController.onQuit(event.getPlayer());
   }
 
 }

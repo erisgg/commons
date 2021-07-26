@@ -16,6 +16,7 @@ import lombok.Getter;
 public final class Rank implements Identifiable {
 
   private final Identifier identifier;
+  private final int priority;
   private final TextColor color;
   private final String rawDisplay;
   private final String coloredDisplay;
@@ -26,13 +27,14 @@ public final class Rank implements Identifiable {
   private final Set<Identifier> permissions;
 
   // White chat by default
-  public Rank(Identifier identifier, TextColor color, String display) {
-    this(identifier, color, display, true);
+  public Rank(Identifier identifier, int priority, TextColor color, String display) {
+    this(identifier, priority, color, display, true);
   }
 
-  public Rank(Identifier identifier, TextColor color, String display,
+  public Rank(Identifier identifier, int priority, TextColor color, String display,
       boolean whiteChat) {
     this.identifier = identifier;
+    this.priority = priority;
     this.color = color;
     this.rawDisplay = CC.strip(display);
     this.coloredDisplay = display;

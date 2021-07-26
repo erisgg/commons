@@ -23,42 +23,50 @@ public final class RankRegistry extends Registry<Rank> {
     super();
     DEFAULT = register(new Rank(
         IDENTIFIER_PROVIDER.id("default"),
+        7,
         TextColor.GRAY,
         CC.GRAY + "Default",
         false
     ));
     CREATOR = register(new Rank(
         IDENTIFIER_PROVIDER.id("creator"),
+        6,
         TextColor.DARK_PURPLE,
         CC.DARK_PURPLE + "Creator"
     ));
     PARTNER = register(new Rank(
         IDENTIFIER_PROVIDER.id("partner"),
+        5,
         TextColor.GREEN,
         CC.GREEN + "Partner"
     ));
     TRIAL_MODERATOR = register(new Rank(
         IDENTIFIER_PROVIDER.id("trial_moderator"),
+        4,
         TextColor.BLUE,
         CC.BLUE + "Trial"
     ));
     MODERATOR = register(new Rank(
         IDENTIFIER_PROVIDER.id("moderator"),
+        3,
         TextColor.GOLD,
         CC.GOLD + "Moderator"
     ));
     ADMIN = register(new Rank(
         IDENTIFIER_PROVIDER.id("admin"),
+        2,
         TextColor.DARK_RED,
         CC.DARK_RED + "Admin"
     ));
     DEVELOPER = register(new Rank(
         IDENTIFIER_PROVIDER.id("developer"),
+        1,
         TextColor.LIGHT_PURPLE,
         CC.LIGHT_PURPLE + "Developer"
     ));
     OWNER = register(new Rank(
         IDENTIFIER_PROVIDER.id("owner"),
+        0,
         TextColor.RED,
         CC.RED + "Owner"
     ));

@@ -13,9 +13,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 public final class ScoreboardControllerImpl implements ScoreboardController {
+
+  private final ErisPlayerManager erisPlayerManager;
 
   @Getter(AccessLevel.PROTECTED)
   private final Map<Identifier, CommonsScoreboardImpl> scoreboards;
@@ -26,6 +30,7 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
 
   public ScoreboardControllerImpl(ErisBukkitCommonsPlugin plugin,
       ErisPlayerManager erisPlayerManager) {
+    this.erisPlayerManager = erisPlayerManager;
     this.scoreboards = Maps.newHashMap();
     this.handles = Maps.newHashMap();
     this.playerScoreboards = Maps.newHashMap();

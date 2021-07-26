@@ -1,10 +1,13 @@
 package gg.eris.commons.core.registry;
 
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.util.Validate;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,6 +47,10 @@ public abstract class Registry<T extends Identifiable> {
    */
   public final T get(Identifier identifier) {
     return this.registeredItems.get(identifier);
+  }
+
+  public final Collection<T> values() {
+    return List.copyOf(this.registeredItems.values());
   }
 
 }

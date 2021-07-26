@@ -11,7 +11,7 @@ public final class ScoreboardListener implements Listener {
 
   private final ScoreboardControllerImpl scoreboardController;
 
-  @EventHandler
+  @EventHandler(priority = EventPriority.LOW)
   public void onPlayerJoin(PlayerJoinEvent event) {
     this.scoreboardController.onJoin(event.getPlayer());
   }
