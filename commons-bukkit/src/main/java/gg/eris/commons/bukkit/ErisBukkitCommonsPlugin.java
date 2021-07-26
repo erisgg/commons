@@ -72,13 +72,13 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
         config.getInt("redis.port")
     );
 
+    this.objectMapper = new ObjectMapper();
     this.commandManager = new CommandManagerImpl();
-    this.scoreboardController = new ScoreboardControllerImpl(this, this.erisPlayerManager);
     this.chatController = new ChatControllerImpl(this);
     this.permissionRegistry = new PermissionRegistry();
     this.rankRegistry = new RankRegistry();
-    this.objectMapper = new ObjectMapper();
     this.erisPlayerManager = new ErisPlayerManagerImpl(this);
+    this.scoreboardController = new ScoreboardControllerImpl(this, this.erisPlayerManager);
 
     PluginManager pluginManager = Bukkit.getPluginManager();
     pluginManager.registerEvents(new MenuListener(this), this);

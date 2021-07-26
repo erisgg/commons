@@ -2,13 +2,18 @@ package gg.eris.commons.bukkit.scoreboard;
 
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import org.bukkit.entity.Player;
 
 public interface CommonsScoreboard {
 
+  void addLine(String line);
+
   void addLine(BiFunction<ErisPlayer, Long, String> line);
 
   void addLine(BiFunction<ErisPlayer, Long, String> line, int updateTicks);
+
+  void setTitle(BiFunction<ErisPlayer, Long, String> title);
 
   void addPlayer(Player player);
 

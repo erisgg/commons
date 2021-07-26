@@ -49,7 +49,7 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
   public void removeScoreboard(Identifier identifier) {
     CommonsScoreboard scoreboard = this.scoreboards.remove(identifier);
     if (scoreboard != null) {
-      return;
+      return; // TODO: cleanup
     }
   }
 

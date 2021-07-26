@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.scoreboard.CommonsScoreboard;
-import gg.eris.commons.bukkit.scoreboard.ScoreboardController;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.util.Pair;
 import gg.eris.commons.core.util.Validate;
@@ -15,9 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -49,8 +46,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
   private final String internalName;
   private final List<Pair<ChatColor, ChatColor>> pairs;
 
-  @Setter
-  private Function<Long, String> displayName;
+  private BiFunction<ErisPlayer, Long, String> title;
 
   private int highestIndex;
 
@@ -68,7 +64,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
     this.lines = new Int2ObjectArrayMap<>();
     this.players = Maps.newHashMap();
     this.pairs = new ArrayList<>(COLOR_PAIRS);
-    this.displayName = (i) -> null;
+    this.title = (p, i) -> null;
     this.highestIndex = 0;
   }
 
@@ -90,8 +86,14 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
   }
 
   @Override
+  public void addLine(String line) {
+    addLine((e, t) -> line);
+  }
+
+  @Override
   public void addPlayer(Player player) {
     this.scoreboardController.setScoreboard(player, this);
+    this.players.put(player.getUniqueId(), 0L);
   }
 
   @Override
@@ -99,6 +101,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
     Validate.isTrue(this.players.containsKey(player.getUniqueId()),
         "player is not a member of scoreboard");
     this.scoreboardController.setScoreboard(player, null);
+    this.players.remove(player.getUniqueId());
   }
 
   @Override
@@ -106,11 +109,16 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
     return this.players.get(player.getUniqueId()) != null;
   }
 
+  @Override
+  public void setTitle(BiFunction<ErisPlayer, Long, String> title) {
+    this.title = title;
+  }
+
   protected void apply(ErisPlayer player, Scoreboard scoreboard) {
     Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
 
-    long tick = this.players.get(player.getUniqueId());
-    this.players.put(player.getUniqueId(), ++tick);
+    long tick = this.players.get(player.getUniqueId()) + 1;
+    this.players.put(player.getUniqueId(), tick);
 
     if (objective != null && !objective.getName().equals(this.internalName)) {
       objective.unregister();
@@ -126,7 +134,8 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
 
   private void newObjective(ErisPlayer player, Scoreboard scoreboard) {
     Objective objective = scoreboard.registerNewObjective(this.internalName, "dummy");
-    objective.setDisplayName(this.displayName.apply(0L));
+    objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+    objective.setDisplayName(this.title.apply(player, 0L));
 
     for (ScoreboardLine line : this.lines.values()) {
       int index = this.highestIndex - line.getIndex();
@@ -138,7 +147,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
 
       if (value.length() <= 16) {
         team.setPrefix(value);
-        team.setSuffix(null);
+        team.setSuffix("");
       } else {
         team.setPrefix(value.substring(0, 16));
         team.setSuffix(value.substring(16));
@@ -151,7 +160,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
 
   private void updateObjective(ErisPlayer player, Scoreboard scoreboard, long tick) {
     Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-    objective.setDisplayName(this.displayName.apply(tick));
+    objective.setDisplayName(this.title.apply(player, tick));
 
     for (ScoreboardLine line : this.lines.values()) {
       Team team = scoreboard.getTeam(line.getTeamName());
@@ -161,7 +170,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
 
         if (value.length() <= 16) {
           team.setPrefix(value);
-          team.setSuffix(null);
+          team.setSuffix("");
         } else {
           team.setPrefix(value.substring(0, 16));
           team.setSuffix(value.substring(16));
