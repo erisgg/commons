@@ -2,6 +2,7 @@ package gg.eris.commons.bukkit.text;
 
 import com.google.common.collect.Lists;
 import gg.eris.commons.core.util.Validate;
+import java.util.Arrays;
 import java.util.List;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -34,12 +35,14 @@ public final class TextMessage {
     return ComponentSerializer.parse(getJsonMessage());
   }
 
+  public boolean isEmpty() {
+    return this.getJsonMessage().equals(EMPTY.getJsonMessage());
+  }
+
   public static TextMessage join(TextMessage... messages) {
     List<TextComponent> components = Lists.newArrayList();
     for (TextMessage message : messages) {
-      for (TextComponent component : message.components) {
-        components.add(component);
-      }
+      components.addAll(Arrays.asList(message.components));
     }
     return new TextMessage(components.toArray(new TextComponent[0]));
   }

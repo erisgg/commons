@@ -25,13 +25,20 @@ public class TablistUtil {
   }
 
   public static void sendHeaderFooter(Player player, TextMessage header, TextMessage footer) {
-    PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter(
-        IChatBaseComponent.ChatSerializer.a(header.getJsonMessage()));
+    PacketPlayOutPlayerListHeaderFooter packet;
+    if (header.isEmpty()) {
+      packet = new PacketPlayOutPlayerListHeaderFooter();
+    } else {
+      packet = new PacketPlayOutPlayerListHeaderFooter(
+          IChatBaseComponent.ChatSerializer.a(header.getJsonMessage()));
+    }
 
-    try {
-      PACKET_FIELD_B.set(packet, IChatBaseComponent.ChatSerializer.a(footer.getJsonMessage()));
-    } catch (Exception e) {
-      e.printStackTrace();
+    if (!footer.isEmpty()) {
+      try {
+        PACKET_FIELD_B.set(packet, IChatBaseComponent.ChatSerializer.a(footer.getJsonMessage()));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
 
     PlayerUtil.getHandle(player).playerConnection.sendPacket(packet);
