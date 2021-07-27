@@ -1,7 +1,9 @@
 package gg.eris.commons.bukkit.util;
 
 import gg.eris.commons.core.util.Text;
+import gg.eris.commons.core.util.Validate;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.index.qual.PolyUpperBound;
@@ -30,12 +32,16 @@ public class StackUtil {
     return item;
   }
 
-  public static void decrement(ItemStack item) {
+  public static boolean decrement(ItemStack item) {
+    Validate.notNull(item, "item cannot be null");
     if (item.getAmount() == 1) {
-      item.setType(null);
+      item.setType(Material.AIR);
+      return false;
     } else {
       item.setAmount(item.getAmount() - 1);
     }
+
+    return true;
   }
 
 }
