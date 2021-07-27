@@ -30,6 +30,12 @@ public final class TextController {
     broadcastToServer(textMessage);
   }
 
+  public static void broadcastToServer(TextType textType, String message, Object... variables) {
+    TextMessage textMessage = parse(textType, Int2ObjectMaps.emptyMap(), Int2ObjectMaps.emptyMap(),
+        message, variables);
+    broadcastToServer(textMessage);
+  }
+
   public static void send(Player player, TextType textType, Int2ObjectMap<ClickEvent> clickEvents,
       Int2ObjectMap<HoverEvent> hoverEvents, String message, Object... variables) {
     TextMessage textMessage = parse(textType, clickEvents, hoverEvents, message, variables);
