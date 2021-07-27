@@ -39,6 +39,7 @@ public class PlayerUtil {
    */
   public static void resetPlayer(Player player) {
     player.getInventory().clear();
+    player.getInventory().setArmorContents(new ItemStack[4]);
     player.setHealth(player.getMaxHealth());
     player.setSaturation(10f);
     player.setFoodLevel(20);
