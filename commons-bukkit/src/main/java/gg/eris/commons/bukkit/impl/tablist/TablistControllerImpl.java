@@ -96,7 +96,9 @@ public final class TablistControllerImpl implements TablistController {
         TextController.parse(this.footer)
     );
 
-    player.setPlayerListName(displayNameFunction.apply(this.erisPlayerManager.getPlayer(player)));
+    if (this.displayNameFunction != null) {
+      player.setPlayerListName(displayNameFunction.apply(this.erisPlayerManager.getPlayer(player)));
+    }
   }
 
 }
