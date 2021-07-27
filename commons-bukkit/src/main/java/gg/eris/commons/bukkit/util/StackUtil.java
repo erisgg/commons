@@ -4,6 +4,7 @@ import gg.eris.commons.core.util.Text;
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.checkerframework.checker.index.qual.PolyUpperBound;
 
 @UtilityClass
 public class StackUtil {
@@ -27,6 +28,14 @@ public class StackUtil {
 
     item.setItemMeta(meta);
     return item;
+  }
+
+  public static void decrement(ItemStack item) {
+    if (item.getAmount() == 1) {
+      item.setType(null);
+    } else {
+      item.setAmount(item.getAmount() - 1);
+    }
   }
 
 }
