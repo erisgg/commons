@@ -10,11 +10,14 @@ import gg.eris.commons.core.util.Validate;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -101,7 +104,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
     Validate.isTrue(this.players.containsKey(player.getUniqueId()),
         "player is not a member of scoreboard");
     this.scoreboardController.setScoreboard(player, null);
-    this.players.remove(player.getUniqueId());
+    removePlayerInternal(player);
   }
 
   @Override
@@ -112,6 +115,18 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
   @Override
   public void setTitle(BiFunction<ErisPlayer, Long, String> title) {
     this.title = title;
+  }
+
+  @Override
+  public Collection<UUID> getPlayers() {
+    return Set.copyOf(this.players.keySet());
+  }
+
+  @Override
+  public void removeAllPlayers() {
+    for (UUID uuid : getPlayers()) {
+      removePlayer(Bukkit.getPlayer(uuid));
+    }
   }
 
   protected void apply(ErisPlayer player, Scoreboard scoreboard) {
@@ -130,6 +145,10 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
         updateObjective(player, scoreboard, tick);
       }
     }
+  }
+
+  protected void removePlayerInternal(Player player) {
+    this.players.remove(player.getUniqueId());
   }
 
   private void newObjective(ErisPlayer player, Scoreboard scoreboard) {

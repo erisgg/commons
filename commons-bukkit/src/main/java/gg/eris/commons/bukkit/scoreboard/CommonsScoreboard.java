@@ -1,6 +1,8 @@
 package gg.eris.commons.bukkit.scoreboard;
 
 import gg.eris.commons.bukkit.player.ErisPlayer;
+import java.util.Collection;
+import java.util.UUID;
 import java.util.function.BiFunction;
 import org.bukkit.entity.Player;
 
@@ -19,5 +21,9 @@ public interface CommonsScoreboard {
   void removePlayer(Player player);
 
   boolean isPlayer(Player player);
+
+  Collection<UUID> getPlayers();
+
+  void removeAllPlayers();
 
 }

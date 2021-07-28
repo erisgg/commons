@@ -54,7 +54,7 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
   public void removeScoreboard(Identifier identifier) {
     CommonsScoreboard scoreboard = this.scoreboards.remove(identifier);
     if (scoreboard != null) {
-      return; // TODO: cleanup
+      scoreboard.removeAllPlayers();
     }
   }
 
@@ -73,6 +73,11 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
   }
 
   protected void setScoreboard(Player player, CommonsScoreboardImpl scoreboard) {
+    CommonsScoreboardImpl previous = this.playerScoreboards.get(player.getUniqueId());
+    if (previous != null) {
+      previous.removePlayerInternal(player);
+    }
+
     this.playerScoreboards.put(player.getUniqueId(), scoreboard);
   }
 
