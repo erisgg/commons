@@ -84,9 +84,9 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
       scoreboard.addPlayerInternal(player);
     } else {
       this.playerScoreboards.remove(player.getUniqueId());
-      player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).unregister();
     }
 
+    player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).unregister();
   }
 
 }
