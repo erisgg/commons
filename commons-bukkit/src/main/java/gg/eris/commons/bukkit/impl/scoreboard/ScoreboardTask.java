@@ -25,9 +25,6 @@ public final class ScoreboardTask extends BukkitRunnable {
       }
 
       Scoreboard handle = this.controller.getHandles().get(player.getUniqueId());
-
-      System.out.println("updating for player " + player.getName());
-
       entry.getValue().apply(
           this.erisPlayerManager.getPlayer(player),
           handle
