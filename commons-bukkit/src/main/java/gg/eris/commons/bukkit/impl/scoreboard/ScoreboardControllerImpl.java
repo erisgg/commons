@@ -86,7 +86,10 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
       this.playerScoreboards.remove(player.getUniqueId());
     }
 
-    player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).unregister();
+    Objective objective = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR);
+    if (objective != null) {
+      player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).unregister();
+    }
   }
 
 }
