@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -78,7 +79,14 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
       previous.removePlayerInternal(player);
     }
 
-    this.playerScoreboards.put(player.getUniqueId(), scoreboard);
+    if (scoreboard != null) {
+      this.playerScoreboards.put(player.getUniqueId(), scoreboard);
+      scoreboard.addPlayerInternal(player);
+    } else {
+      this.playerScoreboards.remove(player.getUniqueId());
+      player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).unregister();
+    }
+
   }
 
 }

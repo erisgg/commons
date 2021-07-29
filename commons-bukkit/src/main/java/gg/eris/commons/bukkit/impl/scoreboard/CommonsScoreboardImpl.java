@@ -96,7 +96,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
   @Override
   public void addPlayer(Player player) {
     this.scoreboardController.setScoreboard(player, this);
-    this.players.put(player.getUniqueId(), 0L);
+    addPlayerInternal(player);
   }
 
   @Override
@@ -104,7 +104,6 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
     Validate.isTrue(this.players.containsKey(player.getUniqueId()),
         "player is not a member of scoreboard");
     this.scoreboardController.setScoreboard(player, null);
-    removePlayerInternal(player);
   }
 
   @Override
@@ -145,6 +144,10 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
         updateObjective(player, scoreboard, tick);
       }
     }
+  }
+
+  protected void addPlayerInternal(Player player) {
+    this.players.put(player.getUniqueId(), 0L);
   }
 
   protected void removePlayerInternal(Player player) {
