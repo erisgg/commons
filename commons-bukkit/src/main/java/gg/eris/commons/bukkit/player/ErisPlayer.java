@@ -108,16 +108,20 @@ public class ErisPlayer implements Serializable {
       this.permissions = ImmutableList.copyOf(permissions);
     }
 
-    public static DefaultData fromNode(JsonNode node) throws IOException {
-      return of(
-          UUID.fromString(node.get("uuid").asText()),
-          node.get("name").asText(),
-          STRING_READER.readValue(node.get("name_history")),
-          node.get("first_login").asLong(),
-          node.get("last_login").asLong(),
-          ErisBukkitCommonsPlugin.getInstance().getRankRegistry().get(node.get("rank").asText()),
-          List.of()
-      );
+    public static DefaultData fromNode(JsonNode node) {
+      try {
+        return of(
+            UUID.fromString(node.get("uuid").asText()),
+            node.get("name").asText(),
+            STRING_READER.readValue(node.get("name_history")),
+            node.get("first_login").asLong(),
+            node.get("last_login").asLong(),
+            ErisBukkitCommonsPlugin.getInstance().getRankRegistry().get(node.get("rank").asText()),
+            List.of()
+        );
+      } catch (IOException err) {
+        return null;
+      }
     }
 
     public static DefaultData of(UUID uuid, String name, List<String> nameHistory, long firstLogin,
