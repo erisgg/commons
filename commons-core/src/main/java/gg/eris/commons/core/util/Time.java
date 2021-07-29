@@ -208,7 +208,11 @@ public class Time {
     StringBuilder builder = new StringBuilder();
 
     if (days > 0) {
-      builder.append(days).append(" days");
+      if (days == 1) {
+        builder.append(hours).append(" day");
+      } else {
+        builder.append(days).append(" days");
+      }
       if (--valueCount == 1) {
         builder.append(" and ");
       } else if (valueCount > 1) {
@@ -217,7 +221,11 @@ public class Time {
     }
 
     if (hours > 0) {
-      builder.append(hours).append(" hours");
+      if (hours == 1) {
+        builder.append(hours).append(" hour");
+      } else {
+        builder.append(hours).append(" hours");
+      }
       if (--valueCount == 1) {
         builder.append(" and ");
       } else if (valueCount > 1) {
@@ -226,7 +234,11 @@ public class Time {
     }
 
     if (minutes > 0) {
-      builder.append(minutes).append(" minutes");
+      if (minutes == 1) {
+        builder.append(minutes).append(" minute");
+      } else {
+        builder.append(minutes).append(" minutes");
+      }
       if (--valueCount == 1) {
         builder.append(" and ");
       } else if (valueCount > 1) {
@@ -235,7 +247,11 @@ public class Time {
     }
 
     if (seconds > 0) {
-      builder.append(seconds).append(" seconds");
+      if (seconds == 1) {
+        builder.append(seconds).append(" second");
+      } else {
+        builder.append(seconds).append(" seconds");
+      }
     }
 
     return builder.length() == 0 ? "0 seconds" : builder.toString();
