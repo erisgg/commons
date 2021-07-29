@@ -101,7 +101,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     // Setting the player provider if none has been set by any plugin
     Bukkit.getScheduler().runTask(this, () -> {
       if (!((ErisPlayerManagerImpl) this.erisPlayerManager).isPlayerSerializerSet()) {
-        this.erisPlayerManager.setPlayerSerializer(new DefaultErisPlayerSerializer(this));
+        this.erisPlayerManager.setPlayerSerializer(new DefaultErisPlayerSerializer());
       }
 
       // Default chat format is:

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.common.collect.ImmutableList;
+import gg.eris.commons.bukkit.ErisBukkitCommons;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.rank.Rank;
@@ -129,6 +130,19 @@ public class ErisPlayer implements Serializable {
           lastLogin,
           rank,
           permissions
+      );
+    }
+
+    public static DefaultData newData(Player player) {
+      long time = System.currentTimeMillis();
+      return DefaultData.of(
+          player.getUniqueId(),
+          player.getName(),
+          List.of(player.getName()),
+          time,
+          time,
+          ErisBukkitCommonsPlugin.getInstance().getRankRegistry().DEFAULT,
+          List.of()
       );
     }
 
