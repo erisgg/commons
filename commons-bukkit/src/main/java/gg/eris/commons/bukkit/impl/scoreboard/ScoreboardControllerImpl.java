@@ -20,8 +20,6 @@ import org.bukkit.scoreboard.Team;
 
 public final class ScoreboardControllerImpl implements ScoreboardController {
 
-  private final ErisPlayerManager erisPlayerManager;
-
   @Getter(AccessLevel.PROTECTED)
   private final Map<Identifier, CommonsScoreboardImpl> scoreboards;
   @Getter(AccessLevel.PROTECTED)
@@ -31,7 +29,6 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
 
   public ScoreboardControllerImpl(ErisBukkitCommonsPlugin plugin,
       ErisPlayerManager erisPlayerManager) {
-    this.erisPlayerManager = erisPlayerManager;
     this.scoreboards = Maps.newHashMap();
     this.handles = Maps.newHashMap();
     this.playerScoreboards = Maps.newHashMap();
@@ -84,12 +81,15 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
       scoreboard.addPlayerInternal(player);
     } else {
       this.playerScoreboards.remove(player.getUniqueId());
+      Objective objective = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR);
+      if (objective != null) {
+        player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).unregister();
+      }
     }
 
-    Objective objective = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR);
-    if (objective != null) {
-      player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).unregister();
-    }
+
+
+
   }
 
 }

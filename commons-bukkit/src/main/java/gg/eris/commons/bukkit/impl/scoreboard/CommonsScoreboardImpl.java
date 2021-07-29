@@ -2,6 +2,7 @@ package gg.eris.commons.bukkit.impl.scoreboard;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.scoreboard.CommonsScoreboard;
 import gg.eris.commons.core.identifier.Identifier;
@@ -96,7 +97,6 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
   @Override
   public void addPlayer(Player player) {
     this.scoreboardController.setScoreboard(player, this);
-    addPlayerInternal(player);
   }
 
   @Override
@@ -118,7 +118,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
 
   @Override
   public Collection<UUID> getPlayers() {
-    return Set.copyOf(this.players.keySet());
+    return Sets.newHashSet(this.players.keySet());
   }
 
   @Override
