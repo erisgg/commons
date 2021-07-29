@@ -134,15 +134,10 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
     long tick = this.players.get(player.getUniqueId()) + 1;
     this.players.put(player.getUniqueId(), tick);
 
-    if (objective != null && !objective.getName().equals(this.internalName)) {
-      objective.unregister();
+    if (objective == null) {
       newObjective(player, scoreboard);
     } else {
-      if (objective == null) {
-        newObjective(player, scoreboard);
-      } else {
-        updateObjective(player, scoreboard, tick);
-      }
+      updateObjective(player, scoreboard, tick);
     }
   }
 
