@@ -10,4 +10,6 @@ public interface ScoreboardController {
 
   void removeScoreboard(Identifier identifier);
 
+  void removeScoreboard(CommonsScoreboard scoreboard);
+
 }

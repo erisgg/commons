@@ -1,12 +1,13 @@
 package gg.eris.commons.bukkit.scoreboard;
 
 import gg.eris.commons.bukkit.player.ErisPlayer;
+import gg.eris.commons.core.identifier.Identifiable;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import org.bukkit.entity.Player;
 
-public interface CommonsScoreboard {
+public interface CommonsScoreboard extends Identifiable {
 
   void addLine(String line);
 

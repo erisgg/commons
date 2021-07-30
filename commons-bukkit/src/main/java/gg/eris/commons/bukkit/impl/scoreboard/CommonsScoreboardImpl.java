@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import lombok.Getter;
@@ -42,7 +41,6 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
     COLOR_PAIRS = pairs;
   }
 
-  @Getter
   private final Identifier identifier;
   private final ScoreboardControllerImpl scoreboardController;
   private final Int2ObjectMap<ScoreboardLine> lines;
@@ -126,6 +124,11 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
     for (UUID uuid : getPlayers()) {
       removePlayer(Bukkit.getPlayer(uuid));
     }
+  }
+
+  @Override
+  public Identifier getIdentifier() {
+    return this.identifier;
   }
 
   protected void apply(ErisPlayer player, Scoreboard scoreboard) {

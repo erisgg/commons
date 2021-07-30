@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
 public final class ScoreboardControllerImpl implements ScoreboardController {
 
@@ -54,6 +53,11 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
     if (scoreboard != null) {
       scoreboard.removeAllPlayers();
     }
+  }
+
+  @Override
+  public void removeScoreboard(CommonsScoreboard scoreboard) {
+    removeScoreboard(scoreboard.getIdentifier());
   }
 
   protected void onJoin(Player player) {
