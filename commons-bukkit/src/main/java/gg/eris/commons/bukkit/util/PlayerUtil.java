@@ -40,7 +40,8 @@ public class PlayerUtil {
   public static void resetPlayer(Player player) {
     player.getInventory().clear();
     player.getInventory().setArmorContents(new ItemStack[4]);
-    player.setHealth(player.getMaxHealth());
+    player.setMaxHealth(20);
+    player.setHealth(20);
     player.setSaturation(10f);
     player.setFoodLevel(20);
     player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));

@@ -2,9 +2,8 @@ package gg.eris.commons.bukkit.player;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import gg.eris.commons.bukkit.ErisBukkitCommons;
 import gg.eris.commons.bukkit.player.ErisPlayer.DefaultData;
-import java.io.IOException;
+import java.util.Objects;
 import org.bukkit.entity.Player;
 
 public final class DefaultErisPlayerSerializer extends ErisPlayerSerializer<ErisPlayer> {
@@ -20,12 +19,7 @@ public final class DefaultErisPlayerSerializer extends ErisPlayerSerializer<Eris
 
   @Override
   public ErisPlayer deserializePlayer(JsonNode node) {
-    try {
-      return new ErisPlayer(DefaultData.fromNode(node));
-    } catch (IOException err) {
-      err.printStackTrace();
-    }
-    return null;
+    return new ErisPlayer(Objects.requireNonNull(DefaultData.fromNode(node)));
   }
 
   @Override
