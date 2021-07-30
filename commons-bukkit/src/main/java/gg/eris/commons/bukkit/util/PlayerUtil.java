@@ -2,6 +2,7 @@ package gg.eris.commons.bukkit.util;
 
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -45,6 +46,10 @@ public class PlayerUtil {
     player.setSaturation(10f);
     player.setFoodLevel(20);
     player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
+  }
+
+  public static void playSound(Player player, Sound sound) {
+    player.playSound(player.getLocation(), sound, 1f, 1f);
   }
 
   public static EntityPlayer getHandle(Player player) {
