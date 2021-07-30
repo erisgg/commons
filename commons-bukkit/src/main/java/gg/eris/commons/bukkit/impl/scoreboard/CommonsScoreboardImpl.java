@@ -120,6 +120,13 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
   }
 
   @Override
+  public void addAllPlayers() {
+    for (Player player : Bukkit.getOnlinePlayers()) {
+      addPlayer(player);
+    }
+  }
+
+  @Override
   public void removeAllPlayers() {
     for (UUID uuid : getPlayers()) {
       removePlayer(Bukkit.getPlayer(uuid));

@@ -25,6 +25,8 @@ public interface CommonsScoreboard extends Identifiable {
 
   Collection<UUID> getPlayers();
 
+  void addAllPlayers();
+
   void removeAllPlayers();
 
 }
