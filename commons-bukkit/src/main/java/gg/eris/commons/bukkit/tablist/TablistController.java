@@ -13,4 +13,8 @@ public interface TablistController {
 
   void setFooter(String footer);
 
+  void updateDisplayName(Player player);
+
+  void updateAllDisplayNames();
+
 }

@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 @RequiredArgsConstructor
 public final class ScoreboardListener implements Listener {
@@ -16,8 +17,8 @@ public final class ScoreboardListener implements Listener {
     this.scoreboardController.onJoin(event.getPlayer());
   }
 
-  @EventHandler(priority = EventPriority.LOWEST)
-  public void onPlayerQuit(PlayerJoinEvent event) {
+  @EventHandler(priority = EventPriority.LOW)
+  public void onPlayerQuit(PlayerQuitEvent event) {
     this.scoreboardController.onQuit(event.getPlayer());
   }
 

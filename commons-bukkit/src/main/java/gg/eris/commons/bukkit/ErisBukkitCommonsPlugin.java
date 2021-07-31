@@ -82,7 +82,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     this.permissionRegistry = new PermissionRegistry();
     this.rankRegistry = new RankRegistry();
     this.erisPlayerManager = new ErisPlayerManagerImpl(this);
-    this.tablistController = new TablistControllerImpl(this.erisPlayerManager, this.rankRegistry);
+    this.tablistController = new TablistControllerImpl(this);
     this.scoreboardController = new ScoreboardControllerImpl(this, this.erisPlayerManager);
 
     PluginManager pluginManager = Bukkit.getPluginManager();
