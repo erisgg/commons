@@ -1,5 +1,8 @@
 package gg.eris.commons.core.util;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.experimental.UtilityClass;
@@ -59,6 +62,21 @@ public class RandomUtil {
     Validate.isTrue(!list.isEmpty(), "list cannot be empty");
     return list.size() == 1 ? list.get(0) :
         list.get(ThreadLocalRandom.current().nextInt(list.size()));
+  }
+
+  /**
+   * Returns a shuffled list of 0 to n-1
+   *
+   * @param n is the number of elements into the list, exclusive
+   * @return the int list
+   */
+  public static IntList randomList(int n) {
+    IntList list = new IntArrayList(n);
+    for (int i = 0; i < n; i++) {
+      list.add(i);
+    }
+    Collections.shuffle(list);
+    return list;
   }
 
 }
