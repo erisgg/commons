@@ -9,7 +9,7 @@ import org.apache.commons.lang3.Validate;
 public class RandomUtil {
 
   /**
-   * Returns a random number between given bounds
+   * Returns a random integer between given bounds
    *
    * @param lower is the lower bound (inclusive)
    * @param upper is the upper bound (exclusive)
@@ -21,6 +21,21 @@ public class RandomUtil {
       return lower;
     }
     return ThreadLocalRandom.current().nextInt(upper - lower) + lower;
+  }
+
+  /**
+   * Returns a random double-precision floating point number between given bounds
+   *
+   * @param lower is the lower bound (inclusive)
+   * @param upper is the upper bound (exclusive)
+   * @return a random number between the lower and upper
+   */
+  public static double randomDouble(double lower, double upper) {
+    Validate.isTrue(lower <= upper);
+    if (lower == upper) {
+      return lower;
+    }
+    return ThreadLocalRandom.current().nextDouble(upper - lower) + lower;
   }
 
   /**
