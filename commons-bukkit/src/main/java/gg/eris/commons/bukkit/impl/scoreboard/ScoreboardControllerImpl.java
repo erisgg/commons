@@ -68,10 +68,7 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
 
   protected void onQuit(Player player) {
     this.handles.remove(player.getUniqueId());
-    CommonsScoreboardImpl scoreboard = this.playerScoreboards.remove(player.getUniqueId());
-    if (scoreboard != null) {
-      scoreboard.removePlayer(player);
-    }
+    setScoreboard(player, null);
   }
 
   protected void setScoreboard(Player player, CommonsScoreboardImpl scoreboard) {
