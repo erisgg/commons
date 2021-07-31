@@ -6,8 +6,17 @@ import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.tablist.TablistController;
 import gg.eris.commons.bukkit.text.TextController;
+import gg.eris.commons.bukkit.text.TextMessage;
+import gg.eris.commons.bukkit.util.PlayerUtil;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -17,7 +26,7 @@ public final class TablistControllerImpl implements TablistController {
   private final RankRegistry rankRegistry;
   private String header;
   private String footer;
-  private Function<ErisPlayer, String> displayNameFunction;
+  private BiFunction<ErisPlayer, ErisPlayer, String> displayNameFunction;
 
   public TablistControllerImpl(ErisPlayerManager erisPlayerManager, RankRegistry rankRegistry) {
     this.erisPlayerManager = erisPlayerManager;
@@ -25,8 +34,9 @@ public final class TablistControllerImpl implements TablistController {
   }
 
   @Override
-  public void setDisplayNameFunction(Function<ErisPlayer, String> displayNameFunction) {
+  public void setDisplayNameFunction(BiFunction<ErisPlayer, ErisPlayer, String> displayNameFunction) {
     this.displayNameFunction = displayNameFunction;
+    updateAll();
   }
 
   @Override
@@ -89,16 +99,35 @@ public final class TablistControllerImpl implements TablistController {
         .removeEntry(removal.getName());
   }
 
-  public void update(Player player) {
+  public void update(Player handle) {
+    ErisPlayer player = this.erisPlayerManager.getPlayer(handle);
     TablistUtil.sendHeaderFooter(
-        player,
+        handle,
         TextController.parse(this.header),
         TextController.parse(this.footer)
     );
 
-    if (this.displayNameFunction != null) {
-      player.setPlayerListName(displayNameFunction.apply(this.erisPlayerManager.getPlayer(player)));
+    for (Player otherHandle : Bukkit.getOnlinePlayers()) {
+      ErisPlayer other = this.erisPlayerManager.getPlayer(otherHandle);
+      String tablistName = this.displayNameFunction.apply(player, other);
+
+      PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
+      packet.a = EnumPlayerInfoAction.UPDATE_DISPLAY_NAME;
+      packet.b.add(createPlayerInfoData(packet, handle, tablistName));
+
+      PlayerUtil.getHandle(otherHandle).playerConnection.sendPacket(packet);
     }
+  }
+
+  private static PacketPlayOutPlayerInfo.PlayerInfoData createPlayerInfoData(PacketPlayOutPlayerInfo packet, Player player, String name) {
+    EntityPlayer handle = PlayerUtil.getHandle(player);
+
+    return packet.constructData(
+        handle.getProfile(),
+        1,
+        handle.playerInteractManager.getGameMode(),
+        IChatBaseComponent.ChatSerializer.a("[{\"text\":\"" + name + "\"}]")
+    );
   }
 
 }
