@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -65,6 +66,30 @@ public final class MenuListener implements Listener {
           menuViewer.setOpenParent(true);
         }
       });
+    }
+  }
+
+  @EventHandler
+  public void onInventoryDrag(InventoryDragEvent event) {
+    if (event.getInventory() == null) {
+      return;
+    }
+
+    Inventory clicked = event.getInventory();
+    InventoryHolder inventoryHolder = clicked.getHolder();
+    if (!(inventoryHolder instanceof MenuInventoryHolder)) {
+      return;
+    }
+
+    MenuInventoryHolder menuHolder = (MenuInventoryHolder) inventoryHolder;
+    Menu menu = menuHolder.getMenu();
+    event.setCancelled(true);
+
+    for (int slot : event.getInventorySlots()) {
+      MenuItem item = menu.getItem(slot);
+      if (item != null) {
+        item.onDrag(menuHolder.getViewer(), event);
+      }
     }
   }
 
