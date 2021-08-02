@@ -11,6 +11,10 @@ import org.checkerframework.checker.index.qual.PolyUpperBound;
 @UtilityClass
 public class StackUtil {
 
+  public static boolean isNullOrAir(ItemStack item) {
+    return item == null || item.getType() == Material.AIR;
+  }
+
   /**
    * Replaces the name and lore of an item with given placeholders
    *
