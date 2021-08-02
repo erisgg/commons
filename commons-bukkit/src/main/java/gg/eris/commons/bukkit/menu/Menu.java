@@ -2,21 +2,36 @@ package gg.eris.commons.bukkit.menu;
 
 import gg.eris.commons.bukkit.impl.menu.MenuInventoryHolder;
 import gg.eris.commons.bukkit.menu.item.ActionlessMenuItem;
+import gg.eris.commons.bukkit.util.DataUtil;
+import gg.eris.commons.bukkit.util.ItemBuilder;
+import gg.eris.commons.core.identifier.Identifiable;
+import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.util.Validate;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import java.util.Collection;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public abstract class Menu {
+public abstract class Menu implements Identifiable {
+
+  public static final ItemStack LIGHT_FILLER = new ItemBuilder(Material.STAINED_GLASS_PANE)
+      .withDurability(DataUtil.LIGHT_GRAY)
+      .withName(" ")
+      .build();
+
+  public static final ItemStack DARK_FILLER = new ItemBuilder(Material.STAINED_GLASS_PANE)
+      .withDurability(DataUtil.GRAY)
+      .withName(" ")
+      .build();
 
   private final JavaPlugin owningPlugin;
-  private final String identifier;
+  private final Identifier identifier;
   private final int rows;
   private final int itemCount;
 
@@ -28,7 +43,7 @@ public abstract class Menu {
 
   private MenuItem fillItem;
 
-  public Menu(JavaPlugin owningPlugin, String identifier, int rows) {
+  public Menu(JavaPlugin owningPlugin, Identifier identifier, int rows) {
     this.owningPlugin = owningPlugin;
     this.identifier = identifier;
     this.rows = rows;
@@ -103,6 +118,11 @@ public abstract class Menu {
 
   public final boolean hasParent() {
     return this.parent != null;
+  }
+
+  @Override
+  public final Identifier getIdentifier() {
+    return this.identifier;
   }
 
 }
