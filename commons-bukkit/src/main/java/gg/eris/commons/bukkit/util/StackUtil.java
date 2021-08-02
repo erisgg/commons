@@ -56,8 +56,18 @@ public class StackUtil {
   }
 
   public static void dropItems(Location location, Collection<ItemStack> items) {
-    for (ItemStack item : items) {
-      location.getWorld().dropItem(location, item);
+    dropItems(location, items, false);
+  }
+
+  public static void dropItems(Location location, Collection<ItemStack> items, boolean natural) {
+    if (natural) {
+      for (ItemStack item : items) {
+        location.getWorld().dropItemNaturally(location, item);
+      }
+    } else {
+      for (ItemStack item : items) {
+        location.getWorld().dropItem(location, item);
+      }
     }
   }
 
