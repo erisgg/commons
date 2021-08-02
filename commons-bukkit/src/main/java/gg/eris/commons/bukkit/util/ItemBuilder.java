@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public final class ItemBuilder {
 
   private final ItemStack item;
-  private final ItemMeta meta;
 
   /**
    * Creates an ItemBuilder instance of a given type with amount 1
@@ -43,7 +42,6 @@ public final class ItemBuilder {
    */
   public ItemBuilder(ItemStack item) {
     this.item = item;
-    this.meta = item.getItemMeta();
   }
 
 
@@ -54,7 +52,9 @@ public final class ItemBuilder {
    * @return the item builder
    */
   public ItemBuilder withName(String name) {
+    ItemMeta meta = getMeta();
     meta.setDisplayName(color(name));
+    saveMeta(meta);
     return this;
   }
 
@@ -65,7 +65,14 @@ public final class ItemBuilder {
    * @return the item builder
    */
   public ItemBuilder withLore(String... lore) {
+    ItemMeta meta = getMeta();
     meta.setLore(Arrays.stream(lore).map(ItemBuilder::color).collect(Collectors.toList()));
+    saveMeta(meta);
+    return this;
+  }
+
+  public ItemBuilder withDurability(short durability) {
+    this.item.setDurability(durability);
     return this;
   }
 
@@ -92,7 +99,7 @@ public final class ItemBuilder {
     return this;
   }
 
-  /**
+   /**
    * Adds an enchantment to the item
    *
    * @param enchantment is the enchantment
@@ -100,12 +107,16 @@ public final class ItemBuilder {
    * @return the item builder
    */
   public ItemBuilder withEnchantment(Enchantment enchantment, int level) {
-    this.meta.addEnchant(enchantment, level, true);
+    ItemMeta meta = getMeta();
+    meta.addEnchant(enchantment, level, true);
+    saveMeta(meta);
     return this;
   }
 
-  public ItemBuilder editMeta(Consumer<ItemMeta> meta) {
-    meta.accept(this.meta);
+  public ItemBuilder editMeta(Consumer<ItemMeta> metaConsumer) {
+    ItemMeta meta = getMeta();
+    metaConsumer.accept(meta);
+    saveMeta(meta);
     return this;
   }
 
@@ -116,11 +127,13 @@ public final class ItemBuilder {
    * @return the item builder
    */
   public ItemBuilder withEnchantments(Map<Enchantment, Integer> enchantments) {
+    ItemMeta meta = getMeta();
     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
       Enchantment enchantment = entry.getKey();
       int level = entry.getValue();
-      this.meta.addEnchant(enchantment, level, true);
+      meta.addEnchant(enchantment, level, true);
     }
+    saveMeta(meta);
     return this;
   }
 
@@ -129,7 +142,9 @@ public final class ItemBuilder {
   }
 
   public ItemBuilder unbreakable(boolean unbreakable) {
-    this.meta.spigot().setUnbreakable(unbreakable);
+    ItemMeta meta = getMeta();
+    meta.spigot().setUnbreakable(unbreakable);
+    saveMeta(meta);
     return this;
   }
 
@@ -140,7 +155,9 @@ public final class ItemBuilder {
    * @return the item builder
    */
   public ItemBuilder withFlags(ItemFlag... flags) {
-    this.meta.addItemFlags(flags);
+    ItemMeta meta = getMeta();
+    meta.addItemFlags(flags);
+    saveMeta(meta);
     return this;
   }
 
@@ -151,13 +168,14 @@ public final class ItemBuilder {
   }
 
   public <T extends ItemMeta> ItemBuilder applyMeta(Class<T> metaType, Consumer<T> metaApplier) {
-
+    ItemMeta meta = getMeta();
     if (!metaType.isAssignableFrom(meta.getClass())) {
       return this;
     }
 
     T specificMeta = metaType.cast(meta);
     metaApplier.accept(specificMeta);
+    saveMeta(meta);
     return this;
   }
 
@@ -167,10 +185,16 @@ public final class ItemBuilder {
    * @return a built {@link ItemStack}
    */
   public ItemStack build() {
-    item.setItemMeta(meta);
     return this.item;
   }
 
+  private ItemMeta getMeta() {
+    return this.item.getItemMeta();
+  }
+
+  public void saveMeta(ItemMeta meta) {
+    this.item.setItemMeta(meta);
+  }
 
   private static String color(String message) {
     return ChatColor.translateAlternateColorCodes('&', message);
