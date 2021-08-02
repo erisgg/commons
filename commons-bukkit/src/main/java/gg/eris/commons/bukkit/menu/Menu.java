@@ -83,6 +83,31 @@ public abstract class Menu implements Identifiable {
         getTitle(menuViewer));
     menuInventoryHolder.setInventory(inventory);
 
+    setInventoryForViewer(menuViewer, inventory);
+
+    menuViewer.getPlayer().openInventory(inventory);
+    menuViewer.setViewing(this);
+  }
+
+  public final void updateMenu(MenuViewer menuViewer) {
+    Validate.isTrue(menuViewer.getViewing() == this, "must be this menu");
+    Inventory inventory = menuViewer.getPlayer().getOpenInventory().getTopInventory();
+    setInventoryForViewer(menuViewer, inventory);
+  }
+
+  public final void setFillItem(ItemStack item) {
+    setFillItem(new ActionlessMenuItem(item));
+  }
+
+  public final void setFillItem(MenuItem item) {
+    this.fillItem = item;
+  }
+
+  public final boolean hasParent() {
+    return this.parent != null;
+  }
+
+  private void setInventoryForViewer(MenuViewer menuViewer, Inventory inventory) {
     ItemStack[] items = new ItemStack[this.itemCount];
     if (fillItem != null) {
       for (int i = 0; i < this.itemCount; i++) {
@@ -103,21 +128,6 @@ public abstract class Menu implements Identifiable {
     }
 
     inventory.setContents(items);
-
-    menuViewer.getPlayer().openInventory(inventory);
-    menuViewer.setViewing(this);
-  }
-
-  public final void setFillItem(ItemStack item) {
-    setFillItem(new ActionlessMenuItem(item));
-  }
-
-  public final void setFillItem(MenuItem item) {
-    this.fillItem = item;
-  }
-
-  public final boolean hasParent() {
-    return this.parent != null;
   }
 
   @Override
