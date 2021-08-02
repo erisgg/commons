@@ -2,7 +2,10 @@ package gg.eris.commons.bukkit.util;
 
 import gg.eris.commons.core.util.Text;
 import gg.eris.commons.core.util.Validate;
+import java.util.Arrays;
+import java.util.Collection;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -46,6 +49,16 @@ public class StackUtil {
     }
 
     return true;
+  }
+
+  public static void dropItem(Location location, ItemStack... items) {
+    dropItems(location, Arrays.asList(items));
+  }
+
+  public static void dropItems(Location location, Collection<ItemStack> items) {
+    for (ItemStack item : items) {
+      location.getWorld().dropItem(location, item);
+    }
   }
 
 }

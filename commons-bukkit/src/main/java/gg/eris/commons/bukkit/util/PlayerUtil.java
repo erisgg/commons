@@ -28,9 +28,7 @@ public class PlayerUtil {
    * @param items  are the items to drop
    */
   public static void dropItems(Player player, ItemStack... items) {
-    for (ItemStack item : items) {
-      player.getWorld().dropItem(player.getLocation(), item);
-    }
+    StackUtil.dropItem(player.getLocation(), items);
   }
 
   /**
