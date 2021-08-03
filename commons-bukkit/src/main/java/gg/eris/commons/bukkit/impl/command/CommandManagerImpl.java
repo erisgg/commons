@@ -10,6 +10,7 @@ import gg.eris.commons.core.util.Validate;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 
 public final class CommandManagerImpl implements CommandManager {
@@ -39,6 +40,7 @@ public final class CommandManagerImpl implements CommandManager {
     }
 
     this.commandMap.register(command.getName(), FALLBACK_PREFIX, new InternalCommand(command));
+    Bukkit.getLogger().info("Registered command with name " + command.getName());
   }
 
   @Override
