@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public final class ItemBuilder {
 
-  private final ItemStack item;
+  private ItemStack item;
 
   /**
    * Creates an ItemBuilder instance of a given type with amount 1
@@ -120,7 +120,7 @@ public final class ItemBuilder {
     return this;
   }
 
-   /**
+  /**
    * Adds an enchantment to the item
    *
    * @param enchantment is the enchantment
@@ -198,6 +198,24 @@ public final class ItemBuilder {
     T specificMeta = metaType.cast(meta);
     metaApplier.accept(specificMeta);
     saveMeta(meta);
+    return this;
+  }
+
+  public ItemBuilder nonAnvillable() {
+    return anvillable(false);
+  }
+
+  public ItemBuilder anvillable(boolean anvillable) {
+    this.item = NBTUtil.setNbtData(this.item, NBTUtil.ANVILLABLE, anvillable);
+    return this;
+  }
+
+  public ItemBuilder nonCraftable() {
+    return craftable(false);
+  }
+
+  public ItemBuilder craftable(boolean craftable) {
+    this.item = NBTUtil.setNbtData(this.item, NBTUtil.CRAFTABLE, craftable);
     return this;
   }
 

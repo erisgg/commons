@@ -9,6 +9,9 @@ import org.bukkit.inventory.ItemStack;
 @UtilityClass
 public class NBTUtil {
 
+  public static final String ANVILLABLE = "anvillable";
+  public static final String CRAFTABLE = "craftable";
+
   public static boolean hasNbtKey(ItemStack item, String nbtKey) {
     net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
     if (!nmsItem.hasTag()) {
@@ -100,5 +103,22 @@ public class NBTUtil {
 
     return CraftItemStack.asBukkitCopy(nmsItem);
   }
+
+  public static boolean isAnvillable(ItemStack item) {
+    if (!hasNbtKey(item, ANVILLABLE)) {
+      return true;
+    }
+
+    return !getBooleanNbtData(item, ANVILLABLE);
+  }
+
+  public static boolean isCraftable(ItemStack item) {
+    if (!hasNbtKey(item, CRAFTABLE)) {
+      return true;
+    }
+
+    return !getBooleanNbtData(item, CRAFTABLE);
+  }
+
 
 }

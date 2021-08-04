@@ -9,6 +9,7 @@ import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.impl.chat.ChatControllerImpl;
 import gg.eris.commons.bukkit.impl.chat.ChatControllerListener;
 import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
+import gg.eris.commons.bukkit.impl.item.ItemListener;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
 import gg.eris.commons.bukkit.impl.player.ErisPlayerManagerImpl;
 import gg.eris.commons.bukkit.impl.scoreboard.ScoreboardControllerImpl;
@@ -93,6 +94,8 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
         new ScoreboardListener((ScoreboardControllerImpl) this.scoreboardController), this);
     pluginManager
         .registerEvents(new TablistListener((TablistControllerImpl) this.tablistController), this);
+    pluginManager
+        .registerEvents(new ItemListener(), this);
 
     // Register service
     ServicesManager servicesManager = Bukkit.getServicesManager();
