@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public final class ItemBuilder {
@@ -128,7 +129,12 @@ public final class ItemBuilder {
    */
   public ItemBuilder withEnchantment(Enchantment enchantment, int level) {
     ItemMeta meta = getMeta();
-    meta.addEnchant(enchantment, level, true);
+    if (meta instanceof EnchantmentStorageMeta) {
+      ((EnchantmentStorageMeta) meta).addStoredEnchant(enchantment, level, true);
+    } else {
+      meta.addEnchant(enchantment, level, true);
+    }
+
     saveMeta(meta);
     return this;
   }
@@ -147,13 +153,9 @@ public final class ItemBuilder {
    * @return the item builder
    */
   public ItemBuilder withEnchantments(Map<Enchantment, Integer> enchantments) {
-    ItemMeta meta = getMeta();
     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-      Enchantment enchantment = entry.getKey();
-      int level = entry.getValue();
-      meta.addEnchant(enchantment, level, true);
+      withEnchantment(entry.getKey(), entry.getValue());
     }
-    saveMeta(meta);
     return this;
   }
 
