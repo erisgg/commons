@@ -55,6 +55,11 @@ public class Text {
         stackCounter = 0;
       }
     }
+
+    if (stack.length() > 0) {
+      list.add(stack.toString());
+    }
+
     return list;
   }
 

@@ -1,6 +1,8 @@
 package gg.eris.commons.bukkit.util;
 
+import com.google.common.collect.Lists;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -67,6 +69,24 @@ public final class ItemBuilder {
   public ItemBuilder withLore(String... lore) {
     ItemMeta meta = getMeta();
     meta.setLore(Arrays.stream(lore).map(ItemBuilder::color).collect(Collectors.toList()));
+    saveMeta(meta);
+    return this;
+  }
+
+  /**
+   * Adds to the lore of the item
+   *
+   * @param newLore is the new lore to add
+   * @return the item builder
+   */
+  public ItemBuilder addLore(String... newLore) {
+    ItemMeta meta = getMeta();
+    List<String> lore = meta.getLore();
+    if (lore == null) {
+      lore = Lists.newArrayList();
+    }
+    lore.addAll(Arrays.asList(newLore));
+    meta.setLore(lore);
     saveMeta(meta);
     return this;
   }
