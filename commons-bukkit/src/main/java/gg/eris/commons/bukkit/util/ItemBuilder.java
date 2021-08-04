@@ -44,7 +44,7 @@ public final class ItemBuilder {
    * @param item is the new item
    */
   public ItemBuilder(ItemStack item) {
-    this.item = item;
+    this.item = item.clone();
   }
 
 
