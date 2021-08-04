@@ -42,7 +42,28 @@ public final class ItemListener implements Listener {
         TextController.send(
             player,
             TextType.ERROR,
-            "That item cannot be used in an anvil"
+            "That item <h>cannot</h> be used in an <h>anvil</h>."
+        );
+      }
+    }
+  }
+
+  @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+  private void preventNonBrewableItems(InventoryClickEvent event) {
+    if (event.getClickedInventory() == null
+        || event.getClickedInventory().getType() != InventoryType.BREWING) {
+      return;
+    }
+
+    Player player = (Player) event.getWhoClicked();
+
+    for (ItemStack item : event.getClickedInventory().getContents()) {
+      if (!NBTUtil.isBrewable(item)) {
+        event.setCancelled(true);
+        TextController.send(
+            player,
+            TextType.ERROR,
+            "That item <h>cannot</h> be used in a <h>brewing stand</h>."
         );
       }
     }

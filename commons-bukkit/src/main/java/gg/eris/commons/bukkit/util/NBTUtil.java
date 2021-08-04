@@ -11,6 +11,7 @@ public class NBTUtil {
 
   public static final String ANVILLABLE = "anvillable";
   public static final String CRAFTABLE = "craftable";
+  public static final String BREWABLE = "brewable";
 
   public static boolean hasNbtKey(ItemStack item, String nbtKey) {
     if (StackUtil.isNullOrAir(item)) {
@@ -108,6 +109,21 @@ public class NBTUtil {
     return CraftItemStack.asBukkitCopy(nmsItem);
   }
 
+  public static ItemStack setAnvillable(ItemStack item, boolean anvillable) {
+    setNbtData(item, ANVILLABLE, anvillable);
+    return item;
+  }
+
+  public static ItemStack setCraftable(ItemStack item, boolean craftable) {
+    setNbtData(item, CRAFTABLE, craftable);
+    return item;
+  }
+
+  public static ItemStack setBrewable(ItemStack item, boolean brewable) {
+    setNbtData(item, BREWABLE, brewable);
+    return item;
+  }
+
   public static boolean isAnvillable(ItemStack item) {
     if (!hasNbtKey(item, ANVILLABLE)) {
       return true;
@@ -124,5 +140,12 @@ public class NBTUtil {
     return !getBooleanNbtData(item, CRAFTABLE);
   }
 
+  public static boolean isBrewable(ItemStack item) {
+    if (!hasNbtKey(item, BREWABLE)) {
+      return true;
+    }
+
+    return !getBooleanNbtData(item, BREWABLE);
+  }
 
 }
