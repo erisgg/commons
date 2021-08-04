@@ -13,7 +13,7 @@ public class NBTUtil {
   public static final String CRAFTABLE = "craftable";
 
   public static boolean hasNbtKey(ItemStack item, String nbtKey) {
-    if (item == null) {
+    if (StackUtil.isNullOrAir(item)) {
       return false;
     }
 
