@@ -48,6 +48,9 @@ public class Text {
     StringBuilder stack = new StringBuilder();
     int stackCounter = 0;
     for (String s : split) {
+      if (stack.length() > 0) {
+        stack.append(" ");
+      }
       stack.append(s);
       if (++stackCounter == wordsPerSegment) {
         list.add(stack.toString());
