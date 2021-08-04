@@ -206,7 +206,7 @@ public final class ItemBuilder {
   }
 
   public ItemBuilder anvillable(boolean anvillable) {
-    this.item = NBTUtil.setNbtData(this.item, NBTUtil.ANVILLABLE, anvillable);
+    this.item = NBTUtil.setAnvillable(this.item, anvillable);
     return this;
   }
 
@@ -215,7 +215,7 @@ public final class ItemBuilder {
   }
 
   public ItemBuilder craftable(boolean craftable) {
-    this.item = NBTUtil.setNbtData(this.item, NBTUtil.CRAFTABLE, craftable);
+    this.item = NBTUtil.setCraftable(this.item, craftable);
     return this;
   }
 
@@ -224,7 +224,7 @@ public final class ItemBuilder {
   }
 
   public ItemBuilder brewable(boolean brewable) {
-    this.item = NBTUtil.setNbtData(this.item, NBTUtil.BREWABLE, brewable);
+    this.item = NBTUtil.setBrewable(this.item, brewable);
     return this;
   }
 

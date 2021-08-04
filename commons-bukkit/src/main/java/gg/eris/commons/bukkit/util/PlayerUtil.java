@@ -1,5 +1,9 @@
 package gg.eris.commons.bukkit.util;
 
+import com.google.common.collect.Lists;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import org.bukkit.Sound;
@@ -48,6 +52,14 @@ public class PlayerUtil {
 
   public static void playSound(Player player, Sound sound) {
     player.playSound(player.getLocation(), sound, 1f, 1f);
+  }
+
+  public static Collection<ItemStack> getItems(Player player) {
+    List<ItemStack> items = Lists.newArrayList();
+    items.addAll(Arrays.asList(player.getInventory().getContents()));
+    items.addAll(Arrays.asList(player.getInventory().getArmorContents()));
+    items.removeIf(StackUtil::isNullOrAir);
+    return items;
   }
 
   public static EntityPlayer getHandle(Player player) {
