@@ -22,21 +22,21 @@ public class DataUtil {
   public static final short RED = 14;
   public static final short BLACK = 15;
 
-  public static final short INK_SAC = 0;
-  public static final short RED_DYE = 1;
-  public static final short GREEN_DYE = 2;
-  public static final short COCOA_BEANS = 3;
-  public static final short LAPIS_LAZULI = 4;
-  public static final short PURPLE_DYE = 5;
-  public static final short CYAN_DYE = 6;
-  public static final short LIGHT_GRAY_DYE = 7;
-  public static final short GRAY_DYE = 8;
-  public static final short PINK_DYE = 9;
-  public static final short LIME_DYE = 10;
-  public static final short YELLOW_DYE = 11;
-  public static final short LIGHT_BLUE_DYE = 12;
-  public static final short MAGENTA_DYE = 13;
-  public static final short ORANGE_DYE = 14;
-  public static final short BONE_MEAL = 15;
+  public static final byte INK_SAC = 0;
+  public static final byte RED_DYE = 1;
+  public static final byte GREEN_DYE = 2;
+  public static final byte COCOA_BEANS = 3;
+  public static final byte LAPIS_LAZULI = 4;
+  public static final byte PURPLE_DYE = 5;
+  public static final byte CYAN_DYE = 6;
+  public static final byte LIGHT_GRAY_DYE = 7;
+  public static final byte GRAY_DYE = 8;
+  public static final byte PINK_DYE = 9;
+  public static final byte LIME_DYE = 10;
+  public static final byte YELLOW_DYE = 11;
+  public static final byte LIGHT_BLUE_DYE = 12;
+  public static final byte MAGENTA_DYE = 13;
+  public static final byte ORANGE_DYE = 14;
+  public static final byte BONE_MEAL = 15;
 
 }
