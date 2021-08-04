@@ -1,0 +1,104 @@
+package gg.eris.commons.bukkit.util;
+
+import lombok.experimental.UtilityClass;
+import net.minecraft.server.v1_8_R3.NBTBase;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
+import org.bukkit.inventory.ItemStack;
+
+@UtilityClass
+public class NBTUtil {
+
+  public static boolean hasNbtKey(ItemStack item, String nbtKey) {
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    if (!nmsItem.hasTag()) {
+      return false;
+    }
+
+    NBTTagCompound tag = nmsItem.getTag();
+    return tag.hasKey(nbtKey);
+  }
+
+  public static String getStringNbtData(ItemStack item, String nbtKey) {
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    if (!nmsItem.hasTag()) {
+      return null;
+    }
+
+    NBTTagCompound tag = nmsItem.getTag();
+    if (tag.hasKey(nbtKey)) {
+      return tag.getString(nbtKey);
+    }
+
+    return null;
+  }
+
+  public static int getIntNbtData(ItemStack item, String nbtKey) {
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    if (!nmsItem.hasTag()) {
+      return 0;
+    }
+
+    NBTTagCompound tag = nmsItem.getTag();
+    if (tag.hasKey(nbtKey)) {
+      return tag.getInt(nbtKey);
+    }
+
+    return 0;
+  }
+
+  public static boolean getBooleanNbtData(ItemStack item, String nbtKey) {
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    if (!nmsItem.hasTag()) {
+      return false;
+    }
+
+    NBTTagCompound tag = nmsItem.getTag();
+    if (tag.hasKey(nbtKey)) {
+      return tag.getBoolean(nbtKey);
+    }
+
+    return false;
+  }
+
+  public static double getDoubleNbtData(ItemStack item, String nbtKey) {
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    if (!nmsItem.hasTag()) {
+      return 0;
+    }
+
+    NBTTagCompound tag = nmsItem.getTag();
+    if (tag.hasKey(nbtKey)) {
+      return tag.getDouble(nbtKey);
+    }
+
+    return 0;
+  }
+
+  public static ItemStack setNbtData(ItemStack item, String nbtKey, Object data) {
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    NBTTagCompound compound;
+    if (!nmsItem.hasTag()) {
+      compound = new NBTTagCompound();
+    } else {
+      compound = nmsItem.getTag();
+    }
+
+    if (data instanceof String) {
+      compound.setString(nbtKey, (String) data);
+    } else if (data instanceof Integer) {
+      compound.setInt(nbtKey, (Integer) data);
+    } else if (data instanceof Double) {
+      compound.setDouble(nbtKey, (Double) data);
+    } else if (data instanceof Boolean) {
+      compound.setBoolean(nbtKey, (Boolean) data);
+    } else if (data instanceof NBTBase) {
+      compound.set(nbtKey, (NBTBase) data);
+    }
+
+    nmsItem.setTag(compound);
+
+    return CraftItemStack.asBukkitCopy(nmsItem);
+  }
+
+}
