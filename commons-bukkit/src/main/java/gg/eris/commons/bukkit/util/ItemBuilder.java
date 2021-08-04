@@ -219,6 +219,15 @@ public final class ItemBuilder {
     return this;
   }
 
+  public ItemBuilder nonBrewable() {
+    return brewable(false);
+  }
+
+  public ItemBuilder brewable(boolean brewable) {
+    this.item = NBTUtil.setNbtData(this.item, NBTUtil.BREWABLE, brewable);
+    return this;
+  }
+
   /**
    * Builds the item
    *
