@@ -42,4 +42,20 @@ public class Text {
     return StringUtils.countMatches(text, sequence);
   }
 
+  public static List<String> splitWords(String words, int wordsPerSegment) {
+    String[] split = words.split(" ");
+    List<String> list = Lists.newArrayList();
+    StringBuilder stack = new StringBuilder();
+    int stackCounter = 0;
+    for (String s : split) {
+      stack.append(s);
+      if (++stackCounter == wordsPerSegment) {
+        list.add(stack.toString());
+        stack = new StringBuilder();
+        stackCounter = 0;
+      }
+    }
+    return list;
+  }
+
 }
