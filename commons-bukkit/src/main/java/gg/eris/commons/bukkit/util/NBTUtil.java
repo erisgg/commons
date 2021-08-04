@@ -13,6 +13,10 @@ public class NBTUtil {
   public static final String CRAFTABLE = "craftable";
 
   public static boolean hasNbtKey(ItemStack item, String nbtKey) {
+    if (item == null) {
+      return false;
+    }
+
     net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
     if (!nmsItem.hasTag()) {
       return false;
