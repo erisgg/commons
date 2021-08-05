@@ -122,13 +122,8 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
       }
 
       if (this.tablistController.getDisplayNameFunction() == null) {
-        this.tablistController.setDisplayNameFunction((player, other) -> {
-          if (player.getRank() == this.rankRegistry.DEFAULT) {
-            return CC.GRAY + player.getName();
-          } else {
-            return player.getRank().getColoredDisplay() + CC.WHITE + " " + player.getName();
-          }
-        });
+        this.tablistController.setDisplayNameFunction(
+            (player, other) -> player.getRank().getColor() + player.getName());
       }
     });
   }

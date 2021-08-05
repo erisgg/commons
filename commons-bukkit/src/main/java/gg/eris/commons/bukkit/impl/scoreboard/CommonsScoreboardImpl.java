@@ -140,7 +140,6 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
 
   protected void apply(ErisPlayer player, Scoreboard scoreboard) {
     Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-
     long tick = this.players.get(player.getUniqueId()) + 1;
     this.players.put(player.getUniqueId(), tick);
 
@@ -166,6 +165,10 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
   }
 
   private void newObjective(ErisPlayer player, Scoreboard scoreboard) {
+    if (scoreboard.getObjective(DisplaySlot.SIDEBAR) != null) {
+      scoreboard.getObjective(DisplaySlot.SIDEBAR).unregister();
+    }
+
     Objective objective = scoreboard.registerNewObjective(this.internalName, "dummy");
     objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     objective.setDisplayName(this.title.apply(player, 0L));
@@ -191,7 +194,11 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
 
     for (ScoreboardLine line : this.lines.values()) {
       Team team = scoreboard.getTeam(line.getTeamName());
-
+      if (team == null) { // Teams sometimes don't register properly on scoreboard change
+        // This is fine... :burn:
+        newObjective(player, scoreboard);
+        return;
+      }
       if (line.getUpdateTicks() != 0 && tick % line.getUpdateTicks() == 0) {
         String value = line.getValueFunction().apply(player, tick);
         applyValue(team, value);
@@ -209,6 +216,13 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
       team.setPrefix(firstSegment);
       team.setSuffix(colors + value.substring(16));
     }
+  }
+
+  @Override
+  public String toString() {
+    return "CommonsScoreboardImpl{" +
+        "identifier=" + identifier +
+        '}';
   }
 
   private Pair<ChatColor, ChatColor> getPair() {

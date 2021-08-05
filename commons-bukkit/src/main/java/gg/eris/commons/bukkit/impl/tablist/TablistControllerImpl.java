@@ -7,6 +7,7 @@ import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.tablist.TablistController;
 import gg.eris.commons.bukkit.text.TextController;
+import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.bukkit.util.PlayerUtil;
 import java.util.function.BiFunction;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -149,7 +150,8 @@ public final class TablistControllerImpl implements TablistController {
     ErisPlayer player = this.erisPlayerManager.getPlayer(handle);
     for (Player otherHandle : Bukkit.getOnlinePlayers()) {
       ErisPlayer other = this.erisPlayerManager.getPlayer(otherHandle);
-      String tablistName = this.displayNameFunction.apply(player, other);
+      String tablistName = this.displayNameFunction != null ? this.displayNameFunction.apply(player,
+          other) : CC.WHITE + player.getName();
 
       PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
       packet.a = EnumPlayerInfoAction.UPDATE_DISPLAY_NAME;
@@ -164,7 +166,8 @@ public final class TablistControllerImpl implements TablistController {
     EntityPlayer entityHandle = PlayerUtil.getHandle(handle);
     for (Player otherHandle : Bukkit.getOnlinePlayers()) {
       ErisPlayer other = this.erisPlayerManager.getPlayer(otherHandle);
-      String tablistName = this.displayNameFunction.apply(other, player);
+      String tablistName = this.displayNameFunction != null ? this.displayNameFunction.apply(other,
+          player) : CC.WHITE + other.getName();
 
       PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
       packet.a = EnumPlayerInfoAction.UPDATE_DISPLAY_NAME;
