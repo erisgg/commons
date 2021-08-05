@@ -10,6 +10,7 @@ public final class TextTag {
   public static final TextTag COLOR = new TextTag("color", "col", true);
   public static final TextTag HIGHLIGHT = new TextTag("highlight", "h");
   public static final TextTag EVENT = new TextTag("event", "e", true);
+  public static final TextTag RAW = new TextTag("raw");
 
   private final String id;
   private final String shortHand;
@@ -59,6 +60,10 @@ public final class TextTag {
 
   protected static boolean isColor(String tag) {
     return isTag(COLOR, tag);
+  }
+
+  protected static boolean isRaw(String tag) {
+    return isTag(RAW, tag);
   }
 
   protected static String getValue(TextTag type, String tag) {
