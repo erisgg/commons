@@ -52,9 +52,10 @@ public class PlayerUtil {
     player.setSaturation(10f);
     player.setFoodLevel(20);
     player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
-    player.closeInventory();
     player.setExp(0.0f);
     player.setTotalExperience(0);
+    player.setLevel(0);
+    player.closeInventory();
   }
 
   public static void playSound(Player player, Sound sound) {
