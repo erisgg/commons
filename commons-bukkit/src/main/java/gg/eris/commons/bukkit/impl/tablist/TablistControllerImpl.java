@@ -41,6 +41,11 @@ public final class TablistControllerImpl implements TablistController {
   }
 
   @Override
+  public BiFunction<ErisPlayer, ErisPlayer, String> getDisplayNameFunction() {
+    return this.displayNameFunction;
+  }
+
+  @Override
   public void setHeader(String header) {
     this.header = header;
     updateAll(false);

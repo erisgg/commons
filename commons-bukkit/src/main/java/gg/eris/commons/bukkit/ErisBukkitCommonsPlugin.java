@@ -97,6 +97,9 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     pluginManager
         .registerEvents(new ItemListener(), this);
 
+    // Registering messaging channel
+    this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
     // Register service
     ServicesManager servicesManager = Bukkit.getServicesManager();
     servicesManager.register(ErisBukkitCommons.class, this, this, ServicePriority.Highest);
@@ -116,6 +119,16 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
             (player, chatMessage) -> player.getRank().isWhiteChat() ? "<col=white>" : "<col=gray>",
             (player, chatMessage) -> player.getName(),
             (player, chatMessage) -> chatMessage);
+      }
+
+      if (this.tablistController.getDisplayNameFunction() == null) {
+        this.tablistController.setDisplayNameFunction((player, other) -> {
+          if (player.getRank() == this.rankRegistry.DEFAULT) {
+            return CC.GRAY + player.getName();
+          } else {
+            return player.getRank().getColoredDisplay() + CC.WHITE + " " + player.getName();
+          }
+        });
       }
     });
   }

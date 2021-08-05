@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 
 public interface TablistController {
 
+  BiFunction<ErisPlayer, ErisPlayer, String> getDisplayNameFunction();
+
   void setDisplayNameFunction(BiFunction<ErisPlayer, ErisPlayer, String> displayNameFunction);
 
   void setHeader(String header);
