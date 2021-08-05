@@ -10,13 +10,6 @@ import org.bukkit.inventory.ItemStack;
 @RequiredArgsConstructor
 public abstract class CloseMenuItem implements MenuItem {
 
-  private final ItemStack item;
-
-  @Override
-  public ItemStack getItem(MenuViewer menuViewer, Menu menu) {
-    return this.item;
-  }
-
   @Override
   public void onClick(MenuViewer viewer, InventoryClickEvent event) {
     viewer.getPlayer().closeInventory();
