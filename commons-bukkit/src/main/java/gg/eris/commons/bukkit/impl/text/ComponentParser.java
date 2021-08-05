@@ -81,84 +81,84 @@ public final class ComponentParser {
         }
       }
 
-      if (!raw) {
-        if (!isRawTag) {
-          if (TextTag.isBold(tag)) {
-            if (closing) {
-              bold--;
-            } else {
-              bold++;
-            }
-          } else if (TextTag.isItalic(tag)) {
-            if (closing) {
-              italic--;
-            } else {
-              italic++;
-            }
-          } else if (TextTag.isUnderlined(tag)) {
-            if (closing) {
-              underlined--;
-            } else {
-              underlined++;
-            }
-          } else if (TextTag.isStrikethrough(tag)) {
-            if (closing) {
-              strikethrough--;
-            } else {
-              strikethrough++;
-            }
-          } else if (TextTag.isObfuscated(tag)) {
-            if (closing) {
-              obfuscated--;
-            } else {
-              obfuscated++;
-            }
-          } else if (TextTag.isHighlight(tag)) {
-            if (closing) {
-              highlighted--;
-            } else {
-              highlighted++;
-            }
-          } else if (TextTag.isEvent(tag)) {
-            if (closing) {
-              eventStack.pop();
-            } else {
-              String eventValue = TextTag.EVENT.getValue(tag);
-              try {
-                if (eventValue == null) {
-                  throw new IllegalArgumentException("Message has invalid tag event 'null' at index "
-                      + matcher.start() + " in message '" + message + "'");
-                }
-                int value = Integer.parseInt(eventValue);
-                eventStack.push(value);
-              } catch (NumberFormatException err) {
-                throw new IllegalArgumentException("Message has invalid tag event '" + eventValue
-                    + "' at index " + matcher.start() + " in message '" + message + "'");
-              }
-            }
-          } else if (TextTag.isColor(tag)) {
-            if (closing) {
-              colorStack.pop();
-            } else {
-              String colorValue = TextTag.COLOR.getValue(tag);
-              TextColor color = TextColor.getColor(colorValue);
-              if (color == null) {
-                throw new IllegalArgumentException(
-                    "Message has invalid tag color '" + colorValue + "' at index " + matcher.start()
-                        + " in message '" + message + "'");
-              }
-              colorStack.push(color);
-            }
+      if (!raw && !isRawTag) {
+        if (TextTag.isBold(tag)) {
+          if (closing) {
+            bold--;
           } else {
-            throw new IllegalArgumentException(
-                "Message has invalid tag '" + tag + "' at index " + matcher.start() + " in message '"
-                    + message + "'");
+            bold++;
           }
+        } else if (TextTag.isItalic(tag)) {
+          if (closing) {
+            italic--;
+          } else {
+            italic++;
+          }
+        } else if (TextTag.isUnderlined(tag)) {
+          if (closing) {
+            underlined--;
+          } else {
+            underlined++;
+          }
+        } else if (TextTag.isStrikethrough(tag)) {
+          if (closing) {
+            strikethrough--;
+          } else {
+            strikethrough++;
+          }
+        } else if (TextTag.isObfuscated(tag)) {
+          if (closing) {
+            obfuscated--;
+          } else {
+            obfuscated++;
+          }
+        } else if (TextTag.isHighlight(tag)) {
+          if (closing) {
+            highlighted--;
+          } else {
+            highlighted++;
+          }
+        } else if (TextTag.isEvent(tag)) {
+          if (closing) {
+            eventStack.pop();
+          } else {
+            String eventValue = TextTag.EVENT.getValue(tag);
+            try {
+              if (eventValue == null) {
+                throw new IllegalArgumentException("Message has invalid tag event 'null' at index "
+                    + matcher.start() + " in message '" + message + "'");
+              }
+              int value = Integer.parseInt(eventValue);
+              eventStack.push(value);
+            } catch (NumberFormatException err) {
+              throw new IllegalArgumentException("Message has invalid tag event '" + eventValue
+                  + "' at index " + matcher.start() + " in message '" + message + "'");
+            }
+          }
+        } else if (TextTag.isColor(tag)) {
+          if (closing) {
+            colorStack.pop();
+          } else {
+            String colorValue = TextTag.COLOR.getValue(tag);
+            TextColor color = TextColor.getColor(colorValue);
+            if (color == null) {
+              throw new IllegalArgumentException(
+                  "Message has invalid tag color '" + colorValue + "' at index " + matcher.start()
+                      + " in message '" + message + "'");
+            }
+            colorStack.push(color);
+          }
+        } else {
+          throw new IllegalArgumentException(
+              "Message has invalid tag '" + tag + "' at index " + matcher.start() + " in message '"
+                  + message + "'");
         }
       } else {
-        appendToBuilder(textType, clickEvents, hoverEvents, message, components, bold, italic,
-            underlined,
-            strikethrough, obfuscated, highlighted, eventStack, colorStack, match);
+        if (!isRawTag) {
+          appendToBuilder(textType, clickEvents, hoverEvents, message, components, bold, italic,
+              underlined,
+              strikethrough, obfuscated, highlighted, eventStack, colorStack, match);
+        }
       }
 
       lastIndex = matcher.end();
