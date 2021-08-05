@@ -120,11 +120,6 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
             (player, chatMessage) -> player.getName(),
             (player, chatMessage) -> chatMessage);
       }
-
-      if (this.tablistController.getDisplayNameFunction() == null) {
-        this.tablistController.setDisplayNameFunction(
-            (player, other) -> player.getRank().getColor() + player.getName());
-      }
     });
   }
 
