@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -43,6 +44,7 @@ public class ErisPlayer implements Serializable {
   protected long lastLogin;
 
   @Getter
+  @Setter
   protected Rank rank;
 
   @Getter
