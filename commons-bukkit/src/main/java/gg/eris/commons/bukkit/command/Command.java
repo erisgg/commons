@@ -102,15 +102,13 @@ public final class Command {
     if (context.isSuccess()) {
       SubCommand subCommand = context.getSubCommand();
       if (!Command.PERMISSION_REGISTRY.get(this.getPermission())
-          .hasPermission(context.getCommandSender())
-          || (subCommand.getPermission() != null && Command.PERMISSION_REGISTRY.get(subCommand.getPermission())
-          .hasPermission(context.getCommandSender()))) {
+          .hasPermission(context.getCommandSender())) {
         TextController.send(context.getCommandSender(), TextType.ERROR, "No permission.");
       } else if (subCommand.isPlayerOnly() && !(context.getCommandSender() instanceof Player)) {
         TextController.send(
             context.getCommandSender(),
             TextType.ERROR,
-            "That command is <h>player only</h>"
+            "That command is <h>player only</h>."
         );
       } else {
         subCommand.execute(context);

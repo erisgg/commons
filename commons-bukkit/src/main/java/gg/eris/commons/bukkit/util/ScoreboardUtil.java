@@ -17,8 +17,6 @@ public class ScoreboardUtil {
       String leftSegment = rawBase.substring(0, minIndex);
       String highlightedSegment = rawBase.substring(minIndex, maxIndex);
       String rightSegment = rawBase.substring(maxIndex);
-
-      System.out.println(String.format("\"%s\", \"%s\", \"%s\"", leftSegment, highlightedSegment, rightSegment));
     }
 
     return null;

@@ -64,6 +64,7 @@ public class ErisPlayer implements Serializable {
     this.lastLogin = data.lastLogin;
     this.ranks = data.ranks;
     this.permissions = data.permissions;
+    Collections.sort(this.ranks);
   }
 
   public final Player getHandle() {

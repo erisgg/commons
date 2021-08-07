@@ -140,10 +140,9 @@ public final class SubCommand {
       Validate.isTrue(!this.finalized, "builder is already finalized");
       this.arguments.add(new ArgumentInstance(
           argument,
-          arguments.size(),
+          this.arguments.size(),
           minVarargCount
       ));
-
       return this;
     }
 
