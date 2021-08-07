@@ -32,16 +32,9 @@ public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
     node.put("uuid", player.getUniqueId().toString())
         .put("name", player.getName())
         .put("first_login", player.getFirstLogin())
-        .put("last_login", player.getLastLogin())
-        .put("rank", player.getRank().getIdentifier().getValue());
+        .put("last_login", player.getLastLogin());
 
     JsonUtil.populateStringArray(node.putArray("name_history"), player.getNameHistory());
-    JsonUtil.populateStringArray(node.putArray("permissions"),
-        player.getPermissions()
-            .stream()
-            .map(permission -> permission.getIdentifier().toString())
-            .collect(Collectors.toList())
-    );
 
     return appendFields(player, node);
   }

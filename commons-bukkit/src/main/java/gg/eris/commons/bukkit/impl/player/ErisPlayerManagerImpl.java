@@ -13,6 +13,7 @@ import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
+import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.core.util.Validate;
 import java.util.Collection;
 import java.util.Map;
@@ -28,12 +29,17 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
 
   private final ErisBukkitCommonsPlugin plugin;
 
+  private final OfflineDataManager offlineDataManager;
+
   private ErisPlayerSerializer<?> playerSerializer;
 
   private MongoCollection<Document> playerCollection;
 
+
   public ErisPlayerManagerImpl(ErisBukkitCommonsPlugin plugin) {
     this.plugin = plugin;
+    setupCollection();
+    this.offlineDataManager = new OfflineDataManagerImpl(plugin);
     this.players = Maps.newConcurrentMap();
     Bukkit.getPluginManager().registerEvents(new ErisPlayerManagerListener(plugin, this), plugin);
   }
@@ -120,14 +126,19 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
   }
 
   @Override
+  public OfflineDataManager getOfflineDataManager() {
+    return this.offlineDataManager;
+  }
+
+  @Override
   public synchronized <T extends ErisPlayer> void setPlayerSerializer(
       ErisPlayerSerializer<T> serializer) {
     Validate.isTrue(!isPlayerSerializerSet(), "eris player provider has already been set");
     this.playerSerializer = serializer;
-    setupCollection();
   }
 
   public boolean isPlayerSerializerSet() {
     return this.playerSerializer != null;
   }
+
 }

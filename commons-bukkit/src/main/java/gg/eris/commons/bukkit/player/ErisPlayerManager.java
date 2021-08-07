@@ -42,4 +42,6 @@ public interface ErisPlayerManager {
     return getPlayer(player.getUniqueId());
   }
 
+  OfflineDataManager getOfflineDataManager();
+
 }

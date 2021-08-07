@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.common.collect.ImmutableList;
-import gg.eris.commons.bukkit.ErisBukkitCommons;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.rank.Rank;
@@ -14,7 +13,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -44,7 +42,6 @@ public class ErisPlayer implements Serializable {
   protected long lastLogin;
 
   @Getter
-  @Setter
   protected Rank rank;
 
   @Getter
@@ -66,6 +63,10 @@ public class ErisPlayer implements Serializable {
 
   public final UUID getUniqueId() {
     return this.uuid;
+  }
+
+  public void setRank(Rank rank) {
+    this.rank = rank;
   }
 
   public final boolean isOnline() {

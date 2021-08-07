@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public final class ComponentParser {
 
-  private static final Pattern TAG_PATTERN = Pattern.compile("<\\/?[A-z=]+>");
+  private static final Pattern TAG_PATTERN = Pattern.compile("<\\/?[A-z=0-9]+>");
 
   // TODO: some closing validation, but tbh just use it properly ya twat
   public static TextMessage parse(TextType textType, Int2ObjectMap<ClickEvent> clickEvents,
