@@ -120,7 +120,7 @@ public final class Command {
     private boolean built;
     private final String name;
     private final String description;
-    private final TextMessage errorMessage;
+    private final String defaultErrorMessage;
     private final Identifier permission;
     private final Set<String> aliases;
     private final Set<SubCommand.Builder> subCommands;
@@ -134,13 +134,14 @@ public final class Command {
      *
      * @param name        is the name of the command
      * @param description is the command description
+     * @param defaultErrorMessage is the default error message for no suitable subcmd
      * @param permission  is the permission identifier
      * @param aliases     are the command aliases
      */
-    public Builder(String name, String description, TextMessage errorMessage,
+    public Builder(String name, String description, String defaultErrorMessage,
         Identifier permission, Set<String> aliases) {
       Validate.notEmpty(name, "name cannot be null or empty");
-      Validate.notNull(errorMessage, "error cannot be null");
+      Validate.notNull(defaultErrorMessage, "error cannot be null");
       Validate.notEmpty(description, "description cannot be null or empty");
       Validate.notNull(permission, "permission cannot be null or empty");
       for (String alias : aliases) {
@@ -150,7 +151,7 @@ public final class Command {
       this.built = false;
       this.name = name;
       this.description = description;
-      this.errorMessage= errorMessage;
+      this.defaultErrorMessage = defaultErrorMessage;
       this.permission = permission;
       this.aliases = aliases;
       this.subCommands = Sets.newHashSet();
@@ -206,7 +207,7 @@ public final class Command {
           this.name,
           this.aliases,
           this.description,
-          this.errorMessage,
+          TextController.parse(TextType.ERROR, this.defaultErrorMessage),
           this.playerOnly,
           this.subCommands,
           this.permission,
