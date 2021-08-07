@@ -1,8 +1,6 @@
 package gg.eris.commons.bukkit.impl.player;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
@@ -19,6 +17,8 @@ import org.bson.Document;
 public final class OfflineDataManagerImpl implements OfflineDataManager {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
+
+  private static final UpdateOptions UPSERT = new UpdateOptions().upsert(true);
 
   private final ErisBukkitCommonsPlugin plugin;
   private final MongoCollection<Document> playerCollection;
@@ -46,9 +46,8 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   public void addRank(UUID uuid, Rank rank) {
     this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
-        new Document("$push", new Document()
-            .append("ranks", List.of(rank.getIdentifier().getValue()))),
-        new UpdateOptions().upsert(true)
+        new Document("$push", new Document().append("ranks", rank.getIdentifier().getValue())),
+        UPSERT
     );
   }
 
@@ -56,9 +55,8 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   public void removeRank(UUID uuid, Rank rank) {
     this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
-        new Document("$pull", new Document()
-            .append("ranks", List.of(rank.getIdentifier().getValue()))),
-        new UpdateOptions().upsert(true)
+        new Document("$pull", new Document().append("ranks", rank.getIdentifier().getValue())),
+        UPSERT
     );
   }
 
@@ -67,8 +65,8 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
     this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
         new Document("$set", new Document()
-        .append("ranks", List.of(rank.getIdentifier().getValue()))),
-        new UpdateOptions().upsert(true)
+            .append("ranks", List.of(rank.getIdentifier().getValue()))),
+        UPSERT
     );
   }
 
