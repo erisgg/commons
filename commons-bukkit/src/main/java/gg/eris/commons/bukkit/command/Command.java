@@ -28,22 +28,21 @@ public final class Command {
   private final String name;
   private final Set<String> aliases;
   private final String description;
-  private final TextMessage defaultErrorMessage;
+  private final TextMessage usage;
   private final boolean playerOnly;
   private final Set<SubCommand> subCommands;
   private final SubCommand defaultSubCommand;
 
   public Command(String name, Set<String> aliases, String description,
-      TextMessage defaultErrorMessage, boolean playerOnly,
-      Set<SubCommand.Builder> subCommands, Identifier permission,
-      Consumer<CommandContext> defaultHandler) {
+      TextMessage usage, boolean playerOnly, Set<SubCommand.Builder> subCommands,
+      Identifier permission, Consumer<CommandContext> defaultHandler) {
     this.name = name.toLowerCase(Locale.ROOT);
     this.aliases = aliases.stream()
         .map(string -> string.toLowerCase(Locale.ROOT))
         .collect(Collectors.toUnmodifiableSet());
     this.description = description;
     this.playerOnly = playerOnly;
-    this.defaultErrorMessage = defaultErrorMessage;
+    this.usage = usage;
     this.defaultSubCommand = new SubCommand(
         this,
         defaultHandler,
@@ -94,20 +93,20 @@ public final class Command {
       context = CommandContext.success(sender, this, matchResult, label, args);
     }
 
-    execute(context, PERMISSION_REGISTRY);
+    execute(context);
   }
 
-  private void execute(CommandContext context, PermissionRegistry permissionRegistry) {
+  private void execute(CommandContext context) {
     if (context.isSuccess()) {
       SubCommand subCommand = context.getSubCommand();
-      if (!permissionRegistry.get(this.getPermission()).hasPermission(context.getCommandSender())) {
+      if (!Command.PERMISSION_REGISTRY.get(this.getPermission()).hasPermission(context.getCommandSender())) {
         TextController.send(context.getCommandSender(), TextType.ERROR, "No permission.");
         return;
       }
 
       subCommand.execute(context);
     } else {
-      TextController.send(context.getCommandSender(), this.defaultErrorMessage);
+      TextController.send(context.getCommandSender(), this.usage);
     }
   }
 
@@ -120,7 +119,7 @@ public final class Command {
     private boolean built;
     private final String name;
     private final String description;
-    private final String defaultErrorMessage;
+    private final String usage;
     private final Identifier permission;
     private final Set<String> aliases;
     private final Set<SubCommand.Builder> subCommands;
@@ -134,24 +133,23 @@ public final class Command {
      *
      * @param name        is the name of the command
      * @param description is the command description
-     * @param defaultErrorMessage is the default error message for no suitable subcmd
+     * @param usage is the default error message for no suitable subcmd
      * @param permission  is the permission identifier
      * @param aliases     are the command aliases
      */
-    public Builder(String name, String description, String defaultErrorMessage,
+    public Builder(String name, String description, String usage,
         Identifier permission, Set<String> aliases) {
       Validate.notEmpty(name, "name cannot be null or empty");
-      Validate.notNull(defaultErrorMessage, "error cannot be null");
+      Validate.notNull(usage, "error cannot be null");
       Validate.notEmpty(description, "description cannot be null or empty");
       Validate.notNull(permission, "permission cannot be null or empty");
       for (String alias : aliases) {
         Validate.notEmpty(alias, "aliases cannot be null or empty");
       }
-
       this.built = false;
       this.name = name;
       this.description = description;
-      this.defaultErrorMessage = defaultErrorMessage;
+      this.usage = usage;
       this.permission = permission;
       this.aliases = aliases;
       this.subCommands = Sets.newHashSet();
@@ -207,7 +205,8 @@ public final class Command {
           this.name,
           this.aliases,
           this.description,
-          TextController.parse(TextType.ERROR, this.defaultErrorMessage),
+          TextController.parse(TextType.ERROR,
+              "Invalid usage. Use <h>" + this.usage + "</h>."),
           this.playerOnly,
           this.subCommands,
           this.permission,
