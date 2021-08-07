@@ -110,7 +110,6 @@ public final class Command {
     }
   }
 
-
   /**
    * Builder class for an {@link Command}
    */
