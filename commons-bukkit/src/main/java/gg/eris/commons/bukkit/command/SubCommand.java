@@ -26,21 +26,6 @@ public final class SubCommand {
   private final ArgumentInstance vararg;
   private final int minVarargCount;
 
-  protected SubCommand(Command parent, Consumer<CommandContext> callback,
-      List<ArgumentInstance> arguments, boolean playerOnly, Identifier permission,
-      boolean defaultCommand) {
-    this.parent = parent;
-    this.callback = callback;
-    this.arguments = arguments;
-    this.playerOnly = playerOnly;
-    this.permission = permission == null ? parent.getPermission() : permission;
-    this.vararg = this.arguments.size() > 0 ?
-        (this.arguments.get(this.arguments.size() - 1).isVararg() ?
-            this.arguments.get(this.arguments.size() - 1) : null) : null;
-    this.minVarargCount = this.arguments.size() > 0 ? Math
-        .max(0, this.arguments.get(this.arguments.size() - 1).getMinVarargCount()) : 0;
-  }
-
   public SubCommand(Command parent, Consumer<CommandContext> callback,
       List<ArgumentInstance> arguments, boolean playerOnly, Identifier permission) {
     this.parent = parent;

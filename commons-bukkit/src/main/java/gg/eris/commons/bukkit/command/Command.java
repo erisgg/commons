@@ -48,8 +48,7 @@ public final class Command {
         defaultHandler,
         List.of(),
         this.playerOnly,
-        permission,
-        true
+        permission
     );
     this.subCommands = subCommands.stream()
         .map(builder -> builder.build(this))
@@ -83,7 +82,7 @@ public final class Command {
 
     CommandContext context;
     if (matchResult == null || matchResult.isEmpty()) {
-      if (args.length == 0) {
+      if (args.length == 0 && this.defaultSubCommand != null) {
         context = CommandContext.success(sender, this,
             SubCommandMatchResult.match(this.defaultSubCommand, Map.of()), label, args);
       } else {
@@ -99,7 +98,8 @@ public final class Command {
   private void execute(CommandContext context) {
     if (context.isSuccess()) {
       SubCommand subCommand = context.getSubCommand();
-      if (!Command.PERMISSION_REGISTRY.get(this.getPermission()).hasPermission(context.getCommandSender())) {
+      if (!Command.PERMISSION_REGISTRY.get(this.getPermission())
+          .hasPermission(context.getCommandSender())) {
         TextController.send(context.getCommandSender(), TextType.ERROR, "No permission.");
         return;
       }
@@ -132,7 +132,7 @@ public final class Command {
      *
      * @param name        is the name of the command
      * @param description is the command description
-     * @param usage is the default error message for no suitable subcmd
+     * @param usage       is the default error message for no suitable subcmd
      * @param permission  is the permission identifier
      * @param aliases     are the command aliases
      */
@@ -198,7 +198,6 @@ public final class Command {
      */
     public synchronized Command build() {
       Validate.isTrue(!this.built, "command has already been built");
-      Validate.isTrue(this.defaultHandler != null, "default handler cannot be null");
       this.built = true;
       return new Command(
           this.name,
