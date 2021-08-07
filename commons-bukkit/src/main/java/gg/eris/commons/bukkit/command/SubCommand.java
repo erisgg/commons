@@ -22,6 +22,7 @@ public final class SubCommand {
   @Getter(AccessLevel.PROTECTED)
   private final Consumer<CommandContext> callback;
   private final List<ArgumentInstance> arguments;
+  @Getter
   private final boolean playerOnly;
   @Getter
   private final Identifier permission;
@@ -53,6 +54,11 @@ public final class SubCommand {
       String rawArgument = rawArguments[i];
 
       ArgumentInstance argumentInstance = i < arguments.size() ? arguments.get(i) : vararg;
+
+      if (argumentInstance == null) {
+        return SubCommandMatchResult.noMatch();
+      }
+
       Argument<?> argument = argumentInstance.getArgument();
 
       Object value = argument.convert(rawArgument);

@@ -1,7 +1,7 @@
 package gg.eris.commons.bukkit.command;
 
 import com.google.common.collect.Sets;
-import gg.eris.commons.bukkit.ErisBukkitCommons;
+import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.text.TextController;
@@ -16,19 +16,20 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 @Getter
 public final class Command {
 
-  private static final PermissionRegistry PERMISSION_REGISTRY = Bukkit.getServicesManager()
-      .getRegistration(ErisBukkitCommons.class).getProvider().getPermissionRegistry();
+  private static final PermissionRegistry PERMISSION_REGISTRY
+      = ErisBukkitCommonsPlugin.getInstance().getPermissionRegistry();
 
   private final String name;
   private final Set<String> aliases;
   private final String description;
   private final TextMessage usage;
+  private final Identifier permission;
   private final boolean playerOnly;
   private final Set<SubCommand> subCommands;
   private final SubCommand defaultSubCommand;
@@ -43,6 +44,7 @@ public final class Command {
     this.description = description;
     this.playerOnly = playerOnly;
     this.usage = usage;
+    this.permission = permission;
     this.defaultSubCommand = new SubCommand(
         this,
         defaultHandler,
@@ -50,6 +52,7 @@ public final class Command {
         this.playerOnly,
         permission
     );
+
     this.subCommands = subCommands.stream()
         .map(builder -> builder.build(this))
         .collect(Collectors.toUnmodifiableSet());
@@ -61,7 +64,7 @@ public final class Command {
    * @return the permission for the default subcommand (the base permission)
    */
   public Identifier getPermission() {
-    return this.defaultSubCommand.getPermission();
+    return this.permission;
   }
 
   /**
@@ -99,12 +102,19 @@ public final class Command {
     if (context.isSuccess()) {
       SubCommand subCommand = context.getSubCommand();
       if (!Command.PERMISSION_REGISTRY.get(this.getPermission())
-          .hasPermission(context.getCommandSender())) {
+          .hasPermission(context.getCommandSender())
+          || (subCommand.getPermission() != null && Command.PERMISSION_REGISTRY.get(subCommand.getPermission())
+          .hasPermission(context.getCommandSender()))) {
         TextController.send(context.getCommandSender(), TextType.ERROR, "No permission.");
-        return;
+      } else if (subCommand.isPlayerOnly() && !(context.getCommandSender() instanceof Player)) {
+        TextController.send(
+            context.getCommandSender(),
+            TextType.ERROR,
+            "That command is <h>player only</h>"
+        );
+      } else {
+        subCommand.execute(context);
       }
-
-      subCommand.execute(context);
     } else {
       TextController.send(context.getCommandSender(), this.usage);
     }
