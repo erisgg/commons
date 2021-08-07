@@ -203,8 +203,10 @@ public final class Command {
           this.name,
           this.aliases,
           this.description,
-          TextController.parse(TextType.ERROR,
-              "Invalid usage. Use <h>/" + this.usage + "</h>."),
+          TextController.parse(
+              TextType.ERROR,
+              "Invalid usage. Use <h><raw>/" + this.usage + "</raw></h>."
+          ),
           this.playerOnly,
           this.subCommands,
           this.permission,
