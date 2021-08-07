@@ -19,6 +19,7 @@ import gg.eris.commons.bukkit.impl.tablist.TablistListener;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.DefaultErisPlayerSerializer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
+import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.scoreboard.ScoreboardController;
 import gg.eris.commons.bukkit.tablist.TablistController;
@@ -164,6 +165,11 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   @Override
   public ErisPlayerManager getErisPlayerManager() {
     return this.erisPlayerManager;
+  }
+
+  @Override
+  public OfflineDataManager getOfflineDataManager() {
+    return this.erisPlayerManager.getOfflineDataManager();
   }
 
   @Override

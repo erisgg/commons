@@ -7,6 +7,7 @@ import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
+import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.scoreboard.ScoreboardController;
 import gg.eris.commons.bukkit.tablist.TablistController;
@@ -65,6 +66,13 @@ public interface ErisBukkitCommons {
    * @return the server's {@link ErisPlayerManager}
    */
   ErisPlayerManager getErisPlayerManager();
+
+  /**
+   * Returns the server's {@link OfflineDataManager}
+   *
+   * @return the server's {@link OfflineDataManager}
+   */
+  OfflineDataManager getOfflineDataManager();
 
   /**
    * Returns the server's {@link ScoreboardController}
