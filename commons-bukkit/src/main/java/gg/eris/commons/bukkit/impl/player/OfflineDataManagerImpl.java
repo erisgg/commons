@@ -44,12 +44,22 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
 
   @Override
   public void addRank(UUID uuid, Rank rank) {
-
+    this.playerCollection.updateOne(
+        Filters.eq("uuid", uuid.toString()),
+        new Document("$push", new Document()
+            .append("ranks", List.of(rank.getIdentifier().getValue()))),
+        new UpdateOptions().upsert(true)
+    );
   }
 
   @Override
   public void removeRank(UUID uuid, Rank rank) {
-
+    this.playerCollection.updateOne(
+        Filters.eq("uuid", uuid.toString()),
+        new Document("$pull", new Document()
+            .append("ranks", List.of(rank.getIdentifier().getValue()))),
+        new UpdateOptions().upsert(true)
+    );
   }
 
   @Override
