@@ -167,6 +167,37 @@ public final class ComponentParser {
     return TextMessage.of(components.toArray(new TextComponent[0]));
   }
 
+  public static TextMessage strip(TextType textType, String message, Object... variables) {
+    if (message == null || message.isEmpty()) {
+      return TextMessage.empty();
+    }
+
+    message = Text.replaceVariables(message, variables);
+
+    for (TextTag tag : TextTag.TAGS) {
+      if (!tag.isRequiresValue()) {
+        message = message.replace("<" + tag.getId() + ">", "");
+      } else {
+        message = message.replaceAll("<" + tag.getId() + "=[A-z0-9]+>", "");
+      }
+
+      message = message.replace("</" + tag.getId() + ">", "");
+      if (tag.getShortHand() != null) {
+        if (!tag.isRequiresValue()) {
+          message = message.replace("<" + tag.getShortHand() + ">", "");
+        } else {
+          message = message.replaceAll("<" + tag.getShortHand() + "=[A-z0-9]+>", "");
+        }
+        message = message.replace("</" + tag.getShortHand() + ">", "");
+      }
+    }
+
+    return TextMessage.of(
+        TextComponent.builder("[" + textType.name() + "] ").build(),
+        TextComponent.builder(message).build()
+    );
+  }
+
   private static void appendToBuilder(TextType textType, Int2ObjectMap<ClickEvent> clickEvents,
       Int2ObjectMap<HoverEvent> hoverEvents, String message, List<TextComponent> components,
       int bold, int italic, int underlined, int strikethrough, int obfuscated, int highlighted,

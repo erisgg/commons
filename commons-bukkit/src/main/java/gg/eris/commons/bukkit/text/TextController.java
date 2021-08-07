@@ -3,8 +3,10 @@ package gg.eris.commons.bukkit.text;
 import gg.eris.commons.bukkit.impl.text.ComponentParser;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public final class TextController {
@@ -13,15 +15,16 @@ public final class TextController {
   private static final TextMessage ERIS_MESSAGE =
       TextMessage.of(TextComponent.builder("Eris " + ARROW + " ").color(TextColor.YELLOW).build());
 
-  public static void send(Player player, TextMessage textMessage) {
-    player.spigot().sendMessage(ComponentSerializer.parse(textMessage.getJsonMessage()));
+  public static void send(CommandSender sender, TextMessage textMessage) {
+    sender.sendMessage(ComponentSerializer.parse(textMessage.getJsonMessage()));
   }
 
-
   public static void broadcastToServer(TextMessage textMessage) {
+    BaseComponent[] component = textMessage.getBaseComponent();
     for (Player player : Bukkit.getOnlinePlayers()) {
-      player.spigot().sendMessage(ComponentSerializer.parse(textMessage.getJsonMessage()));
+      player.spigot().sendMessage(component);
     }
+    Bukkit.getConsoleSender().sendMessage(component);
   }
 
   public static void broadcastToServer(TextType textType, Int2ObjectMap<ClickEvent> clickEvents,
@@ -36,25 +39,35 @@ public final class TextController {
     broadcastToServer(textMessage);
   }
 
-  public static void send(Player player, TextType textType, Int2ObjectMap<ClickEvent> clickEvents,
+  public static void send(CommandSender sender, TextType textType,
+      Int2ObjectMap<ClickEvent> clickEvents,
       Int2ObjectMap<HoverEvent> hoverEvents, String message, Object... variables) {
-    TextMessage textMessage = parse(textType, clickEvents, hoverEvents, message, variables);
-    send(player, textMessage);
+    TextMessage textMessage;
+
+    if (sender instanceof Player) {
+      textMessage = parse(textType, clickEvents, hoverEvents, message, variables);
+    } else {
+      textMessage = strip(textType, message, variables);
+    }
+
+
+    send(sender, textMessage);
   }
 
-  public static void send(Player player, TextType textType, String message, Object... variables) {
-    send(player, textType, Int2ObjectMaps.emptyMap(), Int2ObjectMaps.emptyMap(), message,
+  public static void send(CommandSender sender, TextType textType, String message,
+      Object... variables) {
+    send(sender, textType, Int2ObjectMaps.emptyMap(), Int2ObjectMaps.emptyMap(), message,
         variables);
   }
 
-  public static void send(Player player, Int2ObjectMap<ClickEvent> clickEvents,
+  public static void send(CommandSender sender, Int2ObjectMap<ClickEvent> clickEvents,
       Int2ObjectMap<HoverEvent> hoverEvents, String message, Object... variables) {
-    send(player, null, clickEvents, hoverEvents, message,
+    send(sender, null, clickEvents, hoverEvents, message,
         variables);
   }
 
-  public static void send(Player player, String message, Object... variables) {
-    send(player, null, Int2ObjectMaps.emptyMap(), Int2ObjectMaps.emptyMap(), message,
+  public static void send(CommandSender sender, String message, Object... variables) {
+    send(sender, null, Int2ObjectMaps.emptyMap(), Int2ObjectMaps.emptyMap(), message,
         variables);
   }
 
@@ -77,6 +90,10 @@ public final class TextController {
   public static TextMessage parse(Int2ObjectMap<HoverEvent> hoverEvents,
       Int2ObjectMap<ClickEvent> clickEvents, String message, Object... variables) {
     return ComponentParser.parse(null, clickEvents, hoverEvents, message, variables);
+  }
+
+  public static TextMessage strip(TextType textType, String message, Object... variables) {
+    return TextMessage.join(ERIS_MESSAGE, ComponentParser.strip(textType, message, variables));
   }
 
 }

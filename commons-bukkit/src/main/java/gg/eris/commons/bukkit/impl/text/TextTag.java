@@ -1,5 +1,7 @@
 package gg.eris.commons.bukkit.impl.text;
 
+import lombok.Getter;
+
 public final class TextTag {
 
   public static final TextTag BOLD = new TextTag("bold", "b");
@@ -12,8 +14,15 @@ public final class TextTag {
   public static final TextTag EVENT = new TextTag("event", "e", true);
   public static final TextTag RAW = new TextTag("raw");
 
+  public static final TextTag[] TAGS = {
+      BOLD, ITALIC, UNDERLINED, STRIKETHROUGH, OBFUSCATED, COLOR, HIGHLIGHT, EVENT, RAW
+  };
+
+  @Getter
   private final String id;
+  @Getter
   private final String shortHand;
+  @Getter
   private final boolean requiresValue;
 
   private TextTag(String id) {
