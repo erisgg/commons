@@ -205,7 +205,7 @@ public final class Command {
           this.aliases,
           this.description,
           TextController.parse(TextType.ERROR,
-              "Invalid usage. Use <h>" + this.usage + "</h>."),
+              "Invalid usage. Use <h>/" + this.usage + "</h>."),
           this.playerOnly,
           this.subCommands,
           this.permission,
