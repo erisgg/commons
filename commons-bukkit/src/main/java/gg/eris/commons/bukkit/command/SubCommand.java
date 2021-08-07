@@ -11,6 +11,7 @@ import gg.eris.commons.core.util.Validate;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 
@@ -18,6 +19,7 @@ public final class SubCommand {
 
   @Getter
   private final Command parent;
+  @Getter(AccessLevel.PROTECTED)
   private final Consumer<CommandContext> callback;
   private final List<ArgumentInstance> arguments;
   private final boolean playerOnly;

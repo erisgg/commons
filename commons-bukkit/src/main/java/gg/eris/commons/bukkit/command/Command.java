@@ -82,7 +82,7 @@ public final class Command {
 
     CommandContext context;
     if (matchResult == null || matchResult.isEmpty()) {
-      if (args.length == 0 && this.defaultSubCommand != null) {
+      if (args.length == 0 && this.defaultSubCommand.getCallback() != null) {
         context = CommandContext.success(sender, this,
             SubCommandMatchResult.match(this.defaultSubCommand, Map.of()), label, args);
       } else {
