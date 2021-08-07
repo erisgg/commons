@@ -1,5 +1,6 @@
 package gg.eris.commons.bukkit.text;
 
+import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.impl.text.ComponentParser;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
@@ -16,7 +17,8 @@ public final class TextController {
       TextMessage.of(TextComponent.builder("Eris " + ARROW + " ").color(TextColor.YELLOW).build());
 
   public static void send(CommandSender sender, TextMessage textMessage) {
-    sender.sendMessage(ComponentSerializer.parse(textMessage.getJsonMessage()));
+    Bukkit.getScheduler().runTask(ErisBukkitCommonsPlugin.getInstance(),
+        () -> sender.sendMessage(ComponentSerializer.parse(textMessage.getJsonMessage())));
   }
 
   public static void broadcastToServer(TextMessage textMessage) {
@@ -49,7 +51,6 @@ public final class TextController {
     } else {
       textMessage = strip(textType, message, variables);
     }
-
 
     send(sender, textMessage);
   }
