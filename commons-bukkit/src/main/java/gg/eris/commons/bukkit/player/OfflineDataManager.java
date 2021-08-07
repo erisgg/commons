@@ -8,14 +8,14 @@ public interface OfflineDataManager {
 
   UUID getUuid(String name);
 
-  void addRank(UUID uuid, Rank rank);
+  boolean addRank(UUID uuid, Rank rank);
 
-  void removeRank(UUID uuid, Rank rank);
+  boolean removeRank(UUID uuid, Rank rank);
 
-  void setRank(UUID uuid, Rank rank);
+  boolean setRank(UUID uuid, Rank rank);
 
-  void addPermission(UUID uuid, Permission permission);
+  boolean addPermission(UUID uuid, Permission permission);
 
-  void removePermission(UUID uuid, Permission permission);
+  boolean removePermission(UUID uuid, Permission permission);
 
 }

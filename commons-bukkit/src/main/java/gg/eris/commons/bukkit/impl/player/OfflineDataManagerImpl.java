@@ -1,6 +1,5 @@
 package gg.eris.commons.bukkit.impl.player;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
@@ -16,16 +15,12 @@ import org.bson.Document;
 
 public final class OfflineDataManagerImpl implements OfflineDataManager {
 
-  private static final ObjectMapper MAPPER = new ObjectMapper();
-
   private static final UpdateOptions UPSERT = new UpdateOptions().upsert(true);
 
-  private final ErisBukkitCommonsPlugin plugin;
   private final MongoCollection<Document> playerCollection;
 
   public OfflineDataManagerImpl(ErisBukkitCommonsPlugin plugin) {
-    this.plugin = plugin;
-    this.playerCollection = this.plugin.getMongoDatabase().getCollection("players", Document.class);
+    this.playerCollection = plugin.getMongoDatabase().getCollection("players", Document.class);
   }
 
   @Override
@@ -43,40 +38,40 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   }
 
   @Override
-  public void addRank(UUID uuid, Rank rank) {
-    this.playerCollection.updateOne(
+  public boolean addRank(UUID uuid, Rank rank) {
+    return this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
         new Document("$push", new Document().append("ranks", rank.getIdentifier().getValue())),
         UPSERT
-    );
+    ).getModifiedCount() > 0;
   }
 
   @Override
-  public void removeRank(UUID uuid, Rank rank) {
-    this.playerCollection.updateOne(
+  public boolean removeRank(UUID uuid, Rank rank) {
+    return this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
         new Document("$pull", new Document().append("ranks", rank.getIdentifier().getValue())),
         UPSERT
-    );
+    ).getModifiedCount() > 0;
   }
 
   @Override
-  public void setRank(UUID uuid, Rank rank) {
-    this.playerCollection.updateOne(
+  public boolean setRank(UUID uuid, Rank rank) {
+    return this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
         new Document("$set", new Document()
             .append("ranks", List.of(rank.getIdentifier().getValue()))),
         UPSERT
-    );
+    ).getModifiedCount() > 0;
   }
 
   @Override
-  public void addPermission(UUID uuid, Permission permission) {
-
+  public boolean addPermission(UUID uuid, Permission permission) {
+return false;
   }
 
   @Override
-  public void removePermission(UUID uuid, Permission permission) {
-
+  public boolean removePermission(UUID uuid, Permission permission) {
+return false;
   }
 }
