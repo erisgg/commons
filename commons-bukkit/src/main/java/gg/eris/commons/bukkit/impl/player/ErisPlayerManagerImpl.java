@@ -35,7 +35,6 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
 
   private MongoCollection<Document> playerCollection;
 
-
   public ErisPlayerManagerImpl(ErisBukkitCommonsPlugin plugin) {
     this.plugin = plugin;
     setupCollection();
