@@ -8,9 +8,12 @@ import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.bukkit.rank.Rank;
+import gg.eris.commons.bukkit.rank.RankRegistry;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.bson.Document;
 
 public final class OfflineDataManagerImpl implements OfflineDataManager {
@@ -18,9 +21,11 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   private static final UpdateOptions UPSERT = new UpdateOptions().upsert(true);
 
   private final MongoCollection<Document> playerCollection;
+  private final RankRegistry rankRegistry;
 
   public OfflineDataManagerImpl(ErisBukkitCommonsPlugin plugin) {
     this.playerCollection = plugin.getMongoDatabase().getCollection("players", Document.class);
+    this.rankRegistry = plugin.getRankRegistry();
   }
 
   @Override
@@ -66,12 +71,29 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   }
 
   @Override
+  public List<Rank> getRanks(UUID uuid) {
+    Document document = this.playerCollection.find(
+        Filters.eq("uuid", uuid.toString())
+    ).first();
+
+    if (document == null) {
+      return null;
+    }
+
+    List<String> rankList = document.getList("ranks", String.class);
+    return rankList.stream()
+        .map(this.rankRegistry::get)
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
+  }
+
+  @Override
   public boolean addPermission(UUID uuid, Permission permission) {
-return false;
+    return false;
   }
 
   @Override
   public boolean removePermission(UUID uuid, Permission permission) {
-return false;
+    return false;
   }
 }

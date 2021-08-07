@@ -2,6 +2,7 @@ package gg.eris.commons.bukkit.player;
 
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.rank.Rank;
+import java.util.List;
 import java.util.UUID;
 
 public interface OfflineDataManager {
@@ -13,6 +14,8 @@ public interface OfflineDataManager {
   boolean removeRank(UUID uuid, Rank rank);
 
   boolean setRank(UUID uuid, Rank rank);
+
+  List<Rank> getRanks(UUID uuid);
 
   boolean addPermission(UUID uuid, Permission permission);
 
