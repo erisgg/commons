@@ -46,7 +46,7 @@ public final class CommandManagerImpl implements CommandManager {
 
   @Override
   public Builder newCommandBuilder(String name, String description,
-      TextMessage defaultErrorMessage, Identifier permission,
+      String defaultErrorMessage, Identifier permission,
       String... aliases) {
     return new Command.Builder(
         name,

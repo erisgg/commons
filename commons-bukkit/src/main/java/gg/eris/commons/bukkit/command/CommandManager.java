@@ -37,7 +37,7 @@ public interface CommandManager {
    * @return a new {@link Command.Builder} instance
    */
   Command.Builder newCommandBuilder(String name, String description,
-      TextMessage defaultErrorMessage, Identifier permission,
+      String defaultErrorMessage, Identifier permission,
       String... aliases);
 
   /**
