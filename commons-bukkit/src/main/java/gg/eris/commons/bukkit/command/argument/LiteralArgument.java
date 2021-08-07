@@ -25,15 +25,6 @@ public final class LiteralArgument extends Argument<String> {
           } else {
             return literals.contains(value.toLowerCase(Locale.ROOT));
           }
-        },
-        value -> {
-          // Soft match shouldn't overwrite soft match for string - literals do not need to soft
-          // match
-          if (caseSensitive) {
-            return literals.contains(value);
-          } else {
-            return literals.contains(value.toLowerCase(Locale.ROOT));
-          }
         }
     );
     this.literals = literals;

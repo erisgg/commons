@@ -4,14 +4,23 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.rank.Rank;
+import gg.eris.commons.bukkit.rank.RankRegistry;
+import gg.eris.commons.core.json.JsonUtil;
+import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -42,7 +51,7 @@ public class ErisPlayer implements Serializable {
   protected long lastLogin;
 
   @Getter
-  protected Rank rank;
+  protected List<Rank> ranks;
 
   @Getter
   protected final List<Permission> permissions;
@@ -53,7 +62,7 @@ public class ErisPlayer implements Serializable {
     this.nameHistory = data.nameHistory;
     this.firstLogin = data.firstLogin;
     this.lastLogin = data.lastLogin;
-    this.rank = data.rank;
+    this.ranks = data.ranks;
     this.permissions = data.permissions;
   }
 
@@ -65,8 +74,23 @@ public class ErisPlayer implements Serializable {
     return this.uuid;
   }
 
-  public void setRank(Rank rank) {
-    this.rank = rank;
+  public final void addRank(Rank rank) {
+    this.ranks.add(rank);
+    Collections.sort(this.ranks);
+  }
+
+  public final void removeRank(Rank rank) {
+    this.ranks.remove(rank);
+    Collections.sort(this.ranks);
+  }
+
+  public final void setRank(Rank rank) {
+    this.ranks.clear();
+    addRank(rank);
+  }
+
+  public final Rank getPriorityRank() {
+    return this.ranks.get(0);
   }
 
   public final boolean isOnline() {
@@ -88,7 +112,10 @@ public class ErisPlayer implements Serializable {
   @Getter
   public static class DefaultData {
 
-    private final static ObjectReader STRING_READER = new ObjectMapper()
+    private static final List<Rank> DEFAULT_RANK =
+        List.of(ErisBukkitCommonsPlugin.getInstance().getRankRegistry().DEFAULT);
+
+    private static final ObjectReader STRING_READER = new ObjectMapper()
         .readerFor(new TypeReference<List<String>>() {
         });
 
@@ -97,29 +124,40 @@ public class ErisPlayer implements Serializable {
     private final List<String> nameHistory;
     private final long firstLogin;
     private final long lastLogin;
-    private final Rank rank;
+    private final List<Rank> ranks;
     private final List<Permission> permissions;
 
     private DefaultData(UUID uuid, String name, List<String> nameHistory, long firstLogin,
-        long lastLogin, Rank rank, List<Permission> permissions) {
+        long lastLogin, List<Rank> ranks, List<Permission> permissions) {
       this.uuid = uuid;
       this.name = name;
       this.nameHistory = ImmutableList.copyOf(nameHistory);
       this.firstLogin = firstLogin;
       this.lastLogin = lastLogin;
-      this.rank = rank;
+      this.ranks = ranks;
       this.permissions = ImmutableList.copyOf(permissions);
     }
 
     public static DefaultData fromNode(JsonNode node) {
       try {
+        ArrayNode ranksNode = (ArrayNode) node.get("ranks");
+        List<Rank> ranks;
+        if (ranksNode == null) {
+          ranks = new ArrayList<>(DEFAULT_RANK);
+        } else {
+          ranks =
+              JsonUtil.fromStringArray(ranksNode).stream().map(ErisBukkitCommonsPlugin.getInstance()
+                  .getRankRegistry()::get)
+                  .collect(Collectors.toList());
+        }
+
         return of(
             UUID.fromString(node.get("uuid").asText()),
             node.get("name").asText(),
             STRING_READER.readValue(node.get("name_history")),
             node.get("first_login").asLong(),
             node.get("last_login").asLong(),
-            ErisBukkitCommonsPlugin.getInstance().getRankRegistry().get(node.get("rank").asText()),
+            ranks,
             List.of()
         );
       } catch (IOException err) {
@@ -128,14 +166,14 @@ public class ErisPlayer implements Serializable {
     }
 
     public static DefaultData of(UUID uuid, String name, List<String> nameHistory, long firstLogin,
-        long lastLogin, Rank rank, List<Permission> permissions) {
+        long lastLogin, List<Rank> ranks, List<Permission> permissions) {
       return new DefaultData(
           uuid,
           name,
           nameHistory,
           firstLogin,
           lastLogin,
-          rank,
+          ranks,
           permissions
       );
     }
@@ -148,7 +186,7 @@ public class ErisPlayer implements Serializable {
           List.of(player.getName()),
           time,
           time,
-          ErisBukkitCommonsPlugin.getInstance().getRankRegistry().DEFAULT,
+          DEFAULT_RANK,
           List.of()
       );
     }

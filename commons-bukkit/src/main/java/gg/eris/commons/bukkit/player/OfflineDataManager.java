@@ -12,6 +12,8 @@ public interface OfflineDataManager {
 
   void removeRank(UUID uuid, Rank rank);
 
+  void setRank(UUID uuid, Rank rank);
+
   void addPermission(UUID uuid, Permission permission);
 
   void removePermission(UUID uuid, Permission permission);

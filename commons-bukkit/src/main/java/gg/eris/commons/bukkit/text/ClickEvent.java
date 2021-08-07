@@ -8,7 +8,7 @@ public class ClickEvent {
   public enum Action {
     RUN_COMMAND("run_command"),
     SUGGEST_COMMAND("suggest_command"),
-    SUGGEST_TEXT("suggest_text"),
+    SUGGEST_TEXT("suggest_command"),
     OPEN_URL("open_url");
 
     private final String value;
@@ -22,7 +22,10 @@ public class ClickEvent {
   String contents;
 
   public String toJsonMessage() {
-    return "{\"action\":\"" + action.value + "\",\"value\":\"" + contents + "\"}";
+    return
+        "{\"action\":\"" + this.action.value + "\",\"value\":\"" +
+        (this.action == Action.SUGGEST_COMMAND ? "/" + this.contents : this.contents)
+        + "\"}";
   }
 
 }

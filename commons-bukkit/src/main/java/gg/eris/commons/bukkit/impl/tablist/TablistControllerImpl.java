@@ -128,13 +128,13 @@ public final class TablistControllerImpl implements TablistController {
 
   public void addPlayer(Player player, Player addendum) {
     ErisPlayer erisPlayer = this.erisPlayerManager.getPlayer(addendum);
-    player.getScoreboard().getTeam("" + erisPlayer.getRank().getPriority())
+    player.getScoreboard().getTeam("" + erisPlayer.getPriorityRank().getPriority())
         .addEntry(addendum.getName());
   }
 
   public void removePlayer(Player player, Player removal) {
     ErisPlayer erisPlayer = this.erisPlayerManager.getPlayer(removal);
-    player.getScoreboard().getTeam("" + erisPlayer.getRank().getPriority())
+    player.getScoreboard().getTeam("" + erisPlayer.getPriorityRank().getPriority())
         .removeEntry(removal.getName());
   }
 

@@ -4,6 +4,9 @@ import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.ErisBukkitCommons;
 import gg.eris.commons.bukkit.impl.command.SubCommandMatchResult;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
+import gg.eris.commons.bukkit.text.TextController;
+import gg.eris.commons.bukkit.text.TextMessage;
+import gg.eris.commons.bukkit.text.TextType;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.util.Validate;
 import java.util.List;
@@ -25,11 +28,13 @@ public final class Command {
   private final String name;
   private final Set<String> aliases;
   private final String description;
+  private final TextMessage defaultErrorMessage;
   private final boolean playerOnly;
   private final Set<SubCommand> subCommands;
   private final SubCommand defaultSubCommand;
 
-  public Command(String name, Set<String> aliases, String description, boolean playerOnly,
+  public Command(String name, Set<String> aliases, String description,
+      TextMessage defaultErrorMessage, boolean playerOnly,
       Set<SubCommand.Builder> subCommands, Identifier permission,
       Consumer<CommandContext> defaultHandler) {
     this.name = name.toLowerCase(Locale.ROOT);
@@ -38,6 +43,7 @@ public final class Command {
         .collect(Collectors.toUnmodifiableSet());
     this.description = description;
     this.playerOnly = playerOnly;
+    this.defaultErrorMessage = defaultErrorMessage;
     this.defaultSubCommand = new SubCommand(
         this,
         defaultHandler,
@@ -95,15 +101,13 @@ public final class Command {
     if (context.isSuccess()) {
       SubCommand subCommand = context.getSubCommand();
       if (!permissionRegistry.get(this.getPermission()).hasPermission(context.getCommandSender())) {
-        context.getCommandSender().sendMessage("No permission");
-        // TODO: Permission message text ctrller
+        TextController.send(context.getCommandSender(), TextType.ERROR, "No permission.");
         return;
       }
 
       subCommand.execute(context);
     } else {
-      context.getCommandSender().sendMessage("Help message todo");
-      // TODO: Set help message data
+      TextController.send(context.getCommandSender(), this.defaultErrorMessage);
     }
   }
 
@@ -116,6 +120,7 @@ public final class Command {
     private boolean built;
     private final String name;
     private final String description;
+    private final TextMessage errorMessage;
     private final Identifier permission;
     private final Set<String> aliases;
     private final Set<SubCommand.Builder> subCommands;
@@ -132,8 +137,10 @@ public final class Command {
      * @param permission  is the permission identifier
      * @param aliases     are the command aliases
      */
-    public Builder(String name, String description, Identifier permission, Set<String> aliases) {
+    public Builder(String name, String description, TextMessage errorMessage,
+        Identifier permission, Set<String> aliases) {
       Validate.notEmpty(name, "name cannot be null or empty");
+      Validate.notNull(errorMessage, "error cannot be null");
       Validate.notEmpty(description, "description cannot be null or empty");
       Validate.notNull(permission, "permission cannot be null or empty");
       for (String alias : aliases) {
@@ -143,6 +150,7 @@ public final class Command {
       this.built = false;
       this.name = name;
       this.description = description;
+      this.errorMessage= errorMessage;
       this.permission = permission;
       this.aliases = aliases;
       this.subCommands = Sets.newHashSet();
@@ -198,6 +206,7 @@ public final class Command {
           this.name,
           this.aliases,
           this.description,
+          this.errorMessage,
           this.playerOnly,
           this.subCommands,
           this.permission,

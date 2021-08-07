@@ -6,7 +6,6 @@ public final class StringArgument extends Argument<String> {
     super(argumentId,
         String.class,
         value -> value,
-        value -> true,
         value -> true
     );
   }

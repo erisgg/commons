@@ -77,24 +77,30 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
   protected void unloadPlayer(UUID uuid) {
     ErisPlayer player = this.players.remove(uuid);
     if (player != null) {
-      JsonNode data = this.playerSerializer.serializePlayer(player);
-      Document document = new Document("$set", Document.parse(data.toString()));
-      this.playerCollection.updateOne(
-          Filters.eq("uuid", uuid.toString()),
-          document,
-          new UpdateOptions().upsert(true)
-      );
+      savePlayer(player);
     } else {
       Bukkit.getLogger().warning("Player with UUID " + uuid.toString()
           + " had no ErisPlayer loaded and has disconnected without any data save.");
     }
   }
 
+  protected void savePlayer(ErisPlayer player) {
+    JsonNode data = this.playerSerializer.serializePlayer(player);
+    Document document = new Document("$set", Document.parse(data.toString()));
+    this.playerCollection.updateOne(
+        Filters.eq("uuid", player.getUniqueId().toString()),
+        document,
+        new UpdateOptions().upsert(true)
+    );
+  }
+
   protected void createNewPlayer(Player player) {
+    ErisPlayer newPlayer;
     this.players.put(
         player.getUniqueId(),
-        this.playerSerializer.newPlayer(player)
+        newPlayer = this.playerSerializer.newPlayer(player)
     );
+    savePlayer(newPlayer);
   }
 
   protected void setupCollection() {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import gg.eris.commons.core.json.JsonUtil;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,10 +28,11 @@ public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
   public final JsonNode serializePlayer(ErisPlayer rootPlayer) {
     T player = cast(rootPlayer);
 
-    ObjectNode node = mapper.createObjectNode();
+    ObjectNode node = this.mapper.createObjectNode();
 
     node.put("uuid", player.getUniqueId().toString())
         .put("name", player.getName())
+        .put("name_lower", player.getName().toLowerCase(Locale.ROOT))
         .put("first_login", player.getFirstLogin())
         .put("last_login", player.getLastLogin());
 

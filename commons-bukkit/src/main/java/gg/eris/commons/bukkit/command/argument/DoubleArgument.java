@@ -22,15 +22,7 @@ public final class DoubleArgument extends Argument<Double> {
             return null;
           }
         },
-        value -> (!hasMin || !(value < min)) && (!hasMax || !(value > max)),
-        value -> {
-          try {
-            Double.parseDouble(value);
-            return true;
-          } catch (NumberFormatException err) {
-            return false;
-          }
-        }
+        value -> (!hasMin || !(value < min)) && (!hasMax || !(value > max))
     );
     this.hasMin = true;
     this.hasMax = true;

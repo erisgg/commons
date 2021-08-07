@@ -9,16 +9,14 @@ public abstract class Argument<T> {
   private final String argumentId;
   private final Function<String, T> converter;
   private final Function<T, Boolean> matcher;
-  private final Function<String, Boolean> softMatcher;
   private final Class<T> genericClass;
 
   public Argument(String argumentId, Class<T> genericClass, Function<String, T> converter,
-      Function<T, Boolean> matcher, Function<String, Boolean> softMatcher) {
+      Function<T, Boolean> matcher) {
     this.argumentId = argumentId;
     this.genericClass = genericClass;
     this.converter = converter;
     this.matcher = matcher;
-    this.softMatcher = softMatcher;
   }
 
   public T convert(String value) {
@@ -30,10 +28,6 @@ public abstract class Argument<T> {
       return false;
     }
     return matcher.apply(genericClass.cast(input));
-  }
-
-  public boolean softMatches(String value) {
-    return softMatcher.apply(value);
   }
 
   public boolean isSimilar(Argument<?> other) {

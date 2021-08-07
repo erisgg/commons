@@ -1,8 +1,12 @@
 package gg.eris.commons.core.json;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonBooleanFormatVisitor;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.experimental.UtilityClass;
@@ -18,6 +22,14 @@ public class JsonUtil {
         .map(item -> new TextNode(item.toString()))
         .collect(Collectors.toList())
     );
+  }
+
+  public static List<String> fromStringArray(ArrayNode node) {
+    List<String> list = new ArrayList<>();
+    for (JsonNode value : node) {
+      list.add(value.asText());
+    }
+    return list;
   }
 
   public static ArrayNode populateStringArray(ArrayNode node, List<?> list) {

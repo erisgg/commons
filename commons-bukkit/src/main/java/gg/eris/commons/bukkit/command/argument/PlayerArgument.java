@@ -10,7 +10,6 @@ public final class PlayerArgument extends Argument<Player> {
         argumentId,
         Player.class,
         Bukkit::getPlayer,
-        value -> value != null && value.isValid() && value.isOnline(),
         value -> true
     );
   }

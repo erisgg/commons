@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import gg.eris.commons.bukkit.command.Command;
 import gg.eris.commons.bukkit.command.Command.Builder;
 import gg.eris.commons.bukkit.command.CommandManager;
+import gg.eris.commons.bukkit.text.TextMessage;
 import gg.eris.commons.bukkit.util.CommandUtil;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.util.Validate;
@@ -44,11 +45,13 @@ public final class CommandManagerImpl implements CommandManager {
   }
 
   @Override
-  public Builder newCommandBuilder(String name, String description, Identifier permission,
+  public Builder newCommandBuilder(String name, String description,
+      TextMessage defaultErrorMessage, Identifier permission,
       String... aliases) {
     return new Command.Builder(
         name,
         description,
+        defaultErrorMessage,
         permission,
         Set.of(aliases)
     );

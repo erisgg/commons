@@ -22,15 +22,7 @@ public final class IntegerArgument extends Argument<Integer> {
             return null;
           }
         },
-        value -> (!hasMin || !(value < min)) && (!hasMax || !(value > max)),
-        value -> {
-          try {
-            Integer.valueOf(value);
-            return true;
-          } catch (NumberFormatException ignored) {
-            return false;
-          }
-        }
+        value -> (!hasMin || !(value < min)) && (!hasMax || !(value > max))
     );
     this.hasMin = true;
     this.hasMax = true;

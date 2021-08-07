@@ -8,12 +8,14 @@ import gg.eris.commons.bukkit.text.TextController;
 import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
+import java.util.Comparator;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
-public final class Rank implements Identifiable {
+public final class Rank implements Identifiable, Comparable<Rank> {
 
   private final Identifier identifier;
   private final int priority;
@@ -57,6 +59,11 @@ public final class Rank implements Identifiable {
   @Override
   public Identifier getIdentifier() {
     return this.identifier;
+  }
+
+  @Override
+  public int compareTo(@NotNull Rank o) {
+    return this.priority - o.priority;
   }
 
 }
