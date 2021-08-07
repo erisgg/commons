@@ -41,7 +41,7 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   public boolean addRank(UUID uuid, Rank rank) {
     return this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
-        new Document("$push", new Document().append("ranks", rank.getIdentifier().getValue())),
+        new Document("$addToSet", new Document().append("ranks", rank.getIdentifier().getValue())),
         UPSERT
     ).getModifiedCount() > 0;
   }
