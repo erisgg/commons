@@ -32,12 +32,15 @@ public final class Identifier {
   }
 
   public static Identifier fromString(String string) {
-    Validate.isTrue(Text.countMatches(string, ":") == 1,
-        "identifier can only contain one semicolon");
+    Validate.isTrue(isValid(string), "identifier can only contain one semicolon");
     int index = string.indexOf(':');
     String namespace = string.substring(0, index);
-    String value = string.substring(index + 1, string.length());
+    String value = string.substring(index + 1);
     return Identifier.of(namespace, value);
+  }
+
+  public static boolean isValid(String string) {
+    return Text.countMatches(string, ":") == 1;
   }
 
   @Override
