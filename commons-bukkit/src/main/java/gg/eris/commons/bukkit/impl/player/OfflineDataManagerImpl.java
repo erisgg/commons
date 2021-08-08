@@ -82,7 +82,7 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
       return null;
     }
 
-    List<String> rankList = document.getList("ranks", String.class);
+    List<String> rankList = document.getList("ranks", String.class, List.of());
     return rankList.stream()
         .map(this.rankRegistry::get)
         .filter(Objects::nonNull)
@@ -118,6 +118,6 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
       return null;
     }
 
-    return new ArrayList<>(document.getList("permissions", String.class));
+    return new ArrayList<>(document.getList("permissions", String.class, List.of()));
   }
 }
