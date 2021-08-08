@@ -10,6 +10,7 @@ import gg.eris.commons.bukkit.impl.chat.ChatControllerImpl;
 import gg.eris.commons.bukkit.impl.chat.ChatControllerListener;
 import gg.eris.commons.bukkit.impl.command.CommandManagerImpl;
 import gg.eris.commons.bukkit.impl.item.ItemListener;
+import gg.eris.commons.bukkit.impl.lock.ServerLockListener;
 import gg.eris.commons.bukkit.impl.menu.MenuListener;
 import gg.eris.commons.bukkit.impl.player.ErisPlayerManagerImpl;
 import gg.eris.commons.bukkit.impl.scoreboard.ScoreboardControllerImpl;
@@ -51,7 +52,6 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
   private PermissionRegistry permissionRegistry;
   private RankRegistry rankRegistry;
   private ObjectMapper objectMapper;
-
   private ErisPlayerManager erisPlayerManager;
 
   @Override
@@ -87,6 +87,8 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     this.tablistController = new TablistControllerImpl(this);
     this.scoreboardController = new ScoreboardControllerImpl(this, this.erisPlayerManager);
 
+    ServerLockListener lock = new ServerLockListener();
+
     PluginManager pluginManager = Bukkit.getPluginManager();
     pluginManager.registerEvents(new MenuListener(this), this);
     pluginManager.registerEvents(
@@ -95,8 +97,8 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
         new ScoreboardListener((ScoreboardControllerImpl) this.scoreboardController), this);
     pluginManager
         .registerEvents(new TablistListener((TablistControllerImpl) this.tablistController), this);
-    pluginManager
-        .registerEvents(new ItemListener(), this);
+    pluginManager.registerEvents(new ItemListener(), this);
+    pluginManager.registerEvents(lock, this);
 
     // Registering messaging channel
     this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -123,6 +125,9 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
             (player, chatMessage) -> chatMessage);
       }
     });
+
+    // Give time for Mongo
+    Bukkit.getScheduler().runTaskLater(this, lock::start, 5L);
   }
 
   @Override
