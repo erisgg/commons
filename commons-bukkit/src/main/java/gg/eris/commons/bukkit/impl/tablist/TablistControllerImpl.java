@@ -95,11 +95,12 @@ public final class TablistControllerImpl implements TablistController {
     // Update it as soon as possible but a few times for security (does not work instantly on join)
     new BukkitRunnable() {
       int count = 0;
+
       @Override
       public void run() {
-        updateDisplayNameOfPlayer(player);
         updateDisplayNamesForPlayer(player);
-        if (++count > 15) {
+        updateDisplayNameOfPlayer(player);
+        if (++this.count > 15) {
           cancel();
         }
       }
@@ -153,15 +154,9 @@ public final class TablistControllerImpl implements TablistController {
       String tablistName = this.displayNameFunction != null ? this.displayNameFunction.apply(player,
           other) : CC.WHITE + player.getName();
 
-      PacketPlayOutPlayerInfo packet;
-      if (tablistName != null) {
-        packet = new PacketPlayOutPlayerInfo();
-        packet.a = EnumPlayerInfoAction.UPDATE_DISPLAY_NAME;
-        packet.b.add(createPlayerInfoData(packet, handle, tablistName));
-      } else {
-        packet = new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.REMOVE_PLAYER,
-            PlayerUtil.getHandle(handle));
-      }
+      PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
+      packet.a = EnumPlayerInfoAction.UPDATE_DISPLAY_NAME;
+      packet.b.add(createPlayerInfoData(packet, handle, tablistName));
       PlayerUtil.getHandle(otherHandle).playerConnection.sendPacket(packet);
     }
   }
@@ -175,15 +170,9 @@ public final class TablistControllerImpl implements TablistController {
       String tablistName = this.displayNameFunction != null ? this.displayNameFunction.apply(other,
           player) : CC.WHITE + other.getName();
 
-      PacketPlayOutPlayerInfo packet;
-      if (tablistName != null) {
-        packet = new PacketPlayOutPlayerInfo();
-        packet.a = EnumPlayerInfoAction.UPDATE_DISPLAY_NAME;
-        packet.b.add(createPlayerInfoData(packet, otherHandle, tablistName));
-      } else {
-        packet = new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.REMOVE_PLAYER,
-            PlayerUtil.getHandle(otherHandle));
-      }
+      PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
+      packet.a = EnumPlayerInfoAction.UPDATE_DISPLAY_NAME;
+      packet.b.add(createPlayerInfoData(packet, otherHandle, tablistName));
       entityHandle.playerConnection.sendPacket(packet);
     }
   }

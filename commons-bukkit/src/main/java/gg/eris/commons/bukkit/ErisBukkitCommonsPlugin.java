@@ -127,7 +127,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     });
 
     // Give time for Mongo
-    Bukkit.getScheduler().runTaskLater(this, lock::start, 5L);
+    Bukkit.getScheduler().runTaskLater(this, lock::start, 40L);
   }
 
   @Override

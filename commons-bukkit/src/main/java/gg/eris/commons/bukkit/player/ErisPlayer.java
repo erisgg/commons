@@ -11,6 +11,7 @@ import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.json.JsonUtil;
+import gg.eris.commons.core.util.Validate;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -89,6 +90,13 @@ public class ErisPlayer implements Serializable {
 
   public final Rank getPriorityRank() {
     return this.ranks.get(0);
+  }
+
+  public final boolean hasPermission(Identifier identifier) {
+    Permission permission =
+        ErisBukkitCommonsPlugin.getInstance().getPermissionRegistry().get(identifier);
+    Validate.notNull(permission, "Permission " + identifier + " is not registered");
+    return this.permissions.contains(permission);
   }
 
   public final boolean isOnline() {
