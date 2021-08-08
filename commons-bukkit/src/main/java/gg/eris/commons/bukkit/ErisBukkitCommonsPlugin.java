@@ -19,6 +19,7 @@ import gg.eris.commons.bukkit.impl.tablist.TablistControllerImpl;
 import gg.eris.commons.bukkit.impl.tablist.TablistListener;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.DefaultErisPlayerSerializer;
+import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.bukkit.rank.RankRegistry;
@@ -28,6 +29,7 @@ import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.database.MongoCredentials;
 import gg.eris.commons.core.database.MongoDbProvider;
 import gg.eris.commons.core.redis.RedisWrapper;
+import java.util.Comparator;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -96,7 +98,8 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     pluginManager.registerEvents(
         new ScoreboardListener((ScoreboardControllerImpl) this.scoreboardController), this);
     pluginManager
-        .registerEvents(new TablistListener((TablistControllerImpl) this.tablistController), this);
+        .registerEvents(new TablistListener(this, (TablistControllerImpl) this.tablistController),
+            this);
     pluginManager.registerEvents(new ItemListener(), this);
     pluginManager.registerEvents(lock, this);
 
@@ -123,6 +126,11 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
                 "<col=white>" : "<col=gray>",
             (player, chatMessage) -> player.getName(),
             (player, chatMessage) -> chatMessage);
+      }
+
+      if (this.tablistController.getOrderingComparator() == null) {
+        this.tablistController.setOrderingComparator(
+            Comparator.comparingInt(o -> o.getPriorityRank().getPriority()));
       }
     });
 
