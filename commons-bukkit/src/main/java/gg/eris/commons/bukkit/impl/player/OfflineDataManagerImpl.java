@@ -9,6 +9,7 @@ import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
+import gg.eris.commons.core.identifier.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -89,21 +90,21 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   }
 
   @Override
-  public boolean addPermission(UUID uuid, Permission permission) {
+  public boolean addPermission(UUID uuid, Identifier identifier) {
     return this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
         new Document("$set", new Document()
-            .append("$addToSet", new Document("permissions", permission.toString()))),
+            .append("$addToSet", new Document("permissions", identifier.toString()))),
         UPSERT
     ).getModifiedCount() > 0;
   }
 
   @Override
-  public boolean removePermission(UUID uuid, Permission permission) {
+  public boolean removePermission(UUID uuid, Identifier identifier) {
     return this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
         new Document("$set", new Document()
-            .append("$pull", new Document("permissions", permission.toString()))),
+            .append("$pull", new Document("permissions", identifier.toString()))),
         UPSERT
     ).getModifiedCount() > 0;
   }
