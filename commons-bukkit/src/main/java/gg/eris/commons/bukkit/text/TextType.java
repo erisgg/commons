@@ -8,7 +8,7 @@ public enum TextType {
 
   SUCCESS(TextColor.GREEN, TextColor.DARK_GREEN),
   ERROR(TextColor.RED, TextColor.DARK_RED),
-  INFORMATION(TextColor.AQUA, TextColor.DARK_AQUA),
+  INFORMATION(TextColor.GOLD, TextColor.YELLOW),
   PROMPT(TextColor.LIGHT_PURPLE, TextColor.DARK_PURPLE);
 
   private final TextColor baseColor;
