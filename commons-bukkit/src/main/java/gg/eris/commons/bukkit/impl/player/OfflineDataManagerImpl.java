@@ -5,7 +5,6 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.UpdateOptions;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
-import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
@@ -93,8 +92,7 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   public boolean addPermission(UUID uuid, Identifier identifier) {
     return this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
-        new Document("$set", new Document()
-            .append("$addToSet", new Document("permissions", identifier.toString()))),
+        new Document("$addToSet", new Document("permissions", identifier.toString())),
         UPSERT
     ).getModifiedCount() > 0;
   }
@@ -103,8 +101,7 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   public boolean removePermission(UUID uuid, Identifier identifier) {
     return this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
-        new Document("$set", new Document()
-            .append("$pull", new Document("permissions", identifier.toString()))),
+        new Document("$pull", new Document("permissions", identifier.toString())),
         UPSERT
     ).getModifiedCount() > 0;
   }
