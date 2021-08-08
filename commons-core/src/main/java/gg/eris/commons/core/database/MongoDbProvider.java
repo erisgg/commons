@@ -13,11 +13,20 @@ import lombok.experimental.UtilityClass;
 public class MongoDbProvider {
 
   public static MongoDatabase newClient(MongoCredentials credentials) {
-    ConnectionString connectionString = new ConnectionString(
-        "mongodb+srv://"
-            + credentials.getUsername() + ":" + credentials.getPassword()
-            + "@" + credentials.getHostname()
-    );
+    String connectionStringRaw = "mongodb://";
+
+    if (credentials.getUsername() != null && !credentials.getUsername().isEmpty()) {
+      connectionStringRaw += credentials.getUsername();
+      if (credentials.getPassword() != null && !credentials.getPassword().isEmpty()) {
+        connectionStringRaw += ":" + credentials.getPassword();
+      }
+      connectionStringRaw += "@";
+    }
+
+    connectionStringRaw += credentials.getHostname() + ":" + credentials.getPort() +
+        "/?authSource=admin";
+
+    ConnectionString connectionString = new ConnectionString(connectionStringRaw);
 
     return getDatabase(newClient(MongoClientSettings.builder()
         .applyToSocketSettings(builder -> {

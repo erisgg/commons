@@ -28,9 +28,10 @@ public class RedisWrapperImpl implements RedisWrapper {
 
   public RedisWrapperImpl(String password, String host, int port) {
     this.uuidString = UUID.randomUUID().toString();
-    this.pool = password == null ?
-        new JedisPool(host, port) :
-        new JedisPool(new GenericObjectPoolConfig<>(), host, port, TIMEOUT, password);
+    this.pool = password != null && !password.isEmpty() ?
+        new JedisPool(new GenericObjectPoolConfig<>(), host, port, TIMEOUT, password) :
+        new JedisPool(new GenericObjectPoolConfig<>(), host, port, TIMEOUT);
+
 
     this.mapper = new JsonMapper();
   }

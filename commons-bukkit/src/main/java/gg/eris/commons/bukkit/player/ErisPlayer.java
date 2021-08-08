@@ -194,7 +194,7 @@ public class ErisPlayer implements Serializable {
           List.of(player.getName()),
           time,
           time,
-          DEFAULT_RANK,
+          new ArrayList<>(DEFAULT_RANK),
           List.of()
       );
     }

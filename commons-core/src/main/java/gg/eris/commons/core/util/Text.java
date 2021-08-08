@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 @UtilityClass
 public class Text {
 
-  private static final String CLEAR = StringUtils.repeat(" \n", 100);
+  public static final String CLEAR = StringUtils.repeat(" \n", 100);
 
   /**
    * Replaces {0}, {1} etc...placeholders with variables
