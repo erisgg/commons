@@ -187,6 +187,11 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     return this.tablistController;
   }
 
+  @Override
+  public int getNetworkPlayerCount() {
+    return this.redisWrapper.get("playercount").get("count").asInt();
+  }
+
   /**
    * @return ugh. but needed for static registry accesses. tis what tis. avoid when possible! not
    * because it makes any difference but because i don't like it. and i don't like you. go away.

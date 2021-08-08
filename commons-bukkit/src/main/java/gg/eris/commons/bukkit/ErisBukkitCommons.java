@@ -95,4 +95,10 @@ public interface ErisBukkitCommons {
    */
   TablistController getTablistController();
 
+  /**
+   * Returns the network's player count
+   *
+   * @return the network player count
+   */
+  int getNetworkPlayerCount();
 }
