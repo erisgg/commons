@@ -6,19 +6,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.rank.Rank;
-import gg.eris.commons.bukkit.rank.RankRegistry;
+import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.json.JsonUtil;
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.Getter;
@@ -146,10 +143,20 @@ public class ErisPlayer implements Serializable {
         if (ranksNode == null) {
           ranks = new ArrayList<>(DEFAULT_RANK);
         } else {
-          ranks =
-              JsonUtil.fromStringArray(ranksNode).stream().map(ErisBukkitCommonsPlugin.getInstance()
-                  .getRankRegistry()::get)
-                  .collect(Collectors.toList());
+          ranks = JsonUtil.fromStringArray(ranksNode).stream()
+              .map(ErisBukkitCommonsPlugin.getInstance().getRankRegistry()::get)
+              .collect(Collectors.toList());
+        }
+
+        ArrayNode permissionsNode = (ArrayNode) node.get("permissions");
+        List<Permission> permissions;
+        if (permissionsNode == null) {
+          permissions = List.of();
+        } else {
+          permissions = JsonUtil.fromStringArray(permissionsNode).stream()
+              .map(string -> ErisBukkitCommonsPlugin.getInstance().getPermissionRegistry()
+                  .get(Identifier.fromString(string)))
+              .collect(Collectors.toList());
         }
 
         return of(
@@ -159,7 +166,7 @@ public class ErisPlayer implements Serializable {
             node.get("first_login").asLong(),
             node.get("last_login").asLong(),
             ranks,
-            List.of()
+            permissions
         );
       } catch (IOException err) {
         return null;

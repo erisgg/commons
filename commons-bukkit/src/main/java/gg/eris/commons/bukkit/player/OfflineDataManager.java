@@ -21,4 +21,6 @@ public interface OfflineDataManager {
 
   boolean removePermission(UUID uuid, Permission permission);
 
+  List<String> getRawPermissions(UUID uuid);
+
 }

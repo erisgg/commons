@@ -54,7 +54,7 @@ public final class Permission implements Identifiable {
 
   @Override
   public String toString() {
-    return this.identifier.getNamespace() + "." + this.identifier.getValue();
+    return this.identifier.toString();
   }
 
 }
