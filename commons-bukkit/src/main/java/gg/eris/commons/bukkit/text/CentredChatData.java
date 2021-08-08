@@ -125,10 +125,9 @@ public enum CentredChatData {
     return CentredChatData.DEFAULT;
   }
 
-  public static void sendCentredMessage(Player player, String message) {
+  public static String getCentredMessage(Player player, String message) {
     if (message == null || message.equals("")) {
-      player.sendMessage("");
-      return;
+      return "";
     }
 
     message = ChatColor.translateAlternateColorCodes('&', message);
@@ -160,6 +159,8 @@ public enum CentredChatData {
       builder.append(" ");
       compensated += spaceLength;
     }
-    player.sendMessage(builder + message);
+
+    builder.append(message);
+    return builder.toString();
   }
 }
