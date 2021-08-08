@@ -33,7 +33,7 @@ public final class Identifier {
 
   public static Identifier fromString(String string) {
     Validate.isTrue(isValid(string),
-        "identifier can only contain one colon (provided: '" + string + "'");
+        "identifier can only contain one colon (provided: '" + string + "')");
     int index = string.indexOf(':');
     String namespace = string.substring(0, index);
     String value = string.substring(index + 1);
