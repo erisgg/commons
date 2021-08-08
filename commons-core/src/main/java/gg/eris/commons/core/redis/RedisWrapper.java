@@ -1,6 +1,8 @@
 package gg.eris.commons.core.redis;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import gg.eris.commons.core.impl.redis.RedisWrapperImpl;
+import redis.clients.jedis.params.SetParams;
 
 /**
  * The {@link RedisWrapper} is a wrapper around the {@link redis.clients.jedis.JedisPool}. It leaves
@@ -28,5 +30,29 @@ public interface RedisWrapper {
    * @param publisher is the {@link RedisPublisher} to publish
    */
   void publish(RedisPublisher publisher);
+
+  /**
+   * Sets something in cache
+   *
+   * @param key is the key to set
+   * @param value is the value
+   */
+  void set(String key, JsonNode value);
+
+  /**
+   * Sets something in cache
+   *
+   * @param key is the key to set
+   * @param value is the value
+   */
+  void set(String key, JsonNode value, SetParams setParams);
+
+  /**
+   * Gets a value at a key
+   *
+   * @param key is the key to get
+   * @return the JsonNode
+   */
+  JsonNode get(String key);
 
 }

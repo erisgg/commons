@@ -1,8 +1,10 @@
 package gg.eris.commons.core.impl.redis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import gg.eris.commons.core.redis.RedisMessage;
 import gg.eris.commons.core.redis.RedisPublisher;
@@ -14,6 +16,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.params.SetParams;
 
 public class RedisWrapperImpl implements RedisWrapper {
 
@@ -64,6 +67,33 @@ public class RedisWrapperImpl implements RedisWrapper {
       for (String channel : publisher.getChannels()) {
         jedis.publish(channel, payload);
       }
+    }
+  }
+
+  public void set(String key, JsonNode value) {
+    try (Jedis jedis = this.pool.getResource()) {
+      jedis.set(key, value.toString());
+    }
+  }
+
+  public void set(String key, JsonNode value, SetParams params) {
+    try (Jedis jedis = this.pool.getResource()) {
+      jedis.set(key, value.toString(), params);
+    }
+  }
+
+
+  public JsonNode get(String key) {
+    try (Jedis jedis = this.pool.getResource()) {
+      String value = jedis.get(key);
+      if (value == null) {
+        return null;
+      } else {
+        return this.mapper.readTree(value);
+      }
+    } catch (JsonProcessingException err) {
+      err.printStackTrace();
+      return null;
     }
   }
 
