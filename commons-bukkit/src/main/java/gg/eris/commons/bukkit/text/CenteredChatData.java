@@ -125,7 +125,7 @@ public enum CenteredChatData {
     return CenteredChatData.DEFAULT;
   }
 
-  public static String getCentredMessage(Player player, String message) {
+  public static String getCentredMessage(String message) {
     if (message == null || message.equals("")) {
       return "";
     }
