@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public enum CentredChatData {
+public enum CenteredChatData {
 
   A('A', 5),
   a('a', 5),
@@ -110,19 +110,19 @@ public enum CentredChatData {
   @Getter
   private final int boldLength;
 
-  CentredChatData(char character, int length) {
+  CenteredChatData(char character, int length) {
     this.character = character;
     this.length = length;
     this.boldLength = name().equals("SPACE") ? length : length + 1;
   }
 
-  public static CentredChatData getDefaultFontInfo(char c) {
-    for (CentredChatData dFI : CentredChatData.values()) {
+  public static CenteredChatData getDefaultFontInfo(char c) {
+    for (CenteredChatData dFI : CenteredChatData.values()) {
       if (dFI.getCharacter() == c) {
         return dFI;
       }
     }
-    return CentredChatData.DEFAULT;
+    return CenteredChatData.DEFAULT;
   }
 
   public static String getCentredMessage(Player player, String message) {
@@ -142,7 +142,7 @@ public enum CentredChatData {
         previousCode = false;
         isBold = c == 'l' || c == 'L';
       } else {
-        CentredChatData dFI = CentredChatData.getDefaultFontInfo(c);
+        CenteredChatData dFI = CenteredChatData.getDefaultFontInfo(c);
         messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
         messagePxSize++;
       }
@@ -151,7 +151,7 @@ public enum CentredChatData {
     int CENTER_PX = 154;
     int halvedMessageSize = messagePxSize / 2;
     int toCompensate = CENTER_PX - halvedMessageSize;
-    int spaceLength = CentredChatData.SPACE.getLength() + 1;
+    int spaceLength = CenteredChatData.SPACE.getLength() + 1;
     int compensated = 0;
 
     StringBuilder builder = new StringBuilder();
