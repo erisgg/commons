@@ -7,9 +7,9 @@ import java.util.Collection;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.checkerframework.checker.index.qual.PolyUpperBound;
 
 @UtilityClass
 public class StackUtil {
@@ -51,12 +51,32 @@ public class StackUtil {
     return true;
   }
 
+  public static void dropItem(Block block, ItemStack... items) {
+    dropItem(block.getLocation(), items);
+  }
+
   public static void dropItem(Location location, ItemStack... items) {
     dropItems(location, Arrays.asList(items));
   }
 
+  public static void dropItem(Block block, boolean natural, ItemStack... items) {
+    dropItems(block.getLocation(), Arrays.asList(items), natural);
+  }
+
+  public static void dropItem(Location location, boolean natural, ItemStack... items) {
+    dropItems(location, Arrays.asList(items), natural);
+  }
+
+  public static void dropItems(Block block, Collection<ItemStack> items) {
+    dropItems(block.getLocation(), items, false);
+  }
+
   public static void dropItems(Location location, Collection<ItemStack> items) {
     dropItems(location, items, false);
+  }
+
+  public static void dropItems(Block block, Collection<ItemStack> items, boolean natural) {
+    dropItems(block.getLocation(), items, natural);
   }
 
   public static void dropItems(Location location, Collection<ItemStack> items, boolean natural) {
