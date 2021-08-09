@@ -11,6 +11,9 @@ public final class RankRegistry extends Registry<Rank> {
       = new IdentifierProvider("rank");
 
   public final Rank DEFAULT;
+  public final Rank PRO;
+  public final Rank ELITE;
+  public final Rank DEMIGOD;
   public final Rank CREATOR;
   public final Rank PARTNER;
   public final Rank TRIAL_MODERATOR;
@@ -23,10 +26,28 @@ public final class RankRegistry extends Registry<Rank> {
     super();
     DEFAULT = register(new Rank(
         IDENTIFIER_PROVIDER.id("default"),
-        7,
+        10,
         TextColor.GRAY,
         CC.GRAY + "Default",
         false
+    ));
+    PRO = register(new Rank(
+        IDENTIFIER_PROVIDER.id("pro"),
+        9,
+        TextColor.DARK_AQUA,
+        CC.DARK_AQUA + "Pro"
+    ));
+    ELITE = register(new Rank(
+        IDENTIFIER_PROVIDER.id("elite"),
+        8,
+        TextColor.AQUA,
+        CC.AQUA + "Elite"
+    ));
+    DEMIGOD = register(new Rank(
+        IDENTIFIER_PROVIDER.id("demigod"),
+        7,
+        TextColor.BLUE,
+        CC.BLUE + "Demigod"
     ));
     CREATOR = register(new Rank(
         IDENTIFIER_PROVIDER.id("creator"),
