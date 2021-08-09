@@ -3,6 +3,7 @@ package gg.eris.commons.bukkit.permission;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.util.Validate;
+import java.util.Objects;
 import java.util.Set;
 import lombok.Getter;
 
@@ -54,6 +55,23 @@ public final class PermissionGroup {
 
   public static PermissionGroup of(Rank... ranks) {
     return new PermissionGroup(ranks);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    PermissionGroup that = (PermissionGroup) o;
+    return Objects.equals(this.ranks, that.ranks);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.ranks);
   }
 
 }
