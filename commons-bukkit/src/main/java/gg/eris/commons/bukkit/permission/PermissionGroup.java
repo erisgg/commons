@@ -45,6 +45,36 @@ public final class PermissionGroup {
       RankRegistry.get().CREATOR
   );
 
+  public static final PermissionGroup OWNER_DEVELOPER = new PermissionGroup(
+      RankRegistry.get().OWNER,
+      RankRegistry.get().DEVELOPER
+  );
+
+  public static final PermissionGroup OWNER = new PermissionGroup(
+      RankRegistry.get().OWNER
+  );
+
+  public static final PermissionGroup DONOR = new PermissionGroup(
+      RankRegistry.get().OWNER,
+      RankRegistry.get().DEVELOPER,
+      RankRegistry.get().PRO,
+      RankRegistry.get().ELITE,
+      RankRegistry.get().DEMIGOD
+  );
+
+  public static final PermissionGroup DONOR_HIGHER = new PermissionGroup(
+      RankRegistry.get().OWNER,
+      RankRegistry.get().DEVELOPER,
+      RankRegistry.get().ELITE,
+      RankRegistry.get().DEMIGOD
+  );
+
+  public static final PermissionGroup DONOR_HIGHEST = new PermissionGroup(
+      RankRegistry.get().OWNER,
+      RankRegistry.get().DEVELOPER,
+      RankRegistry.get().DEMIGOD
+  );
+
   @Getter
   private final Set<Rank> ranks;
 
