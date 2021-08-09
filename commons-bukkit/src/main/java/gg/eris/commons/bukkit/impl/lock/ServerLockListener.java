@@ -10,7 +10,7 @@ public final class ServerLockListener implements Listener {
 
   private boolean lock = true;
 
-  public void start()  {
+  public void start() {
     this.lock = false;
   }
 

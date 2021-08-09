@@ -2,7 +2,6 @@ package gg.eris.commons.bukkit.text;
 
 import lombok.Getter;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 public enum CenteredChatData {
 

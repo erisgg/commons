@@ -9,11 +9,12 @@ public final class PermissionRegistry extends Registry<Permission> {
     super();
   }
 
-  public final Permission register(Identifier identifier) {
-    return this.register(Permission.of(this, identifier));
+  public final Permission register(Identifier identifier, PermissionGroup group) {
+    return this.register(Permission.of(this, identifier, group));
   }
 
-  public final Permission registerOfDefault(String name) {
-    return this.register(Permission.ofDefault(this, name));
+  public final Permission registerOfDefault(String name, PermissionGroup group) {
+    return this.register(Permission.ofDefault(this, name, group));
   }
+
 }

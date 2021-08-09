@@ -1,7 +1,6 @@
 package gg.eris.commons.bukkit.text;
 
 import lombok.Getter;
-import net.md_5.bungee.api.ChatColor;
 
 @Getter
 public enum TextType {

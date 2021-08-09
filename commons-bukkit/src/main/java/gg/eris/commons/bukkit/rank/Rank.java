@@ -4,11 +4,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.text.TextColor;
-import gg.eris.commons.bukkit.text.TextController;
 import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
-import java.util.Comparator;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -50,6 +48,10 @@ public final class Rank implements Identifiable, Comparable<Rank> {
 
   public boolean hasPermission(Identifier identifier) {
     return this.permissions.contains(identifier);
+  }
+
+  public final void registerPermission(Permission permission) {
+    this.permissions.add(permission.getIdentifier());
   }
 
   public Set<Identifier> getPermissions() {

@@ -17,7 +17,7 @@ public interface ErisPlayerManager {
 
   /**
    * @param serializer is the {@link ErisPlayerSerializer} to set
-   * @param <T> is the type of {@link ErisPlayer}
+   * @param <T>        is the type of {@link ErisPlayer}
    */
   <T extends ErisPlayer> void setPlayerSerializer(ErisPlayerSerializer<T> serializer);
 

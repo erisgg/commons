@@ -5,7 +5,6 @@ import com.google.common.cache.CacheBuilder;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

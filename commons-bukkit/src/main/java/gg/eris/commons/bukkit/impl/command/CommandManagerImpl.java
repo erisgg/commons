@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import gg.eris.commons.bukkit.command.Command;
 import gg.eris.commons.bukkit.command.Command.Builder;
 import gg.eris.commons.bukkit.command.CommandManager;
-import gg.eris.commons.bukkit.text.TextMessage;
 import gg.eris.commons.bukkit.util.CommandUtil;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.util.Validate;

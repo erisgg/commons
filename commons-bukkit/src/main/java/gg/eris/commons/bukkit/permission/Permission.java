@@ -5,7 +5,7 @@ import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.identifier.IdentifierProvider;
-import net.minecraft.server.v1_8_R3.PacketListener;
+import lombok.Getter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,14 +19,16 @@ public final class Permission implements Identifiable {
       new IdentifierProvider("eris");
 
   private final Identifier identifier;
+  @Getter
+  private final PermissionGroup group;
 
-  private Permission(Identifier identifier) {
+  private Permission(Identifier identifier, PermissionGroup group) {
     this.identifier = identifier;
-  }
+    this.group = group;
 
-  @Override
-  public Identifier getIdentifier() {
-    return this.identifier;
+    for (Rank rank : group.getRanks()) {
+      rank.registerPermission(this);
+    }
   }
 
   public boolean hasPermission(CommandSender sender) {
@@ -44,17 +46,24 @@ public final class Permission implements Identifiable {
     return false;
   }
 
-  public static Permission ofDefault(PermissionRegistry registry, String name) {
-    return of(registry, DEFAULT_IDENTIFIER_PROVIDER.id(name));
-  }
-
-  public static Permission of(PermissionRegistry registry, Identifier identifier) {
-    return registry.register(new Permission(identifier));
+  @Override
+  public Identifier getIdentifier() {
+    return this.identifier;
   }
 
   @Override
   public String toString() {
     return this.identifier.toString();
+  }
+
+  public static Permission ofDefault(PermissionRegistry registry, String name,
+      PermissionGroup group) {
+    return of(registry, DEFAULT_IDENTIFIER_PROVIDER.id(name), group);
+  }
+
+  public static Permission of(PermissionRegistry registry, Identifier identifier,
+      PermissionGroup group) {
+    return registry.register(new Permission(identifier, group));
   }
 
 }

@@ -1,6 +1,5 @@
 package gg.eris.commons.core.util;
 
-import gg.eris.commons.core.util.Validate;
 import java.util.UUID;
 import lombok.experimental.UtilityClass;
 
@@ -17,7 +16,7 @@ public class UUIDUtil {
   }
 
   public static long[] toLongs(UUID uuid) {
-    return new long[] {
+    return new long[]{
         uuid.getMostSignificantBits(),
         uuid.getLeastSignificantBits()
     };

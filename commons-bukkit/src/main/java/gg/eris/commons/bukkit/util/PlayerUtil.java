@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -74,7 +73,8 @@ public class PlayerUtil {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeUTF("Connect");
     out.writeUTF(server);
-    player.sendPluginMessage(ErisBukkitCommonsPlugin.getInstance(), "BungeeCord", out.toByteArray());
+    player
+        .sendPluginMessage(ErisBukkitCommonsPlugin.getInstance(), "BungeeCord", out.toByteArray());
   }
 
   public static EntityPlayer getHandle(Player player) {

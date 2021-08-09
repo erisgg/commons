@@ -19,7 +19,6 @@ import gg.eris.commons.bukkit.impl.tablist.TablistControllerImpl;
 import gg.eris.commons.bukkit.impl.tablist.TablistListener;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.DefaultErisPlayerSerializer;
-import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.bukkit.rank.RankRegistry;

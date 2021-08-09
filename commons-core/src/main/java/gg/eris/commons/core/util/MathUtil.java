@@ -9,8 +9,9 @@ public final class MathUtil {
 
   /**
    * Performs linear interpolation between a and b.
-   * @param a The starting value.
-   * @param b The ending value.
+   *
+   * @param a      The starting value.
+   * @param b      The ending value.
    * @param factor The interpolation factor (bounded between 0 and 1).
    * @return The interpolated value.
    */
@@ -20,6 +21,7 @@ public final class MathUtil {
 
   /**
    * Returns a random instance from {@link ThreadLocalRandom}
+   *
    * @return the {@link ThreadLocalRandom} current {@link Random}
    */
   public static Random getRandom() {

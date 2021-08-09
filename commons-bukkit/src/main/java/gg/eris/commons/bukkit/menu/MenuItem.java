@@ -27,7 +27,7 @@ public interface MenuItem {
    * Handles a drag event on a menu item
    *
    * @param menuViewer is the menu viewer
-   * @param event is the drag event
+   * @param event      is the drag event
    */
   default void onDrag(MenuViewer menuViewer, InventoryDragEvent event) {
 

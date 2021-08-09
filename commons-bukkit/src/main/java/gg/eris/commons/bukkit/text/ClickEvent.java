@@ -24,8 +24,8 @@ public class ClickEvent {
   public String toJsonMessage() {
     return
         "{\"action\":\"" + this.action.value + "\",\"value\":\"" +
-        (this.action == Action.SUGGEST_COMMAND ? "/" + this.contents : this.contents)
-        + "\"}";
+            (this.action == Action.SUGGEST_COMMAND ? "/" + this.contents : this.contents)
+            + "\"}";
   }
 
 }

@@ -34,7 +34,7 @@ public interface RedisWrapper {
   /**
    * Sets something in cache
    *
-   * @param key is the key to set
+   * @param key   is the key to set
    * @param value is the value
    */
   void set(String key, JsonNode value);
@@ -42,7 +42,7 @@ public interface RedisWrapper {
   /**
    * Sets something in cache
    *
-   * @param key is the key to set
+   * @param key   is the key to set
    * @param value is the value
    */
   void set(String key, JsonNode value, SetParams setParams);

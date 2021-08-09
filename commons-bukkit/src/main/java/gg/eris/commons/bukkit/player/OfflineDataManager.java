@@ -1,6 +1,5 @@
 package gg.eris.commons.bukkit.player;
 
-import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.core.identifier.Identifier;
 import java.util.List;

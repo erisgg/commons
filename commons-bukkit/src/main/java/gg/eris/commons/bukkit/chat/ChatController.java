@@ -11,7 +11,7 @@ public interface ChatController {
   /**
    * Sets the chat format
    *
-   * @param format is the chat format ({n} are placeholders, n >= 0)
+   * @param format       is the chat format ({n} are placeholders, n >= 0)
    * @param placeholders are the placeholders
    */
   void setFormat(String format, ChatPlaceholder... placeholders);

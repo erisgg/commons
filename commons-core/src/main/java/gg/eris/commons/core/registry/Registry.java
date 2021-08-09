@@ -1,6 +1,5 @@
 package gg.eris.commons.core.registry;
 
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;

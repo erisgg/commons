@@ -10,6 +10,8 @@ public final class RankRegistry extends Registry<Rank> {
   private static final IdentifierProvider IDENTIFIER_PROVIDER
       = new IdentifierProvider("rank");
 
+  private static final RankRegistry REGISTRY = new RankRegistry();
+
   public final Rank DEFAULT;
   public final Rank PRO;
   public final Rank ELITE;
@@ -34,8 +36,8 @@ public final class RankRegistry extends Registry<Rank> {
     PRO = register(new Rank(
         IDENTIFIER_PROVIDER.id("pro"),
         9,
-        TextColor.DARK_AQUA,
-        CC.DARK_AQUA + "Pro"
+        TextColor.BLUE,
+        CC.BLUE + "Pro"
     ));
     ELITE = register(new Rank(
         IDENTIFIER_PROVIDER.id("elite"),
@@ -46,8 +48,8 @@ public final class RankRegistry extends Registry<Rank> {
     DEMIGOD = register(new Rank(
         IDENTIFIER_PROVIDER.id("demigod"),
         7,
-        TextColor.BLUE,
-        CC.BLUE + "Demigod"
+        TextColor.DARK_AQUA,
+        CC.DARK_AQUA + "Demigod"
     ));
     CREATOR = register(new Rank(
         IDENTIFIER_PROVIDER.id("creator"),
@@ -96,6 +98,10 @@ public final class RankRegistry extends Registry<Rank> {
 
   public Rank get(String name) {
     return get(IDENTIFIER_PROVIDER.id(name));
+  }
+
+  public static RankRegistry get() {
+    return REGISTRY;
   }
 
 }

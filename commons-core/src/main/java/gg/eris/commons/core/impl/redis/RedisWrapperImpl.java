@@ -1,10 +1,8 @@
 package gg.eris.commons.core.impl.redis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import gg.eris.commons.core.redis.RedisMessage;
 import gg.eris.commons.core.redis.RedisPublisher;
@@ -31,7 +29,6 @@ public class RedisWrapperImpl implements RedisWrapper {
     this.pool = password != null && !password.isEmpty() ?
         new JedisPool(new GenericObjectPoolConfig<>(), host, port, TIMEOUT, password) :
         new JedisPool(new GenericObjectPoolConfig<>(), host, port, TIMEOUT);
-
 
     this.mapper = new JsonMapper();
   }

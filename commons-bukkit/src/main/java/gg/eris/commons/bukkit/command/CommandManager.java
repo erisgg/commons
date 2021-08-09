@@ -1,6 +1,5 @@
 package gg.eris.commons.bukkit.command;
 
-import gg.eris.commons.bukkit.text.TextMessage;
 import gg.eris.commons.core.identifier.Identifier;
 
 /**
@@ -29,11 +28,11 @@ public interface CommandManager {
   /**
    * Returns a new {@link Command.Builder} instance
    *
-   * @param name        is the name of the command
-   * @param description is the command description
+   * @param name                is the name of the command
+   * @param description         is the command description
    * @param defaultErrorMessage is the default error message when no applicable argument is found
-   * @param permission  is the command permission identifier
-   * @param aliases     is the command alias
+   * @param permission          is the command permission identifier
+   * @param aliases             is the command alias
    * @return a new {@link Command.Builder} instance
    */
   Command.Builder newCommandBuilder(String name, String description,

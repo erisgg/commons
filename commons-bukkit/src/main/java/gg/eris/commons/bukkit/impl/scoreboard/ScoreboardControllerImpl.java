@@ -89,8 +89,6 @@ public final class ScoreboardControllerImpl implements ScoreboardController {
     }
 
 
-
-
   }
 
 }

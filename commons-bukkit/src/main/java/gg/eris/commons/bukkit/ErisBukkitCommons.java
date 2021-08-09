@@ -6,7 +6,6 @@ import gg.eris.commons.bukkit.chat.ChatController;
 import gg.eris.commons.bukkit.command.CommandManager;
 import gg.eris.commons.bukkit.permission.PermissionRegistry;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
-import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.scoreboard.ScoreboardController;

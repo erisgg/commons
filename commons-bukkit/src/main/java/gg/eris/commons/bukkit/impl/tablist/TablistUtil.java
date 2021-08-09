@@ -5,7 +5,6 @@ import gg.eris.commons.bukkit.util.PlayerUtil;
 import java.lang.reflect.Field;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.ItemStack;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.entity.Player;
 
