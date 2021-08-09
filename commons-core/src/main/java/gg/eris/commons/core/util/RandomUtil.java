@@ -6,10 +6,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.experimental.UtilityClass;
-import org.apache.commons.lang3.Validate;
 
 @UtilityClass
 public class RandomUtil {
+
+  /**
+   * Returns a random integer between 0 and given bound
+   *
+   * @param upper is the upper bound (exclusive)
+   * @return a random number between the lower and upper
+   */
+  public static int randomInt(int upper) {
+    return randomInt(0, upper);
+  }
 
   /**
    * Returns a random integer between given bounds
@@ -24,6 +33,11 @@ public class RandomUtil {
       return lower;
     }
     return ThreadLocalRandom.current().nextInt(upper - lower) + lower;
+  }
+
+  public static boolean percentChance(int percent) {
+    Validate.isTrue(0 <= percent && 100 >= percent);
+    return randomInt(100) <= percent;
   }
 
   /**
