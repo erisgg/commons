@@ -24,7 +24,7 @@ public final class RankRegistry extends Registry<Rank> {
   public final Rank DEVELOPER;
   public final Rank OWNER;
 
-  public RankRegistry() {
+  private RankRegistry() {
     super();
     DEFAULT = register(new Rank(
         IDENTIFIER_PROVIDER.id("default"),
