@@ -1,7 +1,9 @@
 package gg.eris.commons.core.util;
 
 import com.google.common.collect.Lists;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
@@ -68,4 +70,15 @@ public class Text {
     return list;
   }
 
+  public static String formatInt(int amount) {
+    return NumberFormat.getNumberInstance(Locale.US).format(amount);
+  }
+
+  public static String formatDouble(double amount) {
+    return NumberFormat.getNumberInstance(Locale.US).format(amount);
+  }
+
+  public static String formatLong(long amount) {
+    return NumberFormat.getNumberInstance(Locale.US).format(amount);
+  }
 }
