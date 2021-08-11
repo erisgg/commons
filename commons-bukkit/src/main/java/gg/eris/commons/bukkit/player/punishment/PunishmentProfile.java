@@ -2,6 +2,7 @@ package gg.eris.commons.bukkit.player.punishment;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
 import gg.eris.commons.bukkit.util.CC;
 import java.util.Comparator;
 import java.util.List;
@@ -21,7 +22,7 @@ public final class PunishmentProfile {
 
   public PunishmentProfile(UUID owner, List<Punishment> punishments) {
     this.owner = owner;
-    this.punishments = punishments;
+    this.punishments = Lists.newArrayList(punishments);
     for (Punishment punishment : punishments) {
       if (punishment.getType() == PunishmentType.CHAT) {
         this.chatPunishmentCount++;
