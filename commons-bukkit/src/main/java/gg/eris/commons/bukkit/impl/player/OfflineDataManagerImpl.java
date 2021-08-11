@@ -1,10 +1,15 @@
 package gg.eris.commons.bukkit.impl.player;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.UpdateOptions;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
+import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
@@ -20,6 +25,7 @@ import org.bson.Document;
 public final class OfflineDataManagerImpl implements OfflineDataManager {
 
   private static final UpdateOptions UPSERT = new UpdateOptions().upsert(true);
+  private final static ObjectReader NODE_READER = new ObjectMapper().reader(JsonNode.class);
 
   private final MongoCollection<Document> playerCollection;
   private final RankRegistry rankRegistry;
@@ -41,6 +47,23 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
     } else {
       return UUID.fromString(document.getString("uuid"));
     }
+  }
+
+  public JsonNode getRaw(UUID uuid) {
+    // Finding all player documents with the UUID
+    Document document = this.playerCollection
+        .find(Filters.eq("uuid", uuid.toString()))
+        .first();
+
+    JsonNode node = null;
+    if (document != null) {
+      try {
+        node = NODE_READER.readTree(document.toJson());
+      } catch (JsonProcessingException err) {
+        err.printStackTrace();
+      }
+    }
+    return node;
   }
 
   @Override
