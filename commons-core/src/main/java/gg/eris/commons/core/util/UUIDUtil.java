@@ -7,6 +7,8 @@ import org.bson.types.Binary;
 @UtilityClass
 public class UUIDUtil {
 
+  public static final UUID CONSOLE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
+
   public static UUID fromLong(long[] value) {
     Validate.isTrue(value.length == 2, "long array must be of length 2);");
     return fromLong(value[0], value[1]);
