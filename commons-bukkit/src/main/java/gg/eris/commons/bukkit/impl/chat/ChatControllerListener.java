@@ -1,7 +1,11 @@
 package gg.eris.commons.bukkit.impl.chat;
 
 import gg.eris.commons.bukkit.chat.ChatController;
+import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
+import gg.eris.commons.bukkit.text.TextController;
+import gg.eris.commons.bukkit.text.TextType;
+import gg.eris.commons.core.util.Time;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,8 +21,21 @@ public final class ChatControllerListener implements Listener {
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onPlayerChat(AsyncPlayerChatEvent event) {
     event.setCancelled(true);
-    this.chatController
-        .say(this.erisPlayerManager.getPlayer(event.getPlayer()), event.getMessage());
+
+    ErisPlayer player = this.erisPlayerManager.getPlayer(event.getPlayer());
+    long muteDuration = player.getRemainingMuteDuration();
+
+    if (muteDuration > 0L) {
+      TextController.send(
+          player,
+          TextType.ERROR,
+          "You are currently <h>muted</h>. Your mute will expire in <h>{0}</h>.",
+          Time.toLongDisplayTime(muteDuration)
+      );
+    } else {
+      this.chatController.say(player, event.getMessage());
+    }
+
   }
 
 }

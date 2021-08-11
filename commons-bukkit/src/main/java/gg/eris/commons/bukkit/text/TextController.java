@@ -2,6 +2,7 @@ package gg.eris.commons.bukkit.text;
 
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.impl.text.ComponentParser;
+import gg.eris.commons.bukkit.player.ErisPlayer;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -15,6 +16,10 @@ public final class TextController {
   public static final char ARROW = '\u00BB';
   private static final TextMessage ERIS_MESSAGE =
       TextMessage.of(TextComponent.builder("Eris " + ARROW + " ").color(TextColor.YELLOW).build());
+
+  public static void send(ErisPlayer player, TextMessage textMessage) {
+    send(player.getHandle(), textMessage);
+  }
 
   public static void send(CommandSender sender, TextMessage textMessage) {
     Bukkit.getScheduler().runTask(ErisBukkitCommonsPlugin.getInstance(),
@@ -41,6 +46,12 @@ public final class TextController {
     broadcastToServer(textMessage);
   }
 
+  public static void send(ErisPlayer sender, TextType textType,
+      Int2ObjectMap<ClickEvent> clickEvents,
+      Int2ObjectMap<HoverEvent> hoverEvents, String message, Object... variables) {
+    send(sender.getHandle(), textType, clickEvents, hoverEvents, message, variables);
+  }
+
   public static void send(CommandSender sender, TextType textType,
       Int2ObjectMap<ClickEvent> clickEvents,
       Int2ObjectMap<HoverEvent> hoverEvents, String message, Object... variables) {
@@ -55,16 +66,30 @@ public final class TextController {
     send(sender, textMessage);
   }
 
+  public static void send(ErisPlayer player, TextType textType, String message,
+      Object... variables) {
+    send(player.getHandle(), textType, message, variables);
+  }
+
   public static void send(CommandSender sender, TextType textType, String message,
       Object... variables) {
     send(sender, textType, Int2ObjectMaps.emptyMap(), Int2ObjectMaps.emptyMap(), message,
         variables);
   }
 
+  public static void send(ErisPlayer player, Int2ObjectMap<ClickEvent> clickEvents,
+      Int2ObjectMap<HoverEvent> hoverEvents, String message, Object... variables) {
+    send(player.getHandle(), null, clickEvents, hoverEvents, message, variables);
+  }
+
   public static void send(CommandSender sender, Int2ObjectMap<ClickEvent> clickEvents,
       Int2ObjectMap<HoverEvent> hoverEvents, String message, Object... variables) {
     send(sender, null, clickEvents, hoverEvents, message,
         variables);
+  }
+
+  public static void send(ErisPlayer player, String message, Object... variables) {
+    send(player.getHandle(), message, variables);
   }
 
   public static void send(CommandSender sender, String message, Object... variables) {

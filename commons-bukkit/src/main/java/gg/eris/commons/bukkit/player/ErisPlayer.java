@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.Getter;
+import org.bson.codecs.OverridableUuidRepresentationUuidCodec;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -56,6 +57,9 @@ public class ErisPlayer implements Serializable {
   @Getter
   protected final List<Permission> permissions;
 
+  @Getter
+  protected List<Punishment> punishments;
+
   public ErisPlayer(DefaultData data) {
     this.uuid = data.uuid;
     this.name = data.name;
@@ -65,6 +69,7 @@ public class ErisPlayer implements Serializable {
     this.ranks = data.ranks;
     this.permissions = data.permissions;
     Collections.sort(this.ranks);
+    Collections.sort(this.punishments);
   }
 
   public final Player getHandle() {
@@ -117,6 +122,10 @@ public class ErisPlayer implements Serializable {
     }
   }
 
+  public long getRemainingMuteDuration() {
+    return 0L;
+  }
+
   @Getter
   public static class DefaultData {
 
@@ -134,9 +143,10 @@ public class ErisPlayer implements Serializable {
     private final long lastLogin;
     private final List<Rank> ranks;
     private final List<Permission> permissions;
+    private final List<Punishment> punishments;
 
     private DefaultData(UUID uuid, String name, List<String> nameHistory, long firstLogin,
-        long lastLogin, List<Rank> ranks, List<Permission> permissions) {
+        long lastLogin, List<Rank> ranks, List<Permission> permissions, List<Punishment> punishments) {
       this.uuid = uuid;
       this.name = name;
       this.nameHistory = ImmutableList.copyOf(nameHistory);
@@ -144,10 +154,14 @@ public class ErisPlayer implements Serializable {
       this.lastLogin = lastLogin;
       this.ranks = ranks;
       this.permissions = ImmutableList.copyOf(permissions);
+      this.punishments = ImmutableList.copyOf(punishments);
     }
 
     public static DefaultData fromNode(JsonNode node) {
       try {
+        UUID uuid = UUID.fromString(node.get("uuid").asText());
+
+        // Ranks
         ArrayNode ranksNode = (ArrayNode) node.get("ranks");
         List<Rank> ranks;
         if (ranksNode == null) {
@@ -158,6 +172,7 @@ public class ErisPlayer implements Serializable {
               .collect(Collectors.toList());
         }
 
+        // Permissions
         ArrayNode permissionsNode = (ArrayNode) node.get("permissions");
         List<Permission> permissions;
         if (permissionsNode == null) {
@@ -169,14 +184,25 @@ public class ErisPlayer implements Serializable {
               .collect(Collectors.toList());
         }
 
+        // Punishments
+        ArrayNode punishmentsNode = (ArrayNode) node.get("punishments");
+        List<Punishment> punishments;
+        if (punishmentsNode == null) {
+          punishments = List.of();
+        } else {
+          punishments = Lists.newArrayList();
+          punishmentsNode.forEach(n -> punishments.add(Punishment.fromNode(uuid, n)));
+        }
+
         return of(
-            UUID.fromString(node.get("uuid").asText()),
+            uuid,
             node.get("name").asText(),
             STRING_READER.readValue(node.get("name_history")),
             node.get("first_login").asLong(),
             node.get("last_login").asLong(),
             ranks,
-            permissions
+            permissions,
+            punishments
         );
       } catch (IOException err) {
         return null;
@@ -184,7 +210,7 @@ public class ErisPlayer implements Serializable {
     }
 
     public static DefaultData of(UUID uuid, String name, List<String> nameHistory, long firstLogin,
-        long lastLogin, List<Rank> ranks, List<Permission> permissions) {
+        long lastLogin, List<Rank> ranks, List<Permission> permissions, List<Punishment> punishments) {
       return new DefaultData(
           uuid,
           name,
@@ -192,7 +218,8 @@ public class ErisPlayer implements Serializable {
           firstLogin,
           lastLogin,
           ranks,
-          permissions
+          permissions,
+          punishments
       );
     }
 
@@ -205,6 +232,7 @@ public class ErisPlayer implements Serializable {
           time,
           time,
           new ArrayList<>(DEFAULT_RANK),
+          List.of(),
           List.of()
       );
     }
