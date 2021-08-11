@@ -59,13 +59,25 @@ public final class MenuListener implements Listener {
     MenuInventoryHolder menuHolder = (MenuInventoryHolder) inventoryHolder;
     MenuViewer menuViewer = menuHolder.getViewer();
     if (menuHolder.getMenu().hasParent() && menuViewer.shouldOpenParent()) {
-      Bukkit.getScheduler().runTask(this.plugin, () -> {
+      Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
         Player player = menuViewer.getPlayer();
         if (player != null && player.isOnline()) {
-          menuHolder.getMenu().getParent().openMenu(menuViewer);
-          menuViewer.setOpenParent(true);
+          if (player.getOpenInventory() != null) {
+            if (player.getOpenInventory().getTopInventory() != null) {
+              if (player.getOpenInventory().getTopInventory()
+                  .getHolder() instanceof MenuInventoryHolder) {
+                MenuInventoryHolder holder =
+                    (MenuInventoryHolder) player.getOpenInventory().getTopInventory().getHolder();
+                if (holder.getMenu().getParent() == menuHolder.getMenu()) {
+                  return;
+                }
+              }
+            }
+            menuHolder.getMenu().getParent().openMenu(menuViewer);
+            menuViewer.setOpenParent(true);
+          }
         }
-      });
+      }, 1L);
     }
   }
 
