@@ -1,6 +1,7 @@
 package gg.eris.commons.bukkit.permission;
 
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
+import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.core.identifier.Identifiable;
 import gg.eris.commons.core.identifier.Identifier;
@@ -44,6 +45,21 @@ public final class Permission implements Identifiable {
     }
 
     return false;
+  }
+
+  public boolean hasPermission(ErisPlayer player) {
+    Player handle = player.getHandle();
+    if (handle != null) {
+      return hasPermission(handle);
+    } else {
+      for (Rank rank : player.getRanks()) {
+        if (rank.hasPermission(this.identifier)) {
+          return true;
+        }
+      }
+
+      return player.getPermissions().contains(this);
+    }
   }
 
   @Override

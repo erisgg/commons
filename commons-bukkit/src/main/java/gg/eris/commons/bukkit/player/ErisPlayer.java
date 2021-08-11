@@ -104,7 +104,7 @@ public class ErisPlayer implements Serializable {
     Permission permission =
         ErisBukkitCommonsPlugin.getInstance().getPermissionRegistry().get(identifier);
     Validate.notNull(permission, "Permission " + identifier + " is not registered");
-    return this.permissions.contains(permission);
+    return permission.hasPermission(this
   }
 
   public final boolean isOnline() {
