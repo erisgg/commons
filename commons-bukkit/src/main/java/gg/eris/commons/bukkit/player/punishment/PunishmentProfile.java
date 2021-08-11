@@ -2,11 +2,14 @@ package gg.eris.commons.bukkit.player.punishment;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import gg.eris.commons.bukkit.util.CC;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public final class PunishmentProfile {
 
@@ -54,6 +57,13 @@ public final class PunishmentProfile {
       this.chatPunishmentCount++;
     } else {
       this.inGamePunishmentCount++;
+      if (getBanDuration() > 0) {
+        Player player = Bukkit.getPlayer(this.owner);
+        if (player != null) {
+          player.kickPlayer(CC.GOLD.bold() + "(!) " + CC.GOLD + "You have been " + CC.YELLOW +
+              "banned" + CC.GOLD + ".");
+        }
+      }
     }
   }
 
