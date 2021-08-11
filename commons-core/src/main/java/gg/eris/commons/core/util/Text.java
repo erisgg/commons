@@ -1,6 +1,7 @@
 package gg.eris.commons.core.util;
 
 import com.google.common.collect.Lists;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -11,6 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 public class Text {
 
   public static final String CLEAR = StringUtils.repeat(" \n", 100);
+
+  private static final DecimalFormat TWO_PLACES = new DecimalFormat("#.##");
 
   /**
    * Replaces {0}, {1} etc...placeholders with variables
@@ -70,15 +73,24 @@ public class Text {
     return list;
   }
 
-  public static String formatInt(int amount) {
-    return NumberFormat.getNumberInstance(Locale.US).format(amount);
+  public static String formatInt(int number) {
+    return NumberFormat.getNumberInstance(Locale.US).format(number);
   }
 
-  public static String formatDouble(double amount) {
-    return NumberFormat.getNumberInstance(Locale.US).format(amount);
+  public static String formatDouble(double number) {
+    return NumberFormat.getNumberInstance(Locale.US).format(number);
   }
 
-  public static String formatLong(long amount) {
-    return NumberFormat.getNumberInstance(Locale.US).format(amount);
+  public static String formatLong(long number) {
+    return NumberFormat.getNumberInstance(Locale.US).format(number);
   }
+  
+  public static String roundDouble(double number) {
+    return TWO_PLACES.format(number);
+  }
+
+  public static String roundFloat(float number) {
+    return TWO_PLACES.format(number);
+  }
+
 }
