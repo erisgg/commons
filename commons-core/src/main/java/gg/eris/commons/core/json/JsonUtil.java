@@ -38,4 +38,8 @@ public class JsonUtil {
     );
   }
 
+  public static ArrayNode populateNodeArray(ArrayNode node, List<JsonNode> list) {
+    return node.addAll(list);
+  }
+
 }

@@ -35,6 +35,7 @@ public abstract class ErisPlayerSerializer<T extends ErisPlayer> {
         .put("last_login", player.getLastLogin());
 
     JsonUtil.populateStringArray(node.putArray("name_history"), player.getNameHistory());
+    JsonUtil.populateNodeArray(node.putArray("punishments"), player.getPunishmentProfile().toJsonNodes());
 
     return appendFields(player, node);
   }

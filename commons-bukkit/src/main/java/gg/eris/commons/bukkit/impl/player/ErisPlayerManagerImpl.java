@@ -45,7 +45,7 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
 
   private final Map<UUID, ErisPlayer> players;
 
-  protected boolean loadPlayer(UUID uuid) {
+  protected ErisPlayer loadPlayer(UUID uuid) {
     // Finding all player documents with the UUID
     Document document = this.playerCollection
         .find(Filters.eq("uuid", uuid.toString()))
@@ -67,9 +67,9 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
 
     if (player != null) {
       this.players.put(uuid, player);
-      return true;
+      return player;
     } else {
-      return false;
+      return null;
     }
   }
 

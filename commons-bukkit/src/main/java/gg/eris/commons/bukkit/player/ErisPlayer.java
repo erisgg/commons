@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.permission.Permission;
 import gg.eris.commons.bukkit.player.punishment.Punishment;
+import gg.eris.commons.bukkit.player.punishment.PunishmentProfile;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.json.JsonUtil;
@@ -58,7 +59,7 @@ public class ErisPlayer implements Serializable {
   protected final List<Permission> permissions;
 
   @Getter
-  protected List<Punishment> punishments;
+  protected final PunishmentProfile punishmentProfile;
 
   public ErisPlayer(DefaultData data) {
     this.uuid = data.uuid;
@@ -68,8 +69,8 @@ public class ErisPlayer implements Serializable {
     this.lastLogin = data.lastLogin;
     this.ranks = data.ranks;
     this.permissions = data.permissions;
+    this.punishmentProfile = new PunishmentProfile(this.uuid, data.punishments);
     Collections.sort(this.ranks);
-    Collections.sort(this.punishments);
   }
 
   public final Player getHandle() {
@@ -120,10 +121,6 @@ public class ErisPlayer implements Serializable {
       this.nameHistory.add(player.getName());
       this.name = player.getName();
     }
-  }
-
-  public long getRemainingMuteDuration() {
-    return 0L;
   }
 
   @Getter
