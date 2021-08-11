@@ -134,7 +134,7 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   public boolean addPunishment(UUID uuid, Punishment punishment) {
     return this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
-        new Document("push", new Document("punishments", punishment.toDocument())),
+        new Document("$push", new Document("punishments", punishment.toDocument())),
         UPSERT
     ).getModifiedCount() > 0;
   }
