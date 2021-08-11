@@ -4,6 +4,7 @@ package gg.eris.commons.bukkit.player.punishment;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import gg.eris.commons.bukkit.util.CC;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +32,7 @@ public final class PunishmentProfile {
       }
     }
 
-    punishments.sort(Comparator.reverseOrder());
+    this.punishments.sort(Comparator.reverseOrder());
   }
 
   public Punishment getLatestChatInfraction() {
