@@ -89,12 +89,12 @@ public class Text {
     return NumberFormat.getNumberInstance(Locale.US).format(number);
   }
   
-  public static String roundDouble(double number) {
-    return TWO_PLACES.format(number);
+  public static double roundDouble(double number) {
+    return Double.parseDouble(TWO_PLACES.format(number));
   }
 
-  public static String roundFloat(float number) {
-    return TWO_PLACES.format(number);
+  public static double roundFloat(float number) {
+    return Float.parseFloat(TWO_PLACES.format(number));
   }
 
 }
