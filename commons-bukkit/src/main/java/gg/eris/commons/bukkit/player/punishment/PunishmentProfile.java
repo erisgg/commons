@@ -37,7 +37,6 @@ public final class PunishmentProfile {
     this.punishments = Lists.newArrayList(punishments);
     this.lastUnmute = lastUnmute;
     this.lastUnban = lastUnban;
-
     for (Punishment punishment : punishments) {
       if (punishment.getType() == PunishmentType.CHAT) {
         this.chatPunishmentCount++;

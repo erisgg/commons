@@ -26,7 +26,7 @@ public final class ChatControllerListener implements Listener {
     ErisPlayer player = this.erisPlayerManager.getPlayer(event.getPlayer());
     long muteDuration = player.getPunishmentProfile().getMuteDuration();
 
-    if (muteDuration > 0L) {
+    if (muteDuration != 0L) {
       TextController.send(
           player,
           TextType.ERROR,
