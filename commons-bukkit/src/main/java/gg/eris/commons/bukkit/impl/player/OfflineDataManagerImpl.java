@@ -9,8 +9,8 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.UpdateOptions;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
-import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
+import gg.eris.commons.bukkit.player.punishment.Punishment;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.identifier.Identifier;
@@ -128,6 +128,30 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
         new Document("$pull", new Document("permissions", identifier.toString())),
         UPSERT
     ).getModifiedCount() > 0;
+  }
+
+  @Override
+  public boolean addPunishment(UUID uuid, Punishment punishment) {
+    return this.playerCollection.updateOne(
+        Filters.eq("uuid", uuid.toString()),
+        new Document("push", new Document("punishments", punishment.toDocument())),
+        UPSERT
+    ).getModifiedCount() > 0;
+  }
+
+  @Override
+  public List<Punishment> getPunishmentHistory(UUID uuid) {
+    Document document = this.playerCollection.find(
+        Filters.eq("uuid", uuid.toString())
+    ).first();
+
+    if (document == null) {
+      return null;
+    }
+
+    return document.getList("punishments", Document.class, List.of()).stream()
+        .map(doc -> Punishment.fromDocument(uuid, doc))
+        .collect(Collectors.toUnmodifiableList());
   }
 
   public List<String> getRawPermissions(UUID uuid) {

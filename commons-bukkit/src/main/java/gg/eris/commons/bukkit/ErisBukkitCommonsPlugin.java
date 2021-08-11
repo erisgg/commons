@@ -80,7 +80,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
     );
 
     this.objectMapper = new ObjectMapper();
-    this.commandManager = new CommandManagerImpl();
+    this.commandManager = new CommandManagerImpl(this);
     this.chatController = new ChatControllerImpl(this);
     this.permissionRegistry = PermissionRegistry.get();
     this.rankRegistry = RankRegistry.get();

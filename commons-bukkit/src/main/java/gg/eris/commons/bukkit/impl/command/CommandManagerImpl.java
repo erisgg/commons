@@ -1,6 +1,7 @@
 package gg.eris.commons.bukkit.impl.command;
 
 import com.google.common.collect.Maps;
+import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.command.Command;
 import gg.eris.commons.bukkit.command.Command.Builder;
 import gg.eris.commons.bukkit.command.CommandManager;
@@ -17,10 +18,12 @@ public final class CommandManagerImpl implements CommandManager {
 
   private static final String FALLBACK_PREFIX = "eris";
 
+  private final ErisBukkitCommonsPlugin plugin;
   private final CommandMap commandMap;
   private final Map<String, Command> commands;
 
-  public CommandManagerImpl() {
+  public CommandManagerImpl(ErisBukkitCommonsPlugin plugin) {
+    this.plugin = plugin;
     this.commandMap = CommandUtil.getCommandMap();
     this.commands = Maps.newHashMap();
   }
@@ -39,8 +42,9 @@ public final class CommandManagerImpl implements CommandManager {
       this.commands.put(alias, command);
     }
 
-    this.commandMap.register(command.getName(), FALLBACK_PREFIX, new InternalCommand(command));
-    Bukkit.getLogger().info("Registered command with name " + command.getName());
+    boolean result = this.commandMap.register(command.getName(), FALLBACK_PREFIX,
+        new InternalCommand(plugin, command));
+    Bukkit.getLogger().info("Registered command with name " + command.getName() + " (success=" + result + ")");
   }
 
   @Override

@@ -1,6 +1,7 @@
 package gg.eris.commons.bukkit.player;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import gg.eris.commons.bukkit.player.punishment.Punishment;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.core.identifier.Identifier;
 import java.util.List;
@@ -25,5 +26,9 @@ public interface OfflineDataManager {
   boolean removePermission(UUID uuid, Identifier identifier);
 
   List<String> getRawPermissions(UUID uuid);
+
+  boolean addPunishment(UUID uuid, Punishment punishment);
+
+  List<Punishment> getPunishmentHistory(UUID uuid);
 
 }

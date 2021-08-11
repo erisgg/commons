@@ -108,6 +108,7 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
 
     this.playerCollection.createIndex(Indexes.hashed("uuid"));
     this.playerCollection.createIndex(Indexes.hashed("name"));
+    this.playerCollection.createIndex(Indexes.hashed("ip_address"));
   }
 
   protected void updateFromHandleOnJoin(Player player) {
