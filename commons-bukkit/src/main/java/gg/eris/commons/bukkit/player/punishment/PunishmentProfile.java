@@ -69,6 +69,9 @@ public final class PunishmentProfile {
 
   public long getMuteDuration() {
     Punishment punishment = getLatestChatInfraction();
+    if (punishment == null) {
+      return 0;
+    }
     return PunishmentDurations.getPunishmentDuration(
         punishment.getType(),
         punishment.getSeverity(),
@@ -78,6 +81,9 @@ public final class PunishmentProfile {
 
   public long getBanDuration() {
     Punishment punishment = getLatestInGameInfraction();
+    if (punishment == null) {
+      return 0;
+    }
     return PunishmentDurations.getPunishmentDuration(
         punishment.getType(),
         punishment.getSeverity(),
