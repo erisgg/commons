@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
@@ -17,6 +19,7 @@ import gg.eris.commons.core.json.JsonUtil;
 import gg.eris.commons.core.util.Validate;
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,7 +72,12 @@ public class ErisPlayer implements Serializable {
     this.lastLogin = data.lastLogin;
     this.ranks = data.ranks;
     this.permissions = data.permissions;
-    this.punishmentProfile = new PunishmentProfile(this.uuid, data.punishments);
+    this.punishmentProfile = new PunishmentProfile(
+        this.uuid,
+        data.punishments,
+        data.lastUnmute,
+        data.lastUnban
+    );
     Collections.sort(this.ranks);
   }
 
@@ -141,9 +149,12 @@ public class ErisPlayer implements Serializable {
     private final List<Rank> ranks;
     private final List<Permission> permissions;
     private final List<Punishment> punishments;
+    private final long lastUnmute;
+    private final long lastUnban;
 
     private DefaultData(UUID uuid, String name, List<String> nameHistory, long firstLogin,
-        long lastLogin, List<Rank> ranks, List<Permission> permissions, List<Punishment> punishments) {
+        long lastLogin, List<Rank> ranks, List<Permission> permissions,
+        List<Punishment> punishments, long lastUnmute, long lastUnban) {
       this.uuid = uuid;
       this.name = name;
       this.nameHistory = ImmutableList.copyOf(nameHistory);
@@ -152,6 +163,8 @@ public class ErisPlayer implements Serializable {
       this.ranks = ranks;
       this.permissions = ImmutableList.copyOf(permissions);
       this.punishments = ImmutableList.copyOf(punishments);
+      this.lastUnmute = lastUnmute;
+      this.lastUnban = lastUnban;
     }
 
     public static DefaultData fromNode(JsonNode node) {
@@ -182,13 +195,33 @@ public class ErisPlayer implements Serializable {
         }
 
         // Punishments
-        ArrayNode punishmentsNode = (ArrayNode) node.get("punishments");
         List<Punishment> punishments;
-        if (punishmentsNode == null) {
-          punishments = List.of();
+        long lastUnmute = 0;
+        long lastUnban = 0;
+
+        ObjectNode punishmentsNode = (ObjectNode) node.get("punishments");
+        if (punishmentsNode != null) {
+          if (punishmentsNode.has("last_unmute")) {
+            lastUnmute = punishmentsNode.get("last_unmute").asLong();
+          }
+
+          if (punishmentsNode.has("last_unban")) {
+            lastUnban = punishmentsNode.get("last_unban").asLong();
+          }
+
+          if (punishmentsNode.has("data")) {
+            ArrayNode punishmentData = (ArrayNode) punishmentsNode.get("data");
+            if (punishmentData == null) {
+              punishments = List.of();
+            } else {
+              punishments = Lists.newArrayList();
+              punishmentData.forEach(n -> punishments.add(Punishment.fromNode(uuid, n)));
+            }
+          } else {
+            punishments = List.of();
+          }
         } else {
-          punishments = Lists.newArrayList();
-          punishmentsNode.forEach(n -> punishments.add(Punishment.fromNode(uuid, n)));
+          punishments = List.of();
         }
 
         return of(
@@ -199,7 +232,9 @@ public class ErisPlayer implements Serializable {
             node.get("last_login").asLong(),
             ranks,
             permissions,
-            punishments
+            punishments,
+            lastUnmute,
+            lastUnban
         );
       } catch (IOException err) {
         return null;
@@ -207,7 +242,8 @@ public class ErisPlayer implements Serializable {
     }
 
     public static DefaultData of(UUID uuid, String name, List<String> nameHistory, long firstLogin,
-        long lastLogin, List<Rank> ranks, List<Permission> permissions, List<Punishment> punishments) {
+        long lastLogin, List<Rank> ranks, List<Permission> permissions,
+        List<Punishment> punishments, long lastUnmute, long lastUnban) {
       return new DefaultData(
           uuid,
           name,
@@ -216,7 +252,9 @@ public class ErisPlayer implements Serializable {
           lastLogin,
           ranks,
           permissions,
-          punishments
+          punishments,
+          lastUnmute,
+          lastUnban
       );
     }
 
@@ -230,7 +268,9 @@ public class ErisPlayer implements Serializable {
           time,
           new ArrayList<>(DEFAULT_RANK),
           List.of(),
-          List.of()
+          List.of(),
+          0L,
+          0L
       );
     }
 

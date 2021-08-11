@@ -4,26 +4,40 @@ package gg.eris.commons.bukkit.player.punishment;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import gg.eris.commons.bukkit.util.CC;
-import java.util.ArrayList;
+import gg.eris.commons.core.util.DebugUtil;
+import java.sql.SQLOutput;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
+import org.apache.commons.collections4.Get;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public final class PunishmentProfile {
 
   @Getter
+  @EqualsAndHashCode.Include
   private final UUID owner;
   private final List<Punishment> punishments;
+  @Getter
+  private long lastUnmute;
+  @Getter
+  private long lastUnban;
   private int chatPunishmentCount;
   private int inGamePunishmentCount;
 
-  public PunishmentProfile(UUID owner, List<Punishment> punishments) {
+  public PunishmentProfile(UUID owner, List<Punishment> punishments, long lastUnmute, long lastUnban) {
     this.owner = owner;
     this.punishments = Lists.newArrayList(punishments);
+    this.lastUnmute = lastUnmute;
+    this.lastUnban = lastUnban;
+
     for (Punishment punishment : punishments) {
       if (punishment.getType() == PunishmentType.CHAT) {
         this.chatPunishmentCount++;
@@ -31,7 +45,6 @@ public final class PunishmentProfile {
         this.inGamePunishmentCount++;
       }
     }
-
     this.punishments.sort(Comparator.reverseOrder());
   }
 
@@ -69,11 +82,20 @@ public final class PunishmentProfile {
     }
   }
 
+  public void unmute() {
+    this.lastUnmute = System.currentTimeMillis();
+  }
+
+  public void unban() {
+    this.lastUnban = System.currentTimeMillis();
+  }
+
   public long getMuteDuration() {
     Punishment punishment = getLatestChatInfraction();
-    if (punishment == null) {
+    if (punishment == null || this.lastUnmute > punishment.getDate()) {
       return 0;
     }
+
     return PunishmentDurations.getPunishmentDuration(
         punishment.getType(),
         punishment.getSeverity(),
@@ -83,7 +105,7 @@ public final class PunishmentProfile {
 
   public long getBanDuration() {
     Punishment punishment = getLatestInGameInfraction();
-    if (punishment == null) {
+    if (punishment == null || this.lastUnban > punishment.getDate()) {
       return 0;
     }
     return PunishmentDurations.getPunishmentDuration(
@@ -93,7 +115,7 @@ public final class PunishmentProfile {
     );
   }
 
-  public List<JsonNode> toJsonNodes() {
+  public List<JsonNode> toPunishmentDataNodes() {
     return this.punishments.stream().map(Punishment::toNode).collect(Collectors.toList());
   }
 }

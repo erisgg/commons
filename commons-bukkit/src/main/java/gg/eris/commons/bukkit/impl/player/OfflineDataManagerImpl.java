@@ -11,6 +11,7 @@ import com.mongodb.client.model.UpdateOptions;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
 import gg.eris.commons.bukkit.player.punishment.Punishment;
+import gg.eris.commons.bukkit.player.punishment.PunishmentProfile;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.identifier.Identifier;
@@ -134,13 +135,31 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   public boolean addPunishment(UUID uuid, Punishment punishment) {
     return this.playerCollection.updateOne(
         Filters.eq("uuid", uuid.toString()),
-        new Document("$push", new Document("punishments", punishment.toDocument())),
+        new Document("$push", new Document("punishments.data", punishment.toDocument())),
         UPSERT
     ).getModifiedCount() > 0;
   }
 
   @Override
-  public List<Punishment> getPunishmentHistory(UUID uuid) {
+  public boolean addUnban(UUID uuid) {
+    return this.playerCollection.updateOne(
+        Filters.eq("uuid", uuid.toString()),
+        new Document("$set", new Document("punishments.last_unban", System.currentTimeMillis())),
+        UPSERT
+    ).getModifiedCount() > 0;
+  }
+
+  @Override
+  public boolean addUnmute(UUID uuid) {
+    return this.playerCollection.updateOne(
+        Filters.eq("uuid", uuid.toString()),
+        new Document("$set", new Document("punishments.last_unmute", System.currentTimeMillis())),
+        UPSERT
+    ).getModifiedCount() > 0;
+  }
+
+  @Override
+  public PunishmentProfile getPunishmentProfile(UUID uuid) {
     Document document = this.playerCollection.find(
         Filters.eq("uuid", uuid.toString())
     ).first();
@@ -149,9 +168,28 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
       return null;
     }
 
-    return document.getList("punishments", Document.class, List.of()).stream()
-        .map(doc -> Punishment.fromDocument(uuid, doc))
-        .collect(Collectors.toUnmodifiableList());
+    if (!document.containsKey("punishments")) {
+      return new PunishmentProfile(uuid, List.of(), 0, 0);
+    }
+
+    Document punishments = document.get("punishments", Document.class);
+
+    long lastUnmute = punishments.containsKey("last_unmute") ?
+        punishments.getLong("last_unmute") : 0L;
+    long lastUnban = punishments.containsKey("last_unban") ?
+        punishments.getLong("last_unban") : 0L;
+
+    List<Punishment> punishmentData;
+
+    if (punishments.containsKey("data")) {
+      punishmentData = document.getList("punishments", Document.class, List.of()).stream()
+          .map(doc -> Punishment.fromDocument(uuid, doc))
+          .collect(Collectors.toUnmodifiableList());
+    } else {
+      punishmentData = List.of();
+    }
+
+    return new PunishmentProfile(uuid, punishmentData, lastUnmute, lastUnban);
   }
 
   public List<String> getRawPermissions(UUID uuid) {

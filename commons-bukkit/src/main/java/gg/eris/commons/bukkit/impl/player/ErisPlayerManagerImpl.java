@@ -14,6 +14,7 @@ import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
+import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.util.Validate;
 import java.util.Collection;
 import java.util.Map;
@@ -112,7 +113,12 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
   }
 
   protected void updateFromHandleOnJoin(Player player) {
-    this.players.get(player.getUniqueId()).updateFromHandle();
+    ErisPlayer erisPlayer = this.players.get(player.getUniqueId());
+    if (erisPlayer == null) {
+      player.kickPlayer(CC.GOLD.bold() + "(!) " + CC.GOLD + "Something went wrong. Please rejoin.");
+      return;
+    }
+    erisPlayer.updateFromHandle();
   }
 
   @Override
