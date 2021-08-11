@@ -78,7 +78,11 @@ public class Text {
   }
 
   public static String formatDouble(double number) {
-    return NumberFormat.getNumberInstance(Locale.US).format(number);
+    return NumberFormat.getNumberInstance(Locale.US).format(roundDouble(number));
+  }
+
+  public static String formatFloat(float number) {
+    return NumberFormat.getNumberInstance(Locale.US).format(roundFloat(number));
   }
 
   public static String formatLong(long number) {
