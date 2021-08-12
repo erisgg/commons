@@ -99,7 +99,9 @@ public class RedisWrapperImpl implements RedisWrapper {
   @Override
   public void removeFromSet(String set, String value) {
     try (Jedis jedis = this.pool.getResource()) {
-      jedis.srem(set, value);
+      if (jedis.exists(set)) {
+        jedis.srem(set, value);
+      }
     }
   }
 
@@ -113,7 +115,11 @@ public class RedisWrapperImpl implements RedisWrapper {
   @Override
   public boolean setContainsValue(String set, String value) {
     try (Jedis jedis = this.pool.getResource()) {
-      return jedis.smismember(set, value).get(0);
+      if (jedis.exists(set)) {
+        return jedis.smismember(set, value).get(0);
+      } else {
+        return false;
+      }
     }
   }
 
