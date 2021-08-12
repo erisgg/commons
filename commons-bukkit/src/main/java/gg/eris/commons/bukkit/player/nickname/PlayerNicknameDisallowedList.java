@@ -20,7 +20,15 @@ public class PlayerNicknameDisallowedList {
       "appleciderisgud",
       "devuls",
       "alfie",
-      "aifle"
+      "aifle",
+      "dantdm",
+      "fruitberries",
+      "smajor",
+      "dream",
+      "punz",
+      "tommyinnit",
+      "tubbo",
+      "tubbo_"
   );
 
 }
