@@ -3,6 +3,8 @@ package gg.eris.commons.bukkit.player.nickname;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.util.PlayerUtil;
+import java.util.Locale;
+import java.util.UUID;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
@@ -46,5 +48,19 @@ public class PlayerNicknamePipeline {
     }
 
     ErisBukkitCommonsPlugin.getInstance().getTablistController().refreshForAll();
+  }
+
+  public static boolean isValidNickName(String name) {
+    UUID uuid = ErisBukkitCommonsPlugin.getInstance().getOfflineDataManager().getUuid(name);
+    if (uuid != null) {
+      return false;
+    }
+
+    String nameLower = name.toLowerCase(Locale.ROOT);
+    if (PlayerNicknameDisallowedList.DISALLOWED.contains(nameLower)) {
+      return false;
+    }
+
+    return !name.contains("nigg") && !name.contains("fag") && !name.contains("chink");
   }
 }

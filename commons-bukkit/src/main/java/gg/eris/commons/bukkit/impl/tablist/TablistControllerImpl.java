@@ -22,6 +22,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 public final class TablistControllerImpl implements TablistController {
 
@@ -136,8 +137,11 @@ public final class TablistControllerImpl implements TablistController {
 
     int oldHighest = this.internalTeamMap.getOrDefault(player.getUniqueId(), -1);
     if (oldHighest != -1) {
-      for (int i = 0; i < oldHighest; i++) {
-        scoreboard.getTeam("" + i).unregister();
+      for (int i = 0; i <= oldHighest; i++) {
+        Team team = scoreboard.getTeam("" + i);
+        if (team != null) {
+          team.unregister();
+        }
       }
     }
 
@@ -146,7 +150,11 @@ public final class TablistControllerImpl implements TablistController {
 
     for (int i = 0; i < players.size(); i++) {
       ErisPlayer erisPlayer = players.get(i);
-      scoreboard.registerNewTeam("" + i).addEntry(erisPlayer.getName());
+      Team team = scoreboard.registerNewTeam("" + i);
+      team.addEntry(erisPlayer.getName());
+      if (erisPlayer.getNicknameProfile().isNicked()) {
+        team.addEntry(erisPlayer.getDisplayName());
+      }
     }
 
     this.internalTeamMap.put(player.getUniqueId(), players.size());
