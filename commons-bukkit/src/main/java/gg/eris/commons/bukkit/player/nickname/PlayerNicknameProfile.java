@@ -60,10 +60,10 @@ public class PlayerNicknameProfile {
             skin.getValue())
         );
       }
+      entityPlayer.setGameProfile(this.disguisedProfile);
     } else {
       this.disguisedProfile = null;
       entityPlayer.setGameProfile(this.playerProfile);
-      entityPlayer.setGameProfile(this.disguisedProfile);
     }
 
     PlayerNicknamePipeline.updatePlayer(this.player);
