@@ -81,11 +81,13 @@ public class PlayerNicknamePipeline {
   }
 
   public static void saveNickname(ErisPlayer player) {
+    String key = getJsonKey(player);
+
     if (!player.getNicknameProfile().isNicked()) {
+      ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().unset(key);
       return;
     }
 
-    String key = getJsonKey(player);
     ObjectNode node = MAPPER.createObjectNode()
         .put("name", player.getNicknameProfile().getNickName());
 

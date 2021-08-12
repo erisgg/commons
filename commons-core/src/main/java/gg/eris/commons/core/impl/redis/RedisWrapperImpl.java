@@ -80,6 +80,12 @@ public class RedisWrapperImpl implements RedisWrapper {
     }
   }
 
+  @Override
+  public void unset(String key) {
+    try (Jedis jedis = this.pool.getResource()) {
+      jedis.del(key);
+    }
+  }
 
   public JsonNode get(String key) {
     try (Jedis jedis = this.pool.getResource()) {

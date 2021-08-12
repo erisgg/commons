@@ -48,6 +48,13 @@ public interface RedisWrapper {
   void set(String key, JsonNode value, SetParams setParams);
 
   /**
+   * Unsets a key
+   *
+   * @param key is the key to unset
+   */
+  void unset(String key);
+
+  /**
    * Gets a value at a key
    *
    * @param key is the key to get
