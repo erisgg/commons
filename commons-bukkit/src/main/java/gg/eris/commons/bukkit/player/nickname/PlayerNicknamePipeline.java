@@ -51,6 +51,10 @@ public class PlayerNicknamePipeline {
   }
 
   public static boolean isValidNickName(String name) {
+    if (name.length() < 3 || name.length() > 16) {
+      return false;
+    }
+
     UUID uuid = ErisBukkitCommonsPlugin.getInstance().getOfflineDataManager().getUuid(name);
     if (uuid != null) {
       return false;
