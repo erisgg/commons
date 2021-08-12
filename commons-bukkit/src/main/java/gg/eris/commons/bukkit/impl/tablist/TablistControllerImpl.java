@@ -69,6 +69,7 @@ public final class TablistControllerImpl implements TablistController {
   public void updatePlayer(Player player) {
     updateDisplayNameOfPlayer(player);
     updateDisplayNamesForPlayer(player);
+    orderScoreboard(player);
   }
 
   @Override
