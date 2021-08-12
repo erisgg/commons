@@ -4,6 +4,8 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.player.ErisPlayer;
+import gg.eris.commons.bukkit.text.TextController;
+import gg.eris.commons.bukkit.text.TextType;
 import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.util.Text;
 import gg.eris.commons.core.util.Time;
@@ -66,6 +68,19 @@ public final class ErisPlayerManagerListener implements Listener {
     }
 
     this.playerManagerImpl.updateFromHandleOnJoin(event.getPlayer());
+
+    ErisPlayer player = this.playerManagerImpl.getPlayer(event.getPlayer());
+    if (player == null) {
+      event.getPlayer().kickPlayer(CC.GOLD.bold() + "(!) " + CC.GOLD + "Something went wrong. Please rejoin.");
+      return;
+    }
+    if (player.getNicknameProfile().isNicked()) {
+      TextController.send(
+          player,
+          TextType.INFORMATION,
+          "You are currently <h>nicked</h>."
+      );
+    }
   }
 
   @EventHandler(priority = EventPriority.MONITOR)
