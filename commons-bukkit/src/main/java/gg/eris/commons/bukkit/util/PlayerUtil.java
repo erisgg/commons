@@ -9,10 +9,13 @@ import java.util.Collection;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @UtilityClass
 public class PlayerUtil {
@@ -55,6 +58,22 @@ public class PlayerUtil {
     player.setTotalExperience(0);
     player.setLevel(0);
     player.closeInventory();
+  }
+
+  public static void setSafeGameMode(Player player, GameMode gameMode) {
+    new BukkitRunnable() {
+      int cancelCount = 5;
+      @Override
+      public void run() {
+        if (player.getGameMode() != gameMode) {
+          player.setGameMode(gameMode);
+        } else {
+          if (this.cancelCount-- < 0) {
+            cancel();
+          }
+        }
+      }
+    }.runTaskTimer(ErisBukkitCommonsPlugin.getInstance(), 0, 1L);
   }
 
   public static void playSound(Player player, Sound sound) {
