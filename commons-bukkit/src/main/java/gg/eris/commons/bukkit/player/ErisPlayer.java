@@ -90,6 +90,10 @@ public class ErisPlayer implements Serializable {
     return Bukkit.getPlayer(this.uuid);
   }
 
+  public String getDisplayName() {
+    return this.getNicknameProfile().getDisplayName();
+  }
+
   public final UUID getUniqueId() {
     return this.uuid;
   }
