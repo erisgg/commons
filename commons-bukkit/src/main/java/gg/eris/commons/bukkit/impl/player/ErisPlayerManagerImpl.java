@@ -123,18 +123,6 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
       return;
     }
     erisPlayer.updateFromHandle();
-
-    // Load a nickname
-    Bukkit.getScheduler().runTaskAsynchronously(ErisBukkitCommonsPlugin.getInstance(), () -> {
-      erisPlayer.loadNicknameFromRedis();
-      if (erisPlayer.getNicknameProfile().isNicked()) {
-        TextController.send(
-            player,
-            TextType.INFORMATION,
-            "You are currently <h>nicked</h>."
-        );
-      }
-    });
   }
 
   @Override

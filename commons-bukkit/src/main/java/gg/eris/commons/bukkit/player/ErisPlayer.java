@@ -15,6 +15,8 @@ import gg.eris.commons.bukkit.player.nickname.PlayerNicknameProfile;
 import gg.eris.commons.bukkit.player.punishment.Punishment;
 import gg.eris.commons.bukkit.player.punishment.PunishmentProfile;
 import gg.eris.commons.bukkit.rank.Rank;
+import gg.eris.commons.bukkit.text.TextController;
+import gg.eris.commons.bukkit.text.TextType;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.json.JsonUtil;
 import gg.eris.commons.core.util.Pair;
@@ -146,8 +148,20 @@ public class ErisPlayer implements Serializable {
     }
 
     this.nicknameProfile.setRealProfile(player);
-    this.finishedLoading = true;
-    this.loadingConsumers.forEach(consumer -> consumer.accept(this));
+    Bukkit.getScheduler().runTaskAsynchronously(ErisBukkitCommonsPlugin.getInstance(), () -> {
+      loadNicknameFromRedis();
+      if (getNicknameProfile().isNicked()) {
+        TextController.send(
+            player,
+            TextType.INFORMATION,
+            "You are currently <h>nicked</h>."
+        );
+      }
+      this.finishedLoading = true;
+      // Call back consumers sync
+      Bukkit.getScheduler().runTask(ErisBukkitCommonsPlugin.getInstance(),
+          () -> this.loadingConsumers.forEach(consumer -> consumer.accept(this)));
+    });
   }
 
   public void loadNicknameFromRedis() {
