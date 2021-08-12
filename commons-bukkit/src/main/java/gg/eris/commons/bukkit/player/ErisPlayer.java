@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.permission.Permission;
+import gg.eris.commons.bukkit.player.nickname.PlayerNicknameProfile;
 import gg.eris.commons.bukkit.player.punishment.Punishment;
 import gg.eris.commons.bukkit.player.punishment.PunishmentProfile;
 import gg.eris.commons.bukkit.rank.Rank;
@@ -64,6 +65,9 @@ public class ErisPlayer implements Serializable {
   @Getter
   protected final PunishmentProfile punishmentProfile;
 
+  @Getter
+  protected final PlayerNicknameProfile nicknameProfile;
+
   public ErisPlayer(DefaultData data) {
     this.uuid = data.uuid;
     this.name = data.name;
@@ -78,6 +82,7 @@ public class ErisPlayer implements Serializable {
         data.lastUnmute,
         data.lastUnban
     );
+    this.nicknameProfile = new PlayerNicknameProfile(this);
     Collections.sort(this.ranks);
   }
 
@@ -129,6 +134,8 @@ public class ErisPlayer implements Serializable {
       this.nameHistory.add(player.getName());
       this.name = player.getName();
     }
+
+    this.nicknameProfile.setRealProfile(player);
   }
 
   @Getter

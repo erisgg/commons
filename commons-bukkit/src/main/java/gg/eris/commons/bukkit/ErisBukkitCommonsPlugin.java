@@ -119,11 +119,11 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
       // rankColor rankPrefix nameColor name message
       if (this.chatController.getFormat() == null) {
         this.chatController.setFormat("{0}[{1}]</col> {2}{3}: <raw>{4}</raw></col>",
-            (player, chatMessage) -> "<col=" + player.getPriorityRank().getColor().getId() + ">",
-            (player, chatMessage) -> player.getPriorityRank().getRawDisplay(),
-            (player, chatMessage) -> player.getPriorityRank().isWhiteChat() ?
+            (player, chatMessage) -> "<col=" + player.getNicknameProfile().getPriorityDisplayRank().getColor().getId() + ">",
+            (player, chatMessage) -> player.getNicknameProfile().getPriorityDisplayRank().getRawDisplay(),
+            (player, chatMessage) -> player.getNicknameProfile().getPriorityDisplayRank().isWhiteChat() ?
                 "<col=white>" : "<col=gray>",
-            (player, chatMessage) -> player.getName(),
+            (player, chatMessage) -> player.getNicknameProfile().getDisplayName(),
             (player, chatMessage) -> chatMessage);
       }
 
