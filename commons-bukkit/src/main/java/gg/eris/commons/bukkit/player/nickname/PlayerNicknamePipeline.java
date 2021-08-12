@@ -85,19 +85,20 @@ public class PlayerNicknamePipeline {
 
     if (!player.getNicknameProfile().isNicked()) {
       ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().unset(key);
-      return;
+    } else {
+      ObjectNode node = MAPPER.createObjectNode()
+          .put("name", player.getNicknameProfile().getNickName());
+
+      if (player.getNicknameProfile().getSkin() != null) {
+        node.put("skin_key", player.getNicknameProfile().getSkin().getKey());
+        node.put("skin_value", player.getNicknameProfile().getSkin().getValue());
+      }
+
+      ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().set(key, node,
+          SetParams.setParams().ex(3600));
     }
 
-    ObjectNode node = MAPPER.createObjectNode()
-        .put("name", player.getNicknameProfile().getNickName());
 
-    if (player.getNicknameProfile().getSkin() != null) {
-      node.put("skin_key", player.getNicknameProfile().getSkin().getKey());
-      node.put("skin_value", player.getNicknameProfile().getSkin().getValue());
-    }
-
-    ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().set(key, node,
-        SetParams.setParams().ex(3600));
   }
 
   private static String getJsonKey(ErisPlayer player) {

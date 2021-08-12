@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -67,6 +68,11 @@ public class ErisPlayer implements Serializable {
   @Getter
   protected final PlayerNicknameProfile nicknameProfile;
 
+  @Getter
+  protected volatile boolean finishedLoading;
+
+  private final List<Consumer<ErisPlayer>> loadingConsumers;
+
   public ErisPlayer(DefaultData data) {
     this.uuid = data.uuid;
     this.name = data.name;
@@ -82,7 +88,7 @@ public class ErisPlayer implements Serializable {
         data.lastUnban
     );
     this.nicknameProfile = new PlayerNicknameProfile(this);
-
+    this.loadingConsumers = Lists.newArrayList();
     Collections.sort(this.ranks);
   }
 
@@ -140,6 +146,8 @@ public class ErisPlayer implements Serializable {
     }
 
     this.nicknameProfile.setRealProfile(player);
+    this.finishedLoading = true;
+    this.loadingConsumers.forEach(consumer -> consumer.accept(this));
   }
 
   public void loadNicknameFromRedis() {
@@ -154,6 +162,14 @@ public class ErisPlayer implements Serializable {
         );
       }
       this.nicknameProfile.setNickName(name, skin);
+    }
+  }
+
+  public void addLoadingConsumer(Consumer<ErisPlayer> consumer) {
+    if (!this.finishedLoading) {
+      this.loadingConsumers.add(consumer);
+    } else {
+      consumer.accept(this);
     }
   }
 
