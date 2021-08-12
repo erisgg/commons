@@ -43,20 +43,29 @@ public class PlayerNicknameProfile {
     return isNicked() ? RankRegistry.get().DEFAULT : this.player.getPriorityRank();
   }
 
+  public void unnick() {
+    setNickName(null, null);
+  }
+
   public void setNickName(String name, Pair<String, String> skin) {
     CraftPlayer player = (CraftPlayer) Bukkit.getPlayer(this.player.getUniqueId());
     EntityPlayer entityPlayer = player.getHandle();
 
-    this.disguisedProfile = new GameProfile(this.playerProfile.getId(), name);
-    if (skin != null) {
-      this.disguisedProfile.getProperties().put("textures", new Property(
-          "textures",
-          skin.getKey(),
-          skin.getValue())
-      );
+    if (name != null) {
+      this.disguisedProfile = new GameProfile(this.playerProfile.getId(), name);
+      if (skin != null) {
+        this.disguisedProfile.getProperties().put("textures", new Property(
+            "textures",
+            skin.getKey(),
+            skin.getValue())
+        );
+      }
+    } else {
+      this.disguisedProfile = null;
+      entityPlayer.setGameProfile(this.playerProfile);
+      entityPlayer.setGameProfile(this.disguisedProfile);
     }
 
-    entityPlayer.setGameProfile(this.disguisedProfile);
     PlayerNicknamePipeline.updatePlayer(this.player);
   }
 
