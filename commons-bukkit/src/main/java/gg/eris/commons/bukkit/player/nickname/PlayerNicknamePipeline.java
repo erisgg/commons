@@ -25,8 +25,10 @@ public class PlayerNicknamePipeline {
 
     // All the packets to send
     PacketPlayOutPlayerInfo removePacket =
-        new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, handle);
-    PacketPlayOutPlayerInfo addPacket = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, handle);
+        new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER,
+            handle);
+    PacketPlayOutPlayerInfo addPacket = new PacketPlayOutPlayerInfo(
+        PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, handle);
     PacketPlayOutEntityDestroy destroyPacket = new PacketPlayOutEntityDestroy(handle.getId());
     PacketPlayOutNamedEntitySpawn spawnPacket = new PacketPlayOutNamedEntitySpawn(handle);
 
@@ -43,7 +45,6 @@ public class PlayerNicknamePipeline {
       connection.sendPacket(spawnPacket);
     }
 
-    ErisBukkitCommonsPlugin.getInstance().getTablistController().updatePlayer(playerHandle);
+    ErisBukkitCommonsPlugin.getInstance().getTablistController().refreshForAll();
   }
-
 }

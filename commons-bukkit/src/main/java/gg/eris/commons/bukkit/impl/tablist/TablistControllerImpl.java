@@ -66,16 +66,16 @@ public final class TablistControllerImpl implements TablistController {
   }
 
   @Override
-  public void updatePlayer(Player player) {
+  public void refreshForPlayer(Player player) {
     updateDisplayNameOfPlayer(player);
     updateDisplayNamesForPlayer(player);
     orderScoreboard(player);
   }
 
   @Override
-  public void updateAllDisplayNames() {
+  public void refreshForAll() {
     for (Player player : Bukkit.getOnlinePlayers()) {
-      updatePlayer(player);
+      refreshForPlayer(player);
     }
   }
 
