@@ -24,6 +24,8 @@ public class PlayerNicknamePipeline {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
+  public static final String NICKNAME_SET = "nicknames";
+
   public static void updatePlayer(ErisPlayer player) {
     Player playerHandle = player.getHandle();
     if (playerHandle == null) {
@@ -84,7 +86,12 @@ public class PlayerNicknamePipeline {
     String key = getJsonKey(player);
 
     if (!player.getNicknameProfile().isNicked()) {
-      ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().unset(key);
+      JsonNode old = ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().get(key);
+      if (old != null) {
+        ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().unset(key);
+        ErisBukkitCommonsPlugin.getInstance().getRedisWrapper()
+            .removeFromSet(NICKNAME_SET, old.get("name").asText().toLowerCase(Locale.ROOT));
+      }
     } else {
       ObjectNode node = MAPPER.createObjectNode()
           .put("name", player.getNicknameProfile().getNickName());
@@ -94,8 +101,9 @@ public class PlayerNicknamePipeline {
         node.put("skin_value", player.getNicknameProfile().getSkin().getValue());
       }
 
-      ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().set(key, node,
-          SetParams.setParams().ex(3600));
+      ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().set(key, node);
+      ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().addToSet(NICKNAME_SET,
+          player.getNicknameProfile().getNickName().toLowerCase(Locale.ROOT));
     }
 
 

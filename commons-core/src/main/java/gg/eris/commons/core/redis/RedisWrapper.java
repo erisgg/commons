@@ -2,6 +2,7 @@ package gg.eris.commons.core.redis;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import gg.eris.commons.core.impl.redis.RedisWrapperImpl;
+import java.util.Set;
 import redis.clients.jedis.params.SetParams;
 
 /**
@@ -53,6 +54,14 @@ public interface RedisWrapper {
    * @param key is the key to unset
    */
   void unset(String key);
+
+  void addToSet(String set, String value);
+
+  void removeFromSet(String set, String value);
+
+  Set<String> querySet(String set);
+
+  boolean setContainsValue(String set, String value);
 
   /**
    * Gets a value at a key

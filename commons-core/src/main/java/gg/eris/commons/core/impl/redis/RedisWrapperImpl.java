@@ -9,6 +9,8 @@ import gg.eris.commons.core.redis.RedisPublisher;
 import gg.eris.commons.core.redis.RedisSubscriber;
 import gg.eris.commons.core.redis.RedisWrapper;
 import gg.eris.commons.core.util.Validate;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.Jedis;
@@ -84,6 +86,34 @@ public class RedisWrapperImpl implements RedisWrapper {
   public void unset(String key) {
     try (Jedis jedis = this.pool.getResource()) {
       jedis.del(key);
+    }
+  }
+
+  @Override
+  public void addToSet(String set, String value) {
+    try (Jedis jedis = this.pool.getResource()) {
+      jedis.sadd(set, value);
+    }
+  }
+
+  @Override
+  public void removeFromSet(String set, String value) {
+    try (Jedis jedis = this.pool.getResource()) {
+      jedis.srem(set, value);
+    }
+  }
+
+  @Override
+  public Set<String> querySet(String set) {
+    try (Jedis jedis = this.pool.getResource()) {
+      return jedis.smembers(set);
+    }
+  }
+
+  @Override
+  public boolean setContainsValue(String set, String value) {
+    try (Jedis jedis = this.pool.getResource()) {
+      return jedis.smismember(set, value).get(0);
     }
   }
 
