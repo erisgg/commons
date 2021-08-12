@@ -129,7 +129,7 @@ public final class ErisBukkitCommonsPlugin extends JavaPlugin implements ErisBuk
 
       if (this.tablistController.getOrderingComparator() == null) {
         this.tablistController.setOrderingComparator(
-            Comparator.comparingInt(o -> o.getPriorityRank().getPriority()));
+            Comparator.comparingInt(o -> o.getNicknameProfile().getPriorityDisplayRank().getPriority()));
       }
     });
 

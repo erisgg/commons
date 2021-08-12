@@ -1,5 +1,6 @@
 package gg.eris.commons.bukkit.player.nickname;
 
+import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.util.PlayerUtil;
 import lombok.experimental.UtilityClass;
@@ -9,7 +10,6 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 @UtilityClass
@@ -42,6 +42,8 @@ public class PlayerNicknamePipeline {
       connection.sendPacket(destroyPacket);
       connection.sendPacket(spawnPacket);
     }
+
+    ErisBukkitCommonsPlugin.getInstance().getTablistController().updatePlayer(playerHandle);
   }
 
 }

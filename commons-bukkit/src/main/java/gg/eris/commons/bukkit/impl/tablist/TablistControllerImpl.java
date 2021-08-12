@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
-import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.tablist.TablistController;
 import gg.eris.commons.bukkit.text.TextController;
 import gg.eris.commons.bukkit.util.CC;
@@ -28,7 +27,6 @@ public final class TablistControllerImpl implements TablistController {
 
   private final ErisBukkitCommonsPlugin plugin;
   private final ErisPlayerManager erisPlayerManager;
-  private final RankRegistry rankRegistry;
 
   private String header;
   private String footer;
@@ -40,7 +38,6 @@ public final class TablistControllerImpl implements TablistController {
   public TablistControllerImpl(ErisBukkitCommonsPlugin plugin) {
     this.plugin = plugin;
     this.erisPlayerManager = plugin.getErisPlayerManager();
-    this.rankRegistry = plugin.getRankRegistry();
     this.internalTeamMap = new Object2IntArrayMap<>();
   }
 
@@ -69,14 +66,15 @@ public final class TablistControllerImpl implements TablistController {
   }
 
   @Override
-  public void updateDisplayName(Player player) {
+  public void updatePlayer(Player player) {
     updateDisplayNameOfPlayer(player);
+    updateDisplayNamesForPlayer(player);
   }
 
   @Override
   public void updateAllDisplayNames() {
     for (Player player : Bukkit.getOnlinePlayers()) {
-      updateDisplayName(player);
+      updatePlayer(player);
     }
   }
 
