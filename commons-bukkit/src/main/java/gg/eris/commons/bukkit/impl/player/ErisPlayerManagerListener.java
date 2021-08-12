@@ -72,14 +72,6 @@ public final class ErisPlayerManagerListener implements Listener {
     ErisPlayer player = this.playerManagerImpl.getPlayer(event.getPlayer());
     if (player == null) {
       event.getPlayer().kickPlayer(CC.GOLD.bold() + "(!) " + CC.GOLD + "Something went wrong. Please rejoin.");
-      return;
-    }
-    if (player.getNicknameProfile().isNicked()) {
-      TextController.send(
-          player,
-          TextType.INFORMATION,
-          "You are currently <h>nicked</h>."
-      );
     }
   }
 

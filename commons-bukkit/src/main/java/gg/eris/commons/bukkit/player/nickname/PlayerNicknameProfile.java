@@ -2,13 +2,14 @@ package gg.eris.commons.bukkit.player.nickname;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.bukkit.util.PlayerUtil;
 import gg.eris.commons.core.util.Pair;
 import gg.eris.commons.core.util.Validate;
-import java.util.UUID;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import org.bukkit.Bukkit;
@@ -19,8 +20,13 @@ import org.bukkit.entity.Player;
 public class PlayerNicknameProfile {
 
   private final ErisPlayer player;
+
   private GameProfile playerProfile;
   private GameProfile disguisedProfile;
+  @Getter
+  private String nickName;
+  @Getter
+  private Pair<String, String> skin;
 
   public boolean isNicked() {
     return this.disguisedProfile != null;
@@ -52,6 +58,8 @@ public class PlayerNicknameProfile {
     EntityPlayer entityPlayer = player.getHandle();
 
     if (name != null) {
+      this.nickName = name;
+      this.skin = skin;
       this.disguisedProfile = new GameProfile(this.playerProfile.getId(), name);
       if (skin != null) {
         this.disguisedProfile.getProperties().put("textures", new Property(
@@ -62,11 +70,18 @@ public class PlayerNicknameProfile {
       }
       entityPlayer.setGameProfile(this.disguisedProfile);
     } else {
+      this.nickName = null;
+      this.skin = null;
       this.disguisedProfile = null;
       entityPlayer.setGameProfile(this.playerProfile);
     }
 
     PlayerNicknamePipeline.updatePlayer(this.player);
+
+    Bukkit.getScheduler().runTaskAsynchronously(ErisBukkitCommonsPlugin.getInstance(), () -> {
+      PlayerNicknamePipeline.saveNickname(
+          ErisBukkitCommonsPlugin.getInstance().getErisPlayerManager().getPlayer(player));
+    });
   }
 
 }

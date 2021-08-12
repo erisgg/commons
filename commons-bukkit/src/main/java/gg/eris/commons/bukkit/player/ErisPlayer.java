@@ -5,29 +5,28 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.permission.Permission;
+import gg.eris.commons.bukkit.player.nickname.PlayerNicknamePipeline;
 import gg.eris.commons.bukkit.player.nickname.PlayerNicknameProfile;
 import gg.eris.commons.bukkit.player.punishment.Punishment;
 import gg.eris.commons.bukkit.player.punishment.PunishmentProfile;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.core.identifier.Identifier;
 import gg.eris.commons.core.json.JsonUtil;
+import gg.eris.commons.core.util.Pair;
 import gg.eris.commons.core.util.Validate;
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.Getter;
-import org.bson.codecs.OverridableUuidRepresentationUuidCodec;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -83,6 +82,7 @@ public class ErisPlayer implements Serializable {
         data.lastUnban
     );
     this.nicknameProfile = new PlayerNicknameProfile(this);
+
     Collections.sort(this.ranks);
   }
 
@@ -140,6 +140,21 @@ public class ErisPlayer implements Serializable {
     }
 
     this.nicknameProfile.setRealProfile(player);
+  }
+
+  public void loadNicknameFromRedis() {
+    JsonNode nickName = PlayerNicknamePipeline.getNickname(this);
+    if (nickName != null) {
+      String name = nickName.get("name").asText();
+      Pair<String, String> skin = null;
+      if (nickName.has("skin_key")) {
+        skin = Pair.of(
+            nickName.get("skin_key").asText(),
+            nickName.get("skin_value").asText()
+        );
+      }
+      this.nicknameProfile.setNickName(name, skin);
+    }
   }
 
   @Getter

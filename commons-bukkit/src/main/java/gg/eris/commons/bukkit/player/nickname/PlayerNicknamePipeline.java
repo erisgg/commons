@@ -1,8 +1,12 @@
 package gg.eris.commons.bukkit.player.nickname;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.util.PlayerUtil;
+import gg.eris.commons.core.util.UUIDUtil;
 import java.util.Locale;
 import java.util.UUID;
 import lombok.experimental.UtilityClass;
@@ -13,9 +17,12 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import redis.clients.jedis.params.SetParams;
 
 @UtilityClass
 public class PlayerNicknamePipeline {
+
+  private static final ObjectMapper MAPPER = new ObjectMapper();
 
   public static void updatePlayer(ErisPlayer player) {
     Player playerHandle = player.getHandle();
@@ -67,4 +74,32 @@ public class PlayerNicknamePipeline {
 
     return !name.contains("nigg") && !name.contains("fag") && !name.contains("chink");
   }
+
+  public static JsonNode getNickname(ErisPlayer player) {
+    String key = getJsonKey(player);
+    return ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().get(key);
+  }
+
+  public static void saveNickname(ErisPlayer player) {
+    if (!player.getNicknameProfile().isNicked()) {
+      return;
+    }
+
+    String key = getJsonKey(player);
+    ObjectNode node = MAPPER.createObjectNode()
+        .put("name", player.getNicknameProfile().getNickName());
+
+    if (player.getNicknameProfile().getSkin() != null) {
+      node.put("skin_key", player.getNicknameProfile().getSkin().getKey());
+      node.put("skin_value", player.getNicknameProfile().getSkin().getValue());
+    }
+
+    ErisBukkitCommonsPlugin.getInstance().getRedisWrapper().set(key, node,
+        SetParams.setParams().ex(3600));
+  }
+
+  private static String getJsonKey(ErisPlayer player) {
+    return UUIDUtil.toDashlessString(player.getUniqueId()) + "_nickname";
+  }
+
 }
