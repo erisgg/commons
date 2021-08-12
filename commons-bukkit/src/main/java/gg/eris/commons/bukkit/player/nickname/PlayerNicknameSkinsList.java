@@ -3,7 +3,9 @@ package gg.eris.commons.bukkit.player.nickname;
 import gg.eris.commons.core.util.Pair;
 import gg.eris.commons.core.util.RandomUtil;
 import java.util.List;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class PlayerNicknameSkinsList {
 
   private static final List<Pair<String, String>> SKINS = List.of(

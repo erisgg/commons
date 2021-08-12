@@ -14,6 +14,7 @@ import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
 import gg.eris.commons.bukkit.player.ErisPlayerSerializer;
 import gg.eris.commons.bukkit.player.OfflineDataManager;
+import gg.eris.commons.bukkit.player.nickname.PlayerNicknamePipeline;
 import gg.eris.commons.bukkit.text.TextController;
 import gg.eris.commons.bukkit.text.TextType;
 import gg.eris.commons.bukkit.util.CC;
@@ -94,6 +95,7 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
         document,
         new UpdateOptions().upsert(true)
     );
+    PlayerNicknamePipeline.saveNickname(player);
   }
 
   protected void createNewPlayer(Player player) {

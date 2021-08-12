@@ -77,11 +77,6 @@ public class PlayerNicknameProfile {
     }
 
     PlayerNicknamePipeline.updatePlayer(this.player);
-
-    Bukkit.getScheduler().runTaskAsynchronously(ErisBukkitCommonsPlugin.getInstance(), () -> {
-      PlayerNicknamePipeline.saveNickname(
-          ErisBukkitCommonsPlugin.getInstance().getErisPlayerManager().getPlayer(player));
-    });
   }
 
 }
