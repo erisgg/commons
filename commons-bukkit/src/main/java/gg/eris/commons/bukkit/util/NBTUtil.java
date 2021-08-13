@@ -112,6 +112,26 @@ public class NBTUtil {
     return 0;
   }
 
+  public static long getLongData(ItemStack item, String nbtKey) {
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem;
+    if (item instanceof CraftItemStack) {
+      nmsItem = ((CraftItemStack) item).handle;
+    } else {
+      nmsItem = CraftItemStack.asNMSCopy(item);
+    }
+
+    if (!nmsItem.hasTag()) {
+      return 0;
+    }
+
+    NBTTagCompound tag = nmsItem.getTag();
+    if (tag.hasKey(nbtKey)) {
+      return tag.getLong(nbtKey);
+    }
+
+    return 0;
+  }
+
   public static ItemStack setNbtData(ItemStack item, String nbtKey, Object data) {
     net.minecraft.server.v1_8_R3.ItemStack nmsItem;
     boolean instanceOf = item instanceof CraftItemStack;
@@ -136,6 +156,8 @@ public class NBTUtil {
       compound.setDouble(nbtKey, (Double) data);
     } else if (data instanceof Boolean) {
       compound.setBoolean(nbtKey, (Boolean) data);
+    } else if (data instanceof Long) {
+      compound.setLong(nbtKey, (Long) data);
     } else if (data instanceof NBTBase) {
       compound.set(nbtKey, (NBTBase) data);
     }
