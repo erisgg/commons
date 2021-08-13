@@ -44,7 +44,7 @@ public final class SubCommand {
   }
 
   public SubCommandMatchResult getMatchResult(String[] rawArguments) {
-    if (rawArguments.length < this.arguments.size() + minVarargCount) {
+    if (rawArguments.length < this.arguments.size() + this.minVarargCount - 1) {
       return SubCommandMatchResult.noMatch();
     }
 
