@@ -45,7 +45,11 @@ public final class SubCommand {
 
   public SubCommandMatchResult getMatchResult(String[] rawArguments) {
     if (rawArguments.length < this.arguments.size() + this.minVarargCount - 1) {
-      return SubCommandMatchResult.noMatch();
+      if (this.arguments.size() == 0 && rawArguments.length == 0) {
+        return SubCommandMatchResult.match(this, Maps.newHashMap());
+      } else {
+        return SubCommandMatchResult.noMatch();
+      }
     }
 
     Map<String, Object> contextMap = Maps.newHashMap();
