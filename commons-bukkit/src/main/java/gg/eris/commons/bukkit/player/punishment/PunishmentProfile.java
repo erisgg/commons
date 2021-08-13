@@ -3,9 +3,8 @@ package gg.eris.commons.bukkit.player.punishment;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
+import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.util.CC;
-import gg.eris.commons.core.util.DebugUtil;
-import java.sql.SQLOutput;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +12,6 @@ import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import org.apache.commons.collections4.Get;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -32,7 +30,8 @@ public final class PunishmentProfile {
   private int chatPunishmentCount;
   private int inGamePunishmentCount;
 
-  public PunishmentProfile(UUID owner, List<Punishment> punishments, long lastUnmute, long lastUnban) {
+  public PunishmentProfile(UUID owner, List<Punishment> punishments, long lastUnmute,
+      long lastUnban) {
     this.owner = owner;
     this.punishments = Lists.newArrayList(punishments);
     this.lastUnmute = lastUnmute;
@@ -74,8 +73,9 @@ public final class PunishmentProfile {
       if (getBanDuration() > 0) {
         Player player = Bukkit.getPlayer(this.owner);
         if (player != null) {
-          player.kickPlayer(CC.GOLD.bold() + "(!) " + CC.GOLD + "You have been " + CC.YELLOW +
-              "banned" + CC.GOLD + ".");
+          Bukkit.getScheduler().runTask(ErisBukkitCommonsPlugin.getInstance(), () ->
+              player.kickPlayer(CC.GOLD.bold() + "(!) " + CC.GOLD + "You have been "
+                  + CC.YELLOW + "banned" + CC.GOLD + "."));
         }
       }
     }
