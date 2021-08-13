@@ -112,7 +112,7 @@ public class NBTUtil {
     return 0;
   }
 
-  public static long getLongData(ItemStack item, String nbtKey) {
+  public static long getLongNbtData(ItemStack item, String nbtKey) {
     net.minecraft.server.v1_8_R3.ItemStack nmsItem;
     if (item instanceof CraftItemStack) {
       nmsItem = ((CraftItemStack) item).handle;
