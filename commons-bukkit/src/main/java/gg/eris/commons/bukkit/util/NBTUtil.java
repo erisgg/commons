@@ -34,8 +34,6 @@ public class NBTUtil {
   }
 
   public static String getStringNbtData(ItemStack item, String nbtKey) {
-    CraftItemStack.asNMSCopy()
-
     net.minecraft.server.v1_8_R3.ItemStack nmsItem;
     if (item instanceof CraftItemStack) {
       nmsItem = ((CraftItemStack) item).handle;
