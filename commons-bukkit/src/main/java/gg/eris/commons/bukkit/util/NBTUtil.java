@@ -18,7 +18,13 @@ public class NBTUtil {
       return false;
     }
 
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem;
+    if (item instanceof CraftItemStack) {
+      nmsItem = ((CraftItemStack) item).handle;
+    } else {
+      nmsItem = CraftItemStack.asNMSCopy(item);
+    }
+
     if (!nmsItem.hasTag()) {
       return false;
     }
@@ -28,7 +34,15 @@ public class NBTUtil {
   }
 
   public static String getStringNbtData(ItemStack item, String nbtKey) {
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
+    CraftItemStack.asNMSCopy()
+
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem;
+    if (item instanceof CraftItemStack) {
+      nmsItem = ((CraftItemStack) item).handle;
+    } else {
+      nmsItem = CraftItemStack.asNMSCopy(item);
+    }
+
     if (!nmsItem.hasTag()) {
       return null;
     }
@@ -42,7 +56,12 @@ public class NBTUtil {
   }
 
   public static int getIntNbtData(ItemStack item, String nbtKey) {
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem;
+    if (item instanceof CraftItemStack) {
+      nmsItem = ((CraftItemStack) item).handle;
+    } else {
+      nmsItem = CraftItemStack.asNMSCopy(item);
+    }
     if (!nmsItem.hasTag()) {
       return 0;
     }
@@ -56,7 +75,13 @@ public class NBTUtil {
   }
 
   public static boolean getBooleanNbtData(ItemStack item, String nbtKey) {
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem;
+    if (item instanceof CraftItemStack) {
+      nmsItem = ((CraftItemStack) item).handle;
+    } else {
+      nmsItem = CraftItemStack.asNMSCopy(item);
+    }
+
     if (!nmsItem.hasTag()) {
       return false;
     }
@@ -70,7 +95,13 @@ public class NBTUtil {
   }
 
   public static double getDoubleNbtData(ItemStack item, String nbtKey) {
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem;
+    if (item instanceof CraftItemStack) {
+      nmsItem = ((CraftItemStack) item).handle;
+    } else {
+      nmsItem = CraftItemStack.asNMSCopy(item);
+    }
+
     if (!nmsItem.hasTag()) {
       return 0;
     }
@@ -84,7 +115,14 @@ public class NBTUtil {
   }
 
   public static ItemStack setNbtData(ItemStack item, String nbtKey, Object data) {
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem;
+    boolean instanceOf = item instanceof CraftItemStack;
+    if (instanceOf) {
+      nmsItem = ((CraftItemStack) item).handle;
+    } else {
+      nmsItem = CraftItemStack.asNMSCopy(item);
+    }
+
     NBTTagCompound compound;
     if (!nmsItem.hasTag()) {
       compound = new NBTTagCompound();
@@ -106,7 +144,7 @@ public class NBTUtil {
 
     nmsItem.setTag(compound);
 
-    return item;
+    return instanceOf ? item : CraftItemStack.asBukkitCopy(nmsItem);
   }
 
   public static ItemStack setAnvillable(ItemStack item, boolean anvillable) {
