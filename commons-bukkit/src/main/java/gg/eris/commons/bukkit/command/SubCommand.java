@@ -39,12 +39,15 @@ public final class SubCommand {
     this.vararg = this.arguments.size() > 0 ?
         (this.arguments.get(this.arguments.size() - 1).isVararg() ?
             this.arguments.get(this.arguments.size() - 1) : null) : null;
-    this.minVarargCount = this.arguments.size() > 0 ? Math
-        .max(0, this.arguments.get(this.arguments.size() - 1).getMinVarargCount()) : 0;
+    this.minVarargCount = this.vararg == null ?
+        0 : Math.max(0, this.vararg.getMinVarargCount());
   }
 
   public SubCommandMatchResult getMatchResult(String[] rawArguments) {
-    if (rawArguments.length < this.arguments.size() + this.minVarargCount) {
+    if (rawArguments.length < this.arguments.size() + (this.minVarargCount > 0 ?
+        this.minVarargCount - 1 : 0)) {
+
+
       return SubCommandMatchResult.noMatch();
     }
 
