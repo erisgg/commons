@@ -27,11 +27,14 @@ public final class TextController {
   }
 
   public static void broadcastToServer(TextMessage textMessage) {
-    BaseComponent[] component = textMessage.getBaseComponent();
-    for (Player player : Bukkit.getOnlinePlayers()) {
-      player.spigot().sendMessage(component);
-    }
-    Bukkit.getConsoleSender().sendMessage(component);
+    Bukkit.getScheduler().runTask(ErisBukkitCommonsPlugin.getInstance(), () -> {
+      BaseComponent[] component = textMessage.getBaseComponent();
+      for (Player player : Bukkit.getOnlinePlayers()) {
+        player.spigot().sendMessage(component);
+      }
+      Bukkit.getConsoleSender().sendMessage(component);
+    });
+
   }
 
   public static void broadcastToServer(TextType textType, Int2ObjectMap<ClickEvent> clickEvents,
