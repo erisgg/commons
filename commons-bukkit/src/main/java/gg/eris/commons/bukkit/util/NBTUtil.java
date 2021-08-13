@@ -18,7 +18,7 @@ public class NBTUtil {
       return false;
     }
 
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
     if (!nmsItem.hasTag()) {
       return false;
     }
@@ -28,7 +28,7 @@ public class NBTUtil {
   }
 
   public static String getStringNbtData(ItemStack item, String nbtKey) {
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
     if (!nmsItem.hasTag()) {
       return null;
     }
@@ -42,7 +42,7 @@ public class NBTUtil {
   }
 
   public static int getIntNbtData(ItemStack item, String nbtKey) {
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
     if (!nmsItem.hasTag()) {
       return 0;
     }
@@ -56,7 +56,7 @@ public class NBTUtil {
   }
 
   public static boolean getBooleanNbtData(ItemStack item, String nbtKey) {
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
     if (!nmsItem.hasTag()) {
       return false;
     }
@@ -70,7 +70,7 @@ public class NBTUtil {
   }
 
   public static double getDoubleNbtData(ItemStack item, String nbtKey) {
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
     if (!nmsItem.hasTag()) {
       return 0;
     }
@@ -84,7 +84,7 @@ public class NBTUtil {
   }
 
   public static ItemStack setNbtData(ItemStack item, String nbtKey, Object data) {
-    net.minecraft.server.v1_8_R3.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem = ((CraftItemStack) item).handle;
     NBTTagCompound compound;
     if (!nmsItem.hasTag()) {
       compound = new NBTTagCompound();
@@ -106,7 +106,7 @@ public class NBTUtil {
 
     nmsItem.setTag(compound);
 
-    return CraftItemStack.asBukkitCopy(nmsItem);
+    return item;
   }
 
   public static ItemStack setAnvillable(ItemStack item, boolean anvillable) {
