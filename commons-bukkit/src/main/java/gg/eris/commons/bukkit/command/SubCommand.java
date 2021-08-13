@@ -53,7 +53,7 @@ public final class SubCommand {
     for (int i = 0; i < rawArguments.length; i++) {
       String rawArgument = rawArguments[i];
 
-      ArgumentInstance argumentInstance = i < arguments.size() ? arguments.get(i) : vararg;
+      ArgumentInstance argumentInstance = i < arguments.size() ? arguments.get(i) : this.vararg;
 
       if (argumentInstance == null) {
         return SubCommandMatchResult.noMatch();
@@ -66,7 +66,15 @@ public final class SubCommand {
       if (!argument.matches(value)) {
         return SubCommandMatchResult.noMatch();
       } else {
-        contextMap.put(argumentInstance.getArgument().getArgumentId(), value);
+        if (argumentInstance.isVararg()) {
+          List<Object> varargList =
+              (List) contextMap.getOrDefault(argumentInstance.getArgument().getArgumentId(),
+                  Lists.newArrayList());
+          varargList.add(value);
+          contextMap.put(argumentInstance.getArgument().getArgumentId(), varargList);
+        } else {
+          contextMap.put(argumentInstance.getArgument().getArgumentId(), value);
+        }
       }
     }
 
