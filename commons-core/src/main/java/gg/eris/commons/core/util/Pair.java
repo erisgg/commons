@@ -1,8 +1,12 @@
 package gg.eris.commons.core.util;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@EqualsAndHashCode
+@ToString
 public final class Pair<K, V> {
 
   private final K key;
