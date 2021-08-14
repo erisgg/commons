@@ -130,6 +130,7 @@ public final class TablistControllerImpl implements TablistController {
 
   public void onQuit(Player player) {
     this.internalTeamMap.remove(player.getUniqueId());
+    updateAll(true);
   }
 
   public void orderScoreboard(Player player) {
@@ -170,6 +171,10 @@ public final class TablistControllerImpl implements TablistController {
 
   private void updateDisplayNameOfPlayer(Player handle) {
     ErisPlayer player = this.erisPlayerManager.getPlayer(handle);
+    if (player == null) {
+      return;
+    }
+
     for (Player otherHandle : Bukkit.getOnlinePlayers()) {
       ErisPlayer other = this.erisPlayerManager.getPlayer(otherHandle);
       if (other == null) {
