@@ -4,8 +4,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
 import gg.eris.commons.bukkit.player.ErisPlayer;
-import gg.eris.commons.bukkit.text.TextController;
-import gg.eris.commons.bukkit.text.TextType;
 import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.util.Text;
 import gg.eris.commons.core.util.Time;
@@ -64,15 +62,21 @@ public final class ErisPlayerManagerListener implements Listener {
     Boolean newPlayer = this.addQueue.getIfPresent(event.getPlayer().getUniqueId());
     if (newPlayer != null) {
       this.addQueue.invalidate(event.getPlayer().getUniqueId());
-      this.playerManagerImpl.createNewPlayer(event.getPlayer());
+      this.playerManagerImpl.createAndLoadNewPlayer(event.getPlayer());
     }
 
     this.playerManagerImpl.updateFromHandleOnJoin(event.getPlayer());
 
+    // Checking load went correctly
     ErisPlayer player = this.playerManagerImpl.getPlayer(event.getPlayer());
     if (player == null) {
-      event.getPlayer().kickPlayer(CC.GOLD.bold() + "(!) " + CC.GOLD + "Something went wrong. Please rejoin.");
+      event.getPlayer().kickPlayer(CC.GOLD.bold() + "(!) " + CC.GOLD
+          + "Something went wrong. Please rejoin.");
     }
+
+    // Removing vanilla permissions
+    event.getPlayer().getEffectivePermissions()
+        .forEach(attachment -> event.getPlayer().removeAttachment(attachment.getAttachment()));
   }
 
   @EventHandler(priority = EventPriority.MONITOR)

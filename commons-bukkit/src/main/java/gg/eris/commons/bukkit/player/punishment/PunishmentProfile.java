@@ -65,7 +65,8 @@ public final class PunishmentProfile {
   }
 
   public void addPunishment(Punishment punishment) {
-    this.punishments.add(0, punishment); // Add to start of the list
+    this.punishments.add(punishment); // Add to start of the list
+    this.punishments.sort(Comparator.reverseOrder());
     if (punishment.getType() == PunishmentType.CHAT) {
       this.chatPunishmentCount++;
     } else {

@@ -98,13 +98,13 @@ public final class ErisPlayerManagerImpl implements ErisPlayerManager {
     PlayerNicknamePipeline.saveNickname(player);
   }
 
-  protected void createNewPlayer(Player player) {
+  protected void createAndLoadNewPlayer(Player player) {
     ErisPlayer newPlayer;
     this.players.put(
         player.getUniqueId(),
         newPlayer = this.playerSerializer.newPlayer(player)
     );
-    savePlayer(newPlayer);
+    Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> savePlayer(newPlayer));
   }
 
   protected void setupCollection() {
