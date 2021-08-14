@@ -22,8 +22,12 @@ public final class TextController {
   }
 
   public static void send(CommandSender sender, TextMessage textMessage) {
-    Bukkit.getScheduler().runTask(ErisBukkitCommonsPlugin.getInstance(),
-        () -> sender.sendMessage(ComponentSerializer.parse(textMessage.getJsonMessage())));
+    if (sender == null) {
+      return;
+    } else {
+      Bukkit.getScheduler().runTask(ErisBukkitCommonsPlugin.getInstance(),
+          () -> sender.sendMessage(ComponentSerializer.parse(textMessage.getJsonMessage())));
+    }
   }
 
   public static void broadcastToServer(TextMessage textMessage) {
