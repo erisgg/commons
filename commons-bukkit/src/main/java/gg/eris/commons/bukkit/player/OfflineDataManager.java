@@ -9,6 +9,7 @@ import gg.eris.commons.core.identifier.Identifier;
 import java.util.List;
 import java.util.UUID;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 public interface OfflineDataManager {
 
@@ -16,7 +17,12 @@ public interface OfflineDataManager {
 
   JsonNode getRaw(UUID uuid);
 
-  List<JsonNode> performRawQuery(Document document) throws JsonProcessingException;
+  List<JsonNode> performSort(Bson query, int limit) throws JsonProcessingException;
+
+  default List<JsonNode> performSort(Bson query) throws JsonProcessingException {
+    return performSort(query, 0);
+  }
+
 
   boolean addRank(UUID uuid, Rank rank);
 

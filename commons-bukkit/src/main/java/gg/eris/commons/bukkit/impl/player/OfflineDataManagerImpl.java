@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 public final class OfflineDataManagerImpl implements OfflineDataManager {
 
@@ -208,10 +209,10 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
   }
 
   @Override
-  public List<JsonNode> performRawQuery(Document document) throws JsonProcessingException {
-    FindIterable<Document> findIterable = this.playerCollection.find(
-        document
-    );
+  public List<JsonNode> performSort(Bson sort, int limit) throws JsonProcessingException {
+    FindIterable<Document> findIterable = this.playerCollection.find();
+    findIterable.sort(sort);
+    findIterable.limit(limit);
     List<JsonNode> result = Lists.newArrayList();
     for (Document resultDocument : findIterable) {
       result.add(NODE_READER.readTree(resultDocument.toJson()));
