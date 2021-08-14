@@ -63,7 +63,7 @@ public class StackUtil {
     if (durability == max) {
       return false;
     } else {
-      item.setDurability((short) (item.getDurability() + 1));
+      item.setDurability((short) (durability + 1));
     }
 
     return true;
