@@ -12,6 +12,8 @@ public class NBTUtil {
   public static final String ANVILLABLE = "SPECIAL_anvillable";
   public static final String CRAFTABLE = "SPECIAL_craftable";
   public static final String BREWABLE = "SPECIAL_brewable";
+  public static final String UNSTACKABLE = "SPECIAL_unstackable";
+  private static long unstackableCount = 0;
 
   public static boolean hasNbtKey(ItemStack item, String nbtKey) {
     if (StackUtil.isNullOrAir(item)) {
@@ -167,6 +169,31 @@ public class NBTUtil {
     return instanceOf ? item : CraftItemStack.asBukkitCopy(nmsItem);
   }
 
+  public static ItemStack removeNbtData(ItemStack item, String nbtKey) {
+    net.minecraft.server.v1_8_R3.ItemStack nmsItem;
+    boolean instanceOf = item instanceof CraftItemStack;
+    if (instanceOf) {
+      nmsItem = ((CraftItemStack) item).handle;
+    } else {
+      nmsItem = CraftItemStack.asNMSCopy(item);
+    }
+
+    NBTTagCompound compound;
+    if (!nmsItem.hasTag()) {
+      compound = new NBTTagCompound();
+    } else {
+      compound = nmsItem.getTag();
+    }
+
+    if (compound.hasKey(nbtKey)) {
+      compound.remove(nbtKey);
+    }
+
+    nmsItem.setTag(compound);
+
+    return instanceOf ? item : CraftItemStack.asBukkitCopy(nmsItem);
+  }
+
   public static ItemStack setAnvillable(ItemStack item, boolean anvillable) {
     return setNbtData(item, ANVILLABLE, anvillable);
   }
@@ -177,6 +204,14 @@ public class NBTUtil {
 
   public static ItemStack setBrewable(ItemStack item, boolean brewable) {
     return setNbtData(item, BREWABLE, brewable);
+  }
+
+  public static ItemStack setUnstackable(ItemStack item, boolean unstackable) {
+    if (unstackable) {
+      return setNbtData(item, UNSTACKABLE, unstackableCount++);
+    } else {
+      return removeNbtData(item, UNSTACKABLE);
+    }
   }
 
   public static boolean isAnvillable(ItemStack item) {
@@ -201,6 +236,10 @@ public class NBTUtil {
     }
 
     return getBooleanNbtData(item, BREWABLE);
+  }
+
+  public static boolean isUnstackable(ItemStack item) {
+    return hasNbtKey(item, UNSTACKABLE);
   }
 
 }

@@ -172,8 +172,12 @@ public final class TablistControllerImpl implements TablistController {
     ErisPlayer player = this.erisPlayerManager.getPlayer(handle);
     for (Player otherHandle : Bukkit.getOnlinePlayers()) {
       ErisPlayer other = this.erisPlayerManager.getPlayer(otherHandle);
-      String tablistName = this.displayNameFunction != null ? this.displayNameFunction.apply(player,
-          other) : CC.WHITE + player.getName();
+      if (other == null) {
+        continue;
+      }
+
+      String tablistName = this.displayNameFunction != null ?
+          this.displayNameFunction.apply(player, other) : CC.WHITE + player.getName();
 
       PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo();
       packet.a = EnumPlayerInfoAction.UPDATE_DISPLAY_NAME;

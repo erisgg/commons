@@ -7,6 +7,7 @@ import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.util.Text;
 import gg.eris.commons.core.util.Time;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
@@ -17,6 +18,8 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.permissions.PermissibleBase;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 public final class ErisPlayerManagerListener implements Listener {
 
@@ -75,8 +78,21 @@ public final class ErisPlayerManagerListener implements Listener {
     }
 
     // Removing vanilla permissions
-    event.getPlayer().getEffectivePermissions()
-        .forEach(attachment -> event.getPlayer().removeAttachment(attachment.getAttachment()));
+    for (PermissionAttachmentInfo info : event.getPlayer().getEffectivePermissions()) {
+      if (info.getAttachment() != null && info.getValue()) {
+        event.getPlayer().removeAttachment(info.getAttachment());
+        for (Map.Entry<String, Boolean> entry : info.getAttachment().getPermissions().entrySet()) {
+          event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(), entry.getKey(),
+              false);
+        }
+      }
+    }
+    event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(), "minecraft.command.*",
+        false);
+    event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(), "bukkit.command.*",
+        false);
+
+    event.getPlayer().recalculatePermissions();
   }
 
   @EventHandler(priority = EventPriority.MONITOR)

@@ -32,11 +32,13 @@ public class CraftUtil {
     ItemStack[] contents = inv.getContents();
     int result = 0;
 
+    int maxSize = NBTUtil.isUnstackable(stack) ? 1 : stack.getMaxStackSize();
+
     for (ItemStack is : contents) {
-      if (is == null) {
-        result += stack.getMaxStackSize();
+      if (StackUtil.isNullOrAir(is)) {
+        result += maxSize;
       } else if (is.isSimilar(stack)) {
-        result += Math.max(stack.getMaxStackSize() - is.getAmount(), 0);
+        result += Math.max(maxSize - is.getAmount(), 0);
       }
     }
 

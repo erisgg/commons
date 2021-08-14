@@ -223,6 +223,15 @@ public final class ItemBuilder {
     return brewable(false);
   }
 
+  public ItemBuilder unstackable() {
+    return unstackable(true);
+  }
+
+  public ItemBuilder unstackable(boolean unstackable) {
+    this.item = NBTUtil.setUnstackable(this.item, unstackable);
+    return this;
+  }
+
   public ItemBuilder brewable(boolean brewable) {
     this.item = NBTUtil.setBrewable(this.item, brewable);
     return this;
