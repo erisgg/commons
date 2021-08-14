@@ -1,5 +1,6 @@
 package gg.eris.commons.bukkit.permission;
 
+import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.util.Validate;
@@ -85,6 +86,15 @@ public final class PermissionGroup {
 
   public static PermissionGroup of(Rank... ranks) {
     return new PermissionGroup(ranks);
+  }
+
+  public boolean isApplicable(ErisPlayer player) {
+    for (Rank rank : this.ranks) {
+      if (player.getRanks().contains(rank)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override

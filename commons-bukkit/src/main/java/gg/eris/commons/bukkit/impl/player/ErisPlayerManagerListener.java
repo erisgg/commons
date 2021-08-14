@@ -3,6 +3,7 @@ package gg.eris.commons.bukkit.impl.player;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
+import gg.eris.commons.bukkit.permission.PermissionGroup;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.util.Text;
@@ -75,6 +76,7 @@ public final class ErisPlayerManagerListener implements Listener {
     if (player == null) {
       event.getPlayer().kickPlayer(CC.GOLD.bold() + "(!) " + CC.GOLD
           + "Something went wrong. Please rejoin.");
+      return;
     }
 
     // Removing vanilla permissions
@@ -91,6 +93,13 @@ public final class ErisPlayerManagerListener implements Listener {
         false);
     event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(), "bukkit.command.*",
         false);
+    event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(), "bukkit.command.*",
+        false);
+
+    if (!PermissionGroup.STAFF.isApplicable(player)) {
+      event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(),
+          "velocity.command.server", false);
+    }
 
     event.getPlayer().recalculatePermissions();
   }
