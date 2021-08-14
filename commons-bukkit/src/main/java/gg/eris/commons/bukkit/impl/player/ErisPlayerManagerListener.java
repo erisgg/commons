@@ -96,11 +96,6 @@ public final class ErisPlayerManagerListener implements Listener {
     event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(), "bukkit.command.*",
         false);
 
-    if (!PermissionGroup.STAFF.isApplicable(player)) {
-      event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(),
-          "velocity.command.server", false);
-    }
-
     event.getPlayer().recalculatePermissions();
   }
 
