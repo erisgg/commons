@@ -13,9 +13,12 @@ import gg.eris.commons.core.util.Text;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 @RequiredArgsConstructor
 public final class ChatControllerImpl implements ChatController {
@@ -23,6 +26,8 @@ public final class ChatControllerImpl implements ChatController {
   private final ErisBukkitCommonsPlugin plugin;
 
   private String format;
+  private Function<ErisPlayer, Collection<ErisPlayer>> recipientFunction;
+
   private final List<ChatPlaceholder> placeholders;
   private final Int2ObjectMap<ClickEvent> clickEvents;
   private final Int2ObjectMap<HoverEvent> hoverEvents;
@@ -57,7 +62,21 @@ public final class ChatControllerImpl implements ChatController {
   public void say(ErisPlayer player, String chatMessage) {
     // Keep the calculation out of the task so it can potentially be run async
     TextMessage message = getMessage(player, chatMessage);
-    Bukkit.getScheduler().runTask(this.plugin, () -> TextController.broadcastToServer(message));
+
+    Collection<ErisPlayer> recipients = getRecipients(player);
+    Bukkit.getScheduler().runTask(this.plugin, () -> {
+      for (ErisPlayer recipient : recipients) {
+        TextController.send(
+            recipient,
+            message
+        );
+      }
+
+      TextController.send(
+          Bukkit.getConsoleSender(),
+          message
+      );
+    });
   }
 
   @Override
@@ -74,4 +93,19 @@ public final class ChatControllerImpl implements ChatController {
     return this.format;
   }
 
+  @Override
+  public Collection<ErisPlayer> getRecipients(ErisPlayer player) {
+    return this.recipientFunction == null ? this.plugin.getErisPlayerManager().getPlayers() :
+        this.recipientFunction.apply(player);
+  }
+
+  @Override
+  public void setRecipientFunction(Function<ErisPlayer, Collection<ErisPlayer>> recipientFunction) {
+    this.recipientFunction = recipientFunction;
+  }
+
+  @Override
+  public Function<ErisPlayer, Collection<ErisPlayer>> getRecipientFunction() {
+    return this.recipientFunction;
+  }
 }

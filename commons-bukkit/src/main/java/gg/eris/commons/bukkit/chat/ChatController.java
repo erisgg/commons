@@ -5,6 +5,8 @@ import gg.eris.commons.bukkit.text.ClickEvent;
 import gg.eris.commons.bukkit.text.HoverEvent;
 import gg.eris.commons.bukkit.text.TextMessage;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import java.util.Collection;
+import java.util.function.Function;
 
 public interface ChatController {
 
@@ -54,4 +56,9 @@ public interface ChatController {
    */
   String getFormat();
 
+  Collection<ErisPlayer> getRecipients(ErisPlayer player);
+
+  void setRecipientFunction(Function<ErisPlayer, Collection<ErisPlayer>> recipientFunction);
+
+  Function<ErisPlayer, Collection<ErisPlayer>> getRecipientFunction();
 }
