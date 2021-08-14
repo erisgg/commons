@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.google.common.collect.Lists;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
@@ -15,6 +17,7 @@ import gg.eris.commons.bukkit.player.punishment.PunishmentProfile;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.identifier.Identifier;
+import gnu.trove.impl.hash.TDoubleCharHash;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -202,5 +205,17 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
     }
 
     return new ArrayList<>(document.getList("permissions", String.class, List.of()));
+  }
+
+  @Override
+  public List<JsonNode> performRawQuery(Document document) throws JsonProcessingException {
+    FindIterable<Document> findIterable = this.playerCollection.find(
+        document
+    );
+    List<JsonNode> result = Lists.newArrayList();
+    for (Document resultDocument : findIterable) {
+      result.add(NODE_READER.readTree(resultDocument.toJson()));
+    }
+    return result;
   }
 }
