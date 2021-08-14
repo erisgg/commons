@@ -139,7 +139,7 @@ public final class CommonsScoreboardImpl implements CommonsScoreboard {
 
   protected void apply(ErisPlayer player, Scoreboard scoreboard) {
     Objective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
-    long tick = this.players.get(player.getUniqueId()) + 1;
+    long tick = this.players.getOrDefault(player.getUniqueId(), 0L) + 1;
     this.players.put(player.getUniqueId(), tick);
 
     // Objective should always be null but just in case :D, ticks and stuff :D
