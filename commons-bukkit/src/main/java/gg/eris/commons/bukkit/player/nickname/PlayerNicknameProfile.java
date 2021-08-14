@@ -38,11 +38,11 @@ public class PlayerNicknameProfile {
   }
 
   public String getRealUsername() {
-    return this.playerProfile.getName();
+    return this.player.getName();
   }
 
   public String getDisplayName() {
-    return isNicked() ? disguisedProfile.getName() : this.playerProfile.getName();
+    return isNicked() ? this.disguisedProfile.getName() : getRealUsername();
   }
 
   public Rank getPriorityDisplayRank() {
