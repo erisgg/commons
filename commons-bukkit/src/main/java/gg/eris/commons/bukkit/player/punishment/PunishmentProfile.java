@@ -71,7 +71,7 @@ public final class PunishmentProfile {
       this.chatPunishmentCount++;
     } else {
       this.inGamePunishmentCount++;
-      if (getBanDuration() > 0) {
+      if (getBanDuration() != 0) {
         Player player = Bukkit.getPlayer(this.owner);
         if (player != null) {
           Bukkit.getScheduler().runTask(ErisBukkitCommonsPlugin.getInstance(), () ->
