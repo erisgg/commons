@@ -4,12 +4,12 @@ import com.google.common.collect.Lists;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
+import gg.eris.commons.bukkit.impl.menu.MenuInventoryHolder;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -57,12 +57,19 @@ public class PlayerUtil {
     player.setExp(0.0f);
     player.setTotalExperience(0);
     player.setLevel(0);
+
+    if (player.getOpenInventory().getTopInventory() != null
+        && player.getOpenInventory().getTopInventory().getHolder() instanceof MenuInventoryHolder) {
+      ((MenuInventoryHolder) player.getOpenInventory().getTopInventory().getHolder())
+          .getViewer().setOpenParent(false);
+    }
     player.closeInventory();
   }
 
   public static void setSafeGameMode(Player player, GameMode gameMode) {
     new BukkitRunnable() {
       int cancelCount = 5;
+
       @Override
       public void run() {
         if (player.getGameMode() != gameMode) {
