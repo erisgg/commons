@@ -1,6 +1,7 @@
 package gg.eris.commons.bukkit.util;
 
 import lombok.experimental.UtilityClass;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -13,6 +14,7 @@ public class CraftUtil {
 
   public static int getMaxCraftAmount(CraftingInventory inv) {
     if (inv.getResult() == null) {
+      Bukkit.broadcastMessage("result is null");
       return 0;
     }
 
@@ -20,7 +22,7 @@ public class CraftUtil {
     int materialCount = Integer.MAX_VALUE;
 
     for (ItemStack is : inv.getMatrix()) {
-      if (is != null && is.getAmount() < materialCount) {
+      if (!StackUtil.isNullOrAir(is) && is.getAmount() < materialCount) {
         materialCount = is.getAmount();
       }
     }
