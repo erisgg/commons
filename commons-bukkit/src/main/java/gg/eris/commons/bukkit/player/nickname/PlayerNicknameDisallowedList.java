@@ -25,6 +25,8 @@ public class PlayerNicknameDisallowedList {
       "fruitberries",
       "smajor",
       "dream",
+      "dreamnotfound",
+      "georgenotfound",
       "punz",
       "tommyinnit",
       "tubbo",
