@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -101,6 +102,20 @@ public class PlayerUtil {
     out.writeUTF(server);
     player
         .sendPluginMessage(ErisBukkitCommonsPlugin.getInstance(), "BungeeCord", out.toByteArray());
+  }
+
+  public static void updateInventory(Player player) {
+    updateInventory(player, 0);
+  }
+
+  public static void updateInventory(Player player, int delay) {
+    if (delay == 0) {
+      Bukkit.getScheduler().runTask(ErisBukkitCommonsPlugin.getInstance(),
+          player::updateInventory);
+    } else {
+      Bukkit.getScheduler().runTaskLater(ErisBukkitCommonsPlugin.getInstance(),
+          player::updateInventory, delay);
+    }
   }
 
   public static EntityPlayer getHandle(Player player) {
