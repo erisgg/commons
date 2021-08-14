@@ -9,15 +9,16 @@ import gg.eris.commons.bukkit.util.PlayerUtil;
 import gg.eris.commons.core.util.UUIDUtil;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import redis.clients.jedis.params.SetParams;
 
 @UtilityClass
 public class PlayerNicknamePipeline {
@@ -25,6 +26,8 @@ public class PlayerNicknamePipeline {
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
   public static final String NICKNAME_SET = "nicknames";
+
+  public static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9_]{3,16}$");
 
   public static void updatePlayer(ErisPlayer player) {
     Player playerHandle = player.getHandle();
@@ -74,7 +77,19 @@ public class PlayerNicknamePipeline {
       return false;
     }
 
-    return !name.contains("nigg") && !name.contains("fag") && !name.contains("chink");
+    if (!NAME_PATTERN.matcher(name).find()) {
+      return false;
+    }
+
+    return !name.contains("nigg") && !name.contains("fag") && !name.contains("chink") &&
+        !name.contains("penis") &&
+        !name.contains("cock") &&
+        !name.contains("c0ck") &&
+        !name.contains("fuck") &&
+        !name.contains("shit") &&
+        !name.contains("pussy") &&
+        !name.contains("fanny") &&
+        !name.contains("vagina");
   }
 
   public static JsonNode getNickname(ErisPlayer player) {
