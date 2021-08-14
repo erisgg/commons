@@ -3,6 +3,7 @@ package gg.eris.commons.bukkit.impl.chat;
 import gg.eris.commons.bukkit.chat.ChatController;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.player.ErisPlayerManager;
+import gg.eris.commons.bukkit.player.punishment.PunishmentDurations;
 import gg.eris.commons.bukkit.text.TextController;
 import gg.eris.commons.bukkit.text.TextType;
 import gg.eris.commons.core.util.Time;
@@ -27,11 +28,11 @@ public final class ChatControllerListener implements Listener {
     long muteDuration = player.getPunishmentProfile().getMuteDuration();
 
     if (muteDuration != 0L) {
-      if (muteDuration == -1) {
+      if (muteDuration == PunishmentDurations.INDEFINITE) {
         TextController.send(
             player,
             TextType.ERROR,
-            "You are permanently <h>muted</h>."
+            "You are <h>permanently muted</h>."
         );
       } else {
         TextController.send(
