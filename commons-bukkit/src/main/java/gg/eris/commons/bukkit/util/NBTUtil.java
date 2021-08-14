@@ -13,7 +13,7 @@ public class NBTUtil {
   public static final String CRAFTABLE = "SPECIAL_craftable";
   public static final String BREWABLE = "SPECIAL_brewable";
   public static final String UNSTACKABLE = "SPECIAL_unstackable";
-  private static long unstackableCount = 0;
+  private static volatile long unstackableCount = 0;
 
   public static boolean hasNbtKey(ItemStack item, String nbtKey) {
     if (StackUtil.isNullOrAir(item)) {
