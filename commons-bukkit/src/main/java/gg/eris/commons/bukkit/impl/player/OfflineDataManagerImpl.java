@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.common.collect.Lists;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.UpdateOptions;
@@ -24,6 +25,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import javax.print.Doc;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -210,12 +212,12 @@ public final class OfflineDataManagerImpl implements OfflineDataManager {
 
   @Override
   public List<JsonNode> performSort(Bson sort, int limit) throws JsonProcessingException {
-    FindIterable<Document> findIterable = this.playerCollection.find();
-    findIterable.sort(sort);
-    findIterable.limit(limit);
+    FindIterable<Document> findIterable = this.playerCollection.find()
+        .sort(sort).limit(limit);
+    MongoCursor<Document> cursor = findIterable.cursor();
     List<JsonNode> result = Lists.newArrayList();
-    for (Document resultDocument : findIterable) {
-      result.add(NODE_READER.readTree(resultDocument.toJson()));
+    while (cursor.hasNext()) {
+      result.add(NODE_READER.readTree(cursor.next().toJson()));
     }
     return result;
   }
