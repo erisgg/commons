@@ -40,12 +40,28 @@ public class StackUtil {
   }
 
   public static boolean decrement(ItemStack item) {
-    Validate.notNull(item, "item cannot be null");
-    if (item.getAmount() == 1) {
-      item.setType(Material.AIR);
+    if (!StackUtil.isNullOrAir(item)) {
+      if (item.getAmount() == 1) {
+        item.setType(Material.AIR);
+        return false;
+      } else {
+        item.setAmount(item.getAmount() - 1);
+      }
+    }
+
+    return true;
+  }
+
+  public static boolean damage(ItemStack item) {
+    if (StackUtil.isNullOrAir(item) || item.getType().getMaxDurability() == 0) {
+      return true;
+    }
+
+    short durability = item.getDurability();
+    if (durability == 0) {
       return false;
     } else {
-      item.setAmount(item.getAmount() - 1);
+      item.setDurability((short) (item.getDurability() - 1));
     }
 
     return true;
