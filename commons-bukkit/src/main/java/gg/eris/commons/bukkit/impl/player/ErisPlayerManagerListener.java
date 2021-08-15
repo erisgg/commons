@@ -3,7 +3,7 @@ package gg.eris.commons.bukkit.impl.player;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import gg.eris.commons.bukkit.ErisBukkitCommonsPlugin;
-import gg.eris.commons.bukkit.permission.PermissionGroup;
+import gg.eris.commons.bukkit.permission.GlobalBukkitPermissions;
 import gg.eris.commons.bukkit.player.ErisPlayer;
 import gg.eris.commons.bukkit.util.CC;
 import gg.eris.commons.core.util.Text;
@@ -19,7 +19,6 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 public final class ErisPlayerManagerListener implements Listener {
@@ -89,12 +88,10 @@ public final class ErisPlayerManagerListener implements Listener {
         }
       }
     }
-    event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(), "minecraft.command.*",
-        false);
-    event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(), "bukkit.command.*",
-        false);
-    event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(), "bukkit.command.*",
-        false);
+
+    for (String permission : GlobalBukkitPermissions.GLOBAL_PERMISSIONS) {
+      event.getPlayer().addAttachment(ErisBukkitCommonsPlugin.getInstance(), permission, true);
+    }
 
     event.getPlayer().recalculatePermissions();
   }
