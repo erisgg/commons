@@ -78,7 +78,7 @@ public class ErisPlayer implements Serializable {
   public ErisPlayer(DefaultData data) {
     this.uuid = data.uuid;
     this.name = data.name;
-    this.nameHistory = data.nameHistory;
+    this.nameHistory = Lists.newArrayList(data.nameHistory);
     this.firstLogin = data.firstLogin;
     this.lastLogin = data.lastLogin;
     this.ranks = data.ranks;
