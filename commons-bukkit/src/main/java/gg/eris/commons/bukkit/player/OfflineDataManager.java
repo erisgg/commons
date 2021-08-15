@@ -8,7 +8,6 @@ import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.core.identifier.Identifier;
 import java.util.List;
 import java.util.UUID;
-import org.bson.Document;
 import org.bson.conversions.Bson;
 
 public interface OfflineDataManager {

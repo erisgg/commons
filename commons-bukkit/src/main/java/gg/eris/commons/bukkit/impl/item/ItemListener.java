@@ -39,6 +39,7 @@ public final class ItemListener implements Listener {
     for (ItemStack item : event.getClickedInventory().getContents()) {
       if (!NBTUtil.isAnvillable(item)) {
         event.setCancelled(true);
+        player.closeInventory();
         TextController.send(
             player,
             TextType.ERROR,
@@ -60,6 +61,7 @@ public final class ItemListener implements Listener {
     for (ItemStack item : event.getClickedInventory().getContents()) {
       if (!NBTUtil.isBrewable(item)) {
         event.setCancelled(true);
+        player.closeInventory();
         TextController.send(
             player,
             TextType.ERROR,

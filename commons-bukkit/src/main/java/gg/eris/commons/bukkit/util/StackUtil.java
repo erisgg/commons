@@ -1,7 +1,6 @@
 package gg.eris.commons.bukkit.util;
 
 import gg.eris.commons.core.util.Text;
-import gg.eris.commons.core.util.Validate;
 import java.util.Arrays;
 import java.util.Collection;
 import lombok.experimental.UtilityClass;

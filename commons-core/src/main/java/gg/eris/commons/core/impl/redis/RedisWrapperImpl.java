@@ -9,7 +9,6 @@ import gg.eris.commons.core.redis.RedisPublisher;
 import gg.eris.commons.core.redis.RedisSubscriber;
 import gg.eris.commons.core.redis.RedisWrapper;
 import gg.eris.commons.core.util.Validate;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;

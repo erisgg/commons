@@ -18,14 +18,12 @@ import gg.eris.commons.bukkit.player.punishment.PunishmentProfile;
 import gg.eris.commons.bukkit.rank.Rank;
 import gg.eris.commons.bukkit.rank.RankRegistry;
 import gg.eris.commons.core.identifier.Identifier;
-import gnu.trove.impl.hash.TDoubleCharHash;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.print.Doc;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 

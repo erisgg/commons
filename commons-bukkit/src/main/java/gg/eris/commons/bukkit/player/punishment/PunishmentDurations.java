@@ -1,6 +1,5 @@
 package gg.eris.commons.bukkit.player.punishment;
 
-import gg.eris.commons.bukkit.player.punishment.PunishmentType;
 import gg.eris.commons.core.util.Validate;
 import java.util.concurrent.TimeUnit;
 import lombok.experimental.UtilityClass;

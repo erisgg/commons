@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 @RequiredArgsConstructor
 public final class ChatControllerImpl implements ChatController {
